@@ -14,5 +14,7 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  /* global process */
+  base: process.env.NODE_ENV === 'production' ? '/GDiner/' : '/',
 })
