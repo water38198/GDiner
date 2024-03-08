@@ -74,14 +74,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="bg-info text-white py-2.5 flex justify-center">
-        <span class="tracking-widest">
+    <div class="bg-info  py-2.5 flex justify-center">
+        <span class="tracking-widest text-white">
             訂單滿千免運
         </span>
         <div class="i-fluent-emoji-flat:rocket inline-block ms-2"></div>
     </div>
     <nav class="bg-secondary sticky top-0 transition-top-400 z-4" :class="{ 'navbarHide': !isShow }">
-        <div class="container py-5 px-12.5 flex gap-8">
+        <div class="container py-5 px-4 sm:px-12.5 flex sm-gap-8">
             <!-- RWD漢堡選單 -->
             <div class="flex md:hidden items-center w-80px">
                 <details class="md:hidden" ref="details" @click.prevent="toggleDetail">
@@ -107,15 +107,12 @@ onUnmounted(() => {
                             </li>
                         </ul>
                     </div>
-
-
-
                 </details>
             </div>
             <!-- Logo -->
             <h1 class="py-2 mx-auto md:mx-0">
                 <a href="#" class="text-primary flex items-center ">
-                    <img src="@/assets/logo.png" alt="阿橘飯店Logo">
+                    <img src="@/assets/logo.png" alt="阿橘飯店Logo" class="w-100%">
                 </a>
             </h1>
             <!-- PC選單 -->
@@ -271,7 +268,12 @@ dialog[open] {
 }
 
 summary::marker {
-    content: ''
+    content: '';
+    list-style: none;
+}
+
+summary::-webkit-details-marker {
+    display: none;
 }
 
 details.opening ul {

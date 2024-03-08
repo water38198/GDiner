@@ -96,7 +96,7 @@
               <div class="card-image flex-1">
                 <img
                   src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="" class="h-100%">
+                  alt="" class="md:h-100%">
               </div>
               <div class="pb-4">
                 <h4 class="flex items-center font-size-5">新品上市<div
@@ -115,13 +115,13 @@
         <div class="w-100% md:w-50% ">
           <img
             src="https://plus.unsplash.com/premium_photo-1681826678826-e2e2d8455174?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="" class="block h-100%">
+            alt="" class="block md:h-100%">
         </div>
-        <div class="w-100% md:w-50%  bg-secondary border-(t-3 solid primary) md:border-(t-0 l-3) p-15">
-          <h4 class="font-size-12 font-italic flex items-center gap-2 lh-120% mb-5">簡單 - 快速 - 享用美味!
+        <div class="w-100% md:w-50%  bg-secondary border-(t-3 solid primary) md:border-(t-0 l-3) p-10 sm:p-15">
+          <h4 class="font-size-10 sm:font-size-12 font-italic flex items-center gap-2 lh-120% mb-5">簡單 - 快速 - 享用美味!
           </h4>
           <p class="lh-loose tracking-wider mb-5">
-            當您踏入我們的餐廳時，即刻感受到一股迷人的香氣飄散在空氣中，迎接您的是一場充滿著美食與美好的饗宴。我們的料理風格融合了傳統與創新，每一道菜都是我們烹飪團隊用心打造的藝術品。我們都竭誠歡迎您來品嚐我們獨特而精緻的料理，為您帶來一場難忘的饗宴。
+            當您踏入我們的餐廳時，即刻感受到一股迷人的香氣飄散在空氣中，迎接您的是一場充滿著美食與美好的饗宴。我們的料理風格融合了傳統與創新，每一道菜都是我們烹飪團隊用心打造的藝術品
           </p>
           <div>
             <a href="#"
@@ -152,8 +152,8 @@
     <section class="mb-16">
       <div class="flex flex-wrap customBorder-xl rd-3 overflow-hidden bg-primary">
         <div
-          class="w-100% md:w-50%  bg-secondary border-(b-3 solid primary) md:border-(b-0 r-3) p-15 flex flex-col justify-center">
-          <h4 class="font-size-12 font-italic tracking-widest lh-120% mb-5 ">值得信任的阿橘
+          class="w-100% md:w-50%  bg-secondary border-(b-3 solid primary) md:border-(b-0 r-3) p-10 sm:p-15 flex flex-col justify-center">
+          <h4 class="font-size-10 sm:font-size-12 font-italic tracking-widest lh-120% mb-5 ">值得信任的阿橘
           </h4>
           <p class="lh-loose tracking-wider">
             親愛的食客們，阿橘大廚受過法國、日本、韓國等專業訓練，每道料理都是阿橘精心研發、悉心呈現的絕佳組合，帶給您難忘的美食體驗。阿橘專注於每一道菜品的製作，並結合了傳統烹飪技藝和創新的烹飪理念，讓每一道菜都充滿了驚喜和美味。
@@ -161,7 +161,7 @@
 
         </div>
         <div class="w-100% md:w-50% ">
-          <img src="@/assets/home/chef.jpg" alt="" class="block h-100%">
+          <img src="@/assets/home/chef.jpg" alt="" class="block md:h-100%">
         </div>
 
       </div>
