@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap');
 
+@import url("https://fonts.googleapis.com/css?family=Noto+Serif+TC&amp;display=swap");
+
 *,
 body {
     box-sizing: border-box;
     font-family: "Noto Sans TC", sans-serif;
+    color: #3D081B;
 }
 
 img {
@@ -13,4 +16,12 @@ img {
 
 a {
     text-decoration: none;
+}
+
+.font-serif {
+    font-family: 'Noto Serif TC', serif;
+}
+
+.font-kai {
+    font-family: "標楷體", DFKai-sb, BiauKai, 'AR PL UKai TW';
 }

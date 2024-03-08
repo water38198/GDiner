@@ -80,10 +80,10 @@ onUnmounted(() => {
         </span>
         <div class="i-fluent-emoji-flat:rocket inline-block ms-2"></div>
     </div>
-    <nav class="bg-secondary sticky top-0 transition-top-400" :class="{ 'navbarHide': !isShow }">
-        <div class="container max-w-1200px py-5 px-50px flex gap-8">
+    <nav class="bg-secondary sticky top-0 transition-top-400 z-4" :class="{ 'navbarHide': !isShow }">
+        <div class="container py-5 px-12.5 flex gap-8">
             <!-- RWD漢堡選單 -->
-            <div class="flex items-center w-80px">
+            <div class="flex md:hidden items-center w-80px">
                 <details class="md:hidden" ref="details" @click.prevent="toggleDetail">
                     <summary class="font-size-6 text-primary" v-if="details">
                         <div :class="detailsIsOpen ? 'i-material-symbols:close-rounded' : 'i-ic:baseline-menu'"
@@ -91,7 +91,8 @@ onUnmounted(() => {
                         </div>
                     </summary>
                     <div class="absolute left-0 top-88px w-100vw h-100vh z-2" data-type="layer">
-                        <ul class="w-80vw h-100vh absolute left-0 z-3 bg-secondary pt-14" @animationend="animating">
+                        <ul class="w-80vw h-100vh absolute left-0 z-3 bg-secondary pt-14 border-(r-8 primary solid)"
+                            @animationend="animating">
                             <li>
                                 <a href="#" class="block px-8 py-3 font-size-6 text-primary">商品</a>
                             </li>
@@ -111,30 +112,32 @@ onUnmounted(() => {
 
                 </details>
             </div>
-
+            <!-- Logo -->
             <h1 class="py-2 mx-auto md:mx-0">
                 <a href="#" class="text-primary flex items-center ">
                     <img src="@/assets/logo.png" alt="阿橘飯店Logo">
                 </a>
             </h1>
-            <ul class="hidden md:flex items-center gap-6 text-primary me-a">
+            <!-- PC選單 -->
+            <ul class="hidden md:flex items-center gap-6 text-primary me-a ">
                 <li class="">
                     <a href="#"
-                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 border-b border-primary border-solid)">商品</a>
+                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">商品</a>
                 </li>
                 <li>
                     <a href="#"
-                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 border-b border-primary border-solid)">分類</a>
+                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">分類</a>
                 </li>
                 <li>
                     <a href="#"
-                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 border-b border-primary border-solid)">關於</a>
+                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">關於</a>
                 </li>
                 <li>
                     <a href="#"
-                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 border-b border-primary border-solid)">聯絡我們</a>
+                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">聯絡我們</a>
                 </li>
             </ul>
+            <!-- 搜尋與購物車 -->
             <div class="flex gap-2">
                 <button
                     class="bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer scale-125)"
@@ -148,6 +151,7 @@ onUnmounted(() => {
             </div>
         </div>
     </nav>
+    <!-- 搜尋的Modal -->
     <dialog ref="modal" @click="autoClose" class=" m-0 p-0 border-0 w-full max-w-full"
         :class="{ 'mt-9': lastScrollTop == 0 }" @touchmove.prevent @close="activeRoll">
         <div class="w-100%  bg-secondary flex justify-center items-center py-5">
@@ -160,7 +164,6 @@ onUnmounted(() => {
                         <div class="i-material-symbols:search "></div>
                     </button>
                 </div>
-
             </form>
             <button type="button"
                 class="text-primary font-size-8 bg-transparent border-0 outline-0 hover:(cursor-pointer opacity-50)"
@@ -272,11 +275,11 @@ summary::marker {
 }
 
 details.opening ul {
-    animation: open .3s ease-in-out
+    animation: open .2s ease-in-out
 }
 
 details.closing ul {
-    animation: close .3s ease-in-out
+    animation: close .2s ease-in-out
 }
 
 

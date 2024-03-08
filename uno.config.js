@@ -27,6 +27,10 @@ export default defineConfig({
             md: '768px',
             lg: '992px',
             xl: '1200px'
-        }
+        },
+    },
+    shortcuts: {
+        'customBorder': 'shadow-[0_2px_0_0_#3D081B] border-(3 #3D081B solid)',
+        'customBorder-xl' :'shadow-[0_5px_0_0_#3D081B] border-(3 #3D081B solid)'
     }
 })
