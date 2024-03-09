@@ -90,22 +90,46 @@ onUnmounted(() => {
                             data-type="button">
                         </div>
                     </summary>
+                    <!-- 側邊選單 -->
                     <div class="absolute left-0 top-88px w-100vw h-100vh z-2" data-type="layer">
-                        <ul class="w-80vw h-100vh absolute left-0 z-3 bg-secondary pt-14 border-(r-8 primary solid)"
+                        <div class="sideNavbar absolute left-0 z-3 w-80vw flex flex-col  bg-secondary pt-14  border-(r-8 primary solid)"
                             @animationend="animating">
-                            <li>
-                                <a href="#" class="block px-8 py-3 font-size-6 text-primary">商品</a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-8 py-3 font-size-6 text-primary">分類</a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-8 py-3 font-size-6 text-primary">關於</a>
-                            </li>
-                            <li>
-                                <a href="#" class="block px-8 py-3 font-size-6 text-primary">聯絡我們</a>
-                            </li>
-                        </ul>
+                            <ul class="mb-auto">
+                                <li>
+                                    <a href="#" class="block px-8 py-3 font-size-6 text-primary">商品</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block px-8 py-3 font-size-6 text-primary">分類</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block px-8 py-3 font-size-6 text-primary">關於</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block px-8 py-3 font-size-6 text-primary">聯絡我們</a>
+                                </li>
+                            </ul>
+                            <ul class="flex justify-center bg-secondary-light py-4 sticky bottom-0">
+                                <li><a href="#" class="inline-block p-3 text-primary font-size-5">
+                                        <div class="i-mdi:twitter hover:(transform-scale-120)"></div>
+                                    </a></li>
+                                <li><a href="#" class="inline-block p-3 text-primary font-size-5 ">
+                                        <div class="i-ant-design:facebook-filled hover:(transform-scale-120)"></div>
+                                    </a></li>
+                                <li><a href="#" class="inline-block p-3 text-primary font-size-5 ">
+                                        <div class="i-ph:instagram-logo-bold hover:(transform-scale-120)"></div>
+                                    </a></li>
+                                <li><a href="#" class="inline-block p-3 text-primary font-size-5 ">
+                                        <div class="i-ic:baseline-tiktok hover:(transform-scale-120)"></div>
+                                    </a></li>
+                                <li><a href="#" class="inline-block p-3 text-primary font-size-5 ">
+                                        <div
+                                            class="i-material-symbols:mail-outline-rounded hover:(transform-scale-120)">
+                                        </div>
+                                    </a></li>
+                            </ul>
+                        </div>
+
+
                     </div>
                 </details>
             </div>
@@ -276,14 +300,18 @@ summary::-webkit-details-marker {
     display: none;
 }
 
-details.opening ul {
+details.opening .sideNavbar {
     animation: open .2s ease-in-out
 }
 
-details.closing ul {
+details.closing .sideNavbar {
     animation: close .2s ease-in-out
 }
 
+.sideNavbar {
+    height: calc(100vh - 88px);
+
+}
 
 @keyframes open {
     from {

@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="mb-10">
-                <ul class="flex justify-center gap">
+                <ul class="flex justify-center">
                     <li><a href="#" class="inline-block p-3 text-secondary font-size-6">
                             <div class="i-mdi:twitter hover:(transform-scale-120)"></div>
                         </a></li>

@@ -16,7 +16,10 @@ export default defineConfig({
     theme: {
         colors: {
             'primary': '#3D081B',
-            'secondary': '#F2EFDD',
+            'secondary': {
+                DEFAULT: '#F2EFDD',
+                'light': 'rgba(61,8,27,.03)'
+            },
             'info':'#910F3F'
         },
         container: {
