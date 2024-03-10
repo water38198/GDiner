@@ -15,10 +15,14 @@ export default defineConfig({
     ],
     theme: {
         colors: {
-            'primary': '#3D081B',
+            'primary': {
+                DEFAULT: '#3D081B',
+                'light': 'rgba(61,8,27,.8)',
+                'veryLight' : 'rgba(61,8,27,.03)'
+            },
             'secondary': {
                 DEFAULT: '#F2EFDD',
-                'light': 'rgba(61,8,27,.03)'
+                'light': 'rgba(242,239,221,.03)'
             },
             'info':'#910F3F'
         },

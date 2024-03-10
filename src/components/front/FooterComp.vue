@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-info pt-16 pb-12.5">
+    <footer class="bg-info pt-16 pb-12.5">
         <div class="container px-10 md:px-12.5">
             <div class="grid gap-10  sm:(grid-cols-3 gap-0) mb-4">
                 <div class="text-center sm:text-left">
@@ -53,5 +53,5 @@
             </div>
 
         </div>
-    </div>
+    </footer>
 </template>

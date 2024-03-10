@@ -139,7 +139,7 @@
         <p class="lh-normal mb-5">現在就訂閱，您將能享受到獨家的優惠和菜單更新，與我們一同開啟美味之旅吧！</p>
         <div class="flex justify-center">
           <div class="custom-input-group">
-            <input type=" text" id="search" placeholder="搜尋">
+            <input type=" text" id="search" placeholder="搜尋" autocomplete="off">
             <label for="search">Email</label>
             <button
               class="bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer) absolute right-2  top-1/2 translate-y--1/2">
@@ -170,17 +170,24 @@
       <!-- 試著用Swiper -->
       <div class="grid md:grid-cols-3 gap-3">
         <div class="customBorder-xl rd-3 pt-6 text-center">
-          <h4 class="font-size-12 font-kai text-info">時尚</h4>
+          <h4 class="font-size-12 font-kai text-info text-center">
+            <div class="i-material-symbols:pets inline-block"></div>
+          </h4>
+          <h5 class="font-size-8 text-info">精心打造</h5>
           <p class="p-6 lh-normal">"每一道菜都是精心打造的藝術品，不僅滿足您的味蕾，更是一場視覺和味覺的盛宴。"</p>
         </div>
         <div class="customBorder-xl rd-3 pt-6 text-center">
-          <h4>
-            <span class="inline-block p-3 font-size-6 text-white bg-info rd-50%">原</span>
+          <h4 class="font-size-12 font-kai text-info text-center">
+            <div class="i-simple-icons:codefresh inline-block"></div>
           </h4>
+          <h5 class="font-size-8 text-info">新鮮原料</h5>
           <p class="p-6 lh-normal">"新鮮的材料，每日用最短的時間從產地直送到餐廳"</p>
         </div>
         <div class="customBorder-xl rd-3 pt-6 text-center">
-          <h4 class="font-size-12 font-serif text-info">用心</h4>
+          <h4 class="font-size-12 font-kai text-info">
+            <div class="i-material-symbols:favorite inline-block"></div>
+          </h4>
+          <h5 class="font-size-8 text-info">用心經營</h5>
           <p class="p-6 lh-normal">"無論是享受個人美食之旅，還是與親朋好友共享用餐體驗，阿橘飯店都能帶給您意想不到的驚喜和愉悅。"</p>
         </div>
       </div>
