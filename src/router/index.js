@@ -23,18 +23,30 @@ const router = createRouter({
       component: () => import('../views/AdminLayout.vue'),
       children: [
         {
-          path: '',
-          component:()=>import('../views/admin/AdminHome.vue')
+          path: 'home',
+          component: () => import('../views/admin/AdminHome.vue')
+        },
+        {
+          path: 'products',
+          component: () => import('../views/admin/AdminProducts.vue')
+        },
+        { 
+          path: 'orders',
+          component:()=>import('../views/admin/AdminOrders.vue')
+        },
+        {
+          path: 'coupons',
+          component:()=>import('../views/admin/AdminCoupons.vue')
         }
       ]
     },
     {
-      path: '/login',
-      component:()=>import('../views/LoginView.vue')
+      path: '/login',//登入頁面
+      component: () => import('../views/LoginView.vue')
     },
     {
-      path: '/:pathMatch(.*)*',
-      component:()=>import('../views/NotFound.vue')
+      path: '/:pathMatch(.*)*',//錯誤路由
+      component: () => import('../views/NotFound.vue')
     }
   ]
 })

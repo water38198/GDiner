@@ -35,8 +35,7 @@ function login() {
                 title: "登入成功",
                 timer: 1000,
                 didClose: () => {
-                    console.log('登入成功')
-                    router.push("/admin")
+                    router.push("/admin/home")
                 }
             })
         }).catch(err => {
