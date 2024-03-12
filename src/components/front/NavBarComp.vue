@@ -81,7 +81,7 @@ onUnmounted(() => {
         <div class="i-fluent-emoji-flat:rocket inline-block ms-2"></div>
     </div>
     <nav class="bg-secondary sticky top-0 transition-top-400 z-4" :class="{ 'navbarHide': !isShow }">
-        <div class="container py-5 px-4 sm:px-12.5 flex sm-gap-8">
+        <div class="md:container py-5 px-4 md:px-12.5 flex sm-gap-8">
             <!-- RWD漢堡選單 -->
             <div class="flex md:hidden items-center w-80px">
                 <details class="md:hidden" ref="details" @click.prevent="toggleDetail">
@@ -105,7 +105,8 @@ onUnmounted(() => {
                                     <a href="#" class="block px-8 py-3 font-size-6 text-primary">關於</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="block px-8 py-3 font-size-6 text-primary">聯絡我們</a>
+                                    <RouterLink to="/contact" class="block px-8 py-3 font-size-6 text-primary">聯絡我們
+                                    </RouterLink>
                                 </li>
                             </ul>
                             <ul class="flex justify-center bg-primary-veryLight py-4 sticky bottom-0">
@@ -154,8 +155,9 @@ onUnmounted(() => {
                         class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">關於</a>
                 </li>
                 <li>
-                    <a href="#"
-                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">聯絡我們</a>
+                    <RouterLink to="/contact"
+                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
+                        聯絡我們</RouterLink>
                 </li>
             </ul>
             <!-- 搜尋與購物車 -->
