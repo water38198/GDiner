@@ -96,7 +96,8 @@ onUnmounted(() => {
                             @animationend="animating">
                             <ul class="mb-auto">
                                 <li>
-                                    <a href="#" class="block px-8 py-3 font-size-6 text-primary">點菜</a>
+                                    <RouterLink to="/recommend" class="block px-8 py-3 font-size-6 text-primary">推薦
+                                    </RouterLink>
                                 </li>
                                 <li>
                                     <a href="#" class="block px-8 py-3 font-size-6 text-primary">分類</a>
@@ -108,7 +109,11 @@ onUnmounted(() => {
                                     <RouterLink to="/contact" class="block px-8 py-3 font-size-6 text-primary">聯絡我們
                                     </RouterLink>
                                 </li>
+                                <li>
+                                    <a href="#" class="block px-8 py-3 font-size-6 text-primary">FAQ</a>
+                                </li>
                             </ul>
+                            <!-- 其他網站 -->
                             <ul class="flex justify-center bg-primary-veryLight py-4 sticky bottom-0">
                                 <li><a href="#" class="inline-block p-3 text-primary font-size-5">
                                         <div class="i-mdi:twitter hover:(transform-scale-120)"></div>
@@ -130,7 +135,6 @@ onUnmounted(() => {
                             </ul>
                         </div>
 
-
                     </div>
                 </details>
             </div>
@@ -143,8 +147,9 @@ onUnmounted(() => {
             <!-- PC選單 -->
             <ul class="hidden md:flex items-center gap-6 text-primary me-a ">
                 <li class="">
-                    <a href="#"
-                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">點菜</a>
+                    <RouterLink to="/recommend"
+                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
+                        推薦</RouterLink>
                 </li>
                 <li>
                     <a href="#"
@@ -158,6 +163,10 @@ onUnmounted(() => {
                     <RouterLink to="/contact"
                         class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
                         聯絡我們</RouterLink>
+                </li>
+                <li>
+                    <a href="#"
+                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">FAQ</a>
                 </li>
             </ul>
             <!-- 搜尋與購物車 -->

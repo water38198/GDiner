@@ -127,6 +127,7 @@ defineExpose({
                                 <option value="副食">副食</option>
                                 <option value="甜點">甜點</option>
                                 <option value="飲料">飲料</option>
+                                <option value="套餐">套餐</option>
                             </select>
 
                         </div>
