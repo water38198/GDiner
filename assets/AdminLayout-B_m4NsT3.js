@@ -1,1 +1,0 @@
-import{_ as c}from"./plugin-vueexport-helper-DlAUqK2U.js";import{b as r,c as t,h as e,u as s,F as o,d as _,R as u}from"./index-BGY_Pctq.js";const d={};function i(a,n){return r(),t("div",null," 我是NAVBAR ")}const m=c(d,[["render",i]]),l=_("div",null," 後台 ",-1),x={__name:"AdminLayout",setup(a){return(n,f)=>(r(),t(o,null,[e(m),l,e(s(u))],64))}};export{x as default};

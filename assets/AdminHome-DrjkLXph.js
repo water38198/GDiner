@@ -1,1 +1,0 @@
-import{_ as e}from"./plugin-vueexport-helper-DlAUqK2U.js";import{c,b as o}from"./index-BGY_Pctq.js";const r={};function n(t,s){return o(),c("div",null," 後台首頁 ")}const m=e(r,[["render",n]]);export{m as default};
