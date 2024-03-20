@@ -6,7 +6,7 @@ import FooterComp from '@/components/front/FooterComp.vue';
 
 
 <template>
-    <div class="bg-secondary">
+    <div class="bg-secondary min-h-screen grid">
         <NavBarComp />
         <RouterView />
         <FooterComp />

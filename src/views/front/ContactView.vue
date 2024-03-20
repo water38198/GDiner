@@ -60,7 +60,7 @@
     textarea:focus~label,
     textarea:not(:placeholder-shown)~label,
     input:not(:placeholder-shown)~label {
-        transform: scale(0.8) translateY(-1rem) translateX(-2.35rem);
+        transform: scale(0.8) translateY(-1.15rem) translateX(-2rem);
     }
 
     input:focus,

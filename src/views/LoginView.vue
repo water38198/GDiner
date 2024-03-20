@@ -35,7 +35,7 @@ function login() {
                 title: "登入成功",
                 timer: 1000,
                 didClose: () => {
-                    router.push("/admin/home")
+                    router.replace("/admin/home")
                 }
             })
         }).catch(err => {
@@ -98,7 +98,6 @@ function login() {
     input:focus {
         padding-top: 20px;
         padding-bottom: 12px;
-
     }
 }
 </style>

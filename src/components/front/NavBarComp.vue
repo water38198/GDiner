@@ -1,5 +1,14 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useCartStore } from '@/stores/cartStore'
+
+const store = useCartStore();
+const { cart } = storeToRefs(store);
+
+const route = useRoute();
+const router = useRouter();
 
 const modal = ref();
 // 滾動前，距離頂端的距離
@@ -9,13 +18,23 @@ const isShow = ref(true);// 是否顯示 Navbar
 const details = ref();
 const detailsIsOpen = ref(false);
 
+const cartNumb = computed(() => {
+    let num = 0;
+    cart.value.carts.forEach(product => {
+        num += product.qty
+    })
+    return num
+})
+// 搜尋的文字
+const searchText = ref('')
+
 function openModal() {
     stopRoll()
     modal.value.showModal()
 }
 function autoClose(e) {
     if (e.target.nodeName === 'DIALOG') {
-        modal.value.close()
+        modal.value.close();
     }
 }
 function scrolling() {
@@ -32,11 +51,9 @@ function scrolling() {
 function stopRoll() {
     document.body.style.overflow = 'hidden';
 }
-
 function activeRoll() {
     document.body.style.overflow = '';
 }
-
 function toggleDetail(e) {
     // 如果點擊到開關的按鈕 或是外層
     if (e.target.dataset.type === 'button' || e.target.dataset.type === 'layer') {
@@ -63,13 +80,27 @@ function animating(e) {
         details.value.classList.remove('opening')
     }
 }
+function goSearch() {
+    if (!searchText.value) return;
+    router.push(`/products?search=${searchText.value}`);
+    searchText.value = '';
+}
 
 onMounted(() => {
-    window.addEventListener('scroll', scrolling)
+    window.addEventListener('scroll', scrolling);
 })
 
 onUnmounted(() => {
     window.removeEventListener('scroll', scrolling)
+})
+
+// 偵測路由變化，一有變換則關閉側邊選單
+watch(() => route.path, () => {
+    if (details.value.hasAttribute('open')) {
+        details.value.classList.add('closing');
+        detailsIsOpen.value = false;
+        activeRoll();
+    }
 })
 </script>
 
@@ -91,8 +122,8 @@ onUnmounted(() => {
                         </div>
                     </summary>
                     <!-- 側邊選單 -->
-                    <div class="absolute left-0 top-88px w-100vw h-100vh z-2" data-type="layer">
-                        <div class="sideNavbar absolute left-0 z-3 w-80vw flex flex-col  bg-secondary pt-14  border-(r-8 primary solid)"
+                    <div class="absolute left-0 top-87px w-100vw h-100vh z-2" data-type="layer">
+                        <div class="sideNavbar absolute left-0 z-3  w-80vw flex flex-col  bg-secondary pt-10  border-(r-8 primary solid)"
                             @animationend="animating">
                             <ul class="mb-auto">
                                 <li>
@@ -100,17 +131,16 @@ onUnmounted(() => {
                                     </RouterLink>
                                 </li>
                                 <li>
-                                    <a href="#" class="block px-8 py-3 font-size-6 text-primary">分類</a>
+                                    <RouterLink to="/products" class="block px-8 py-3 font-size-6 text-primary">料理
+                                    </RouterLink>
                                 </li>
                                 <li>
-                                    <a href="#" class="block px-8 py-3 font-size-6 text-primary">關於</a>
+                                    <RouterLink to="/about" class="block px-8 py-3 font-size-6 text-primary">關於
+                                    </RouterLink>
                                 </li>
                                 <li>
                                     <RouterLink to="/contact" class="block px-8 py-3 font-size-6 text-primary">聯絡我們
                                     </RouterLink>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-8 py-3 font-size-6 text-primary">FAQ</a>
                                 </li>
                             </ul>
                             <!-- 其他網站 -->
@@ -152,21 +182,19 @@ onUnmounted(() => {
                         推薦</RouterLink>
                 </li>
                 <li>
-                    <a href="#"
-                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">分類</a>
+                    <RouterLink to="/products"
+                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
+                        料理</RouterLink>
                 </li>
                 <li>
-                    <a href="#"
-                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">關於</a>
+                    <RouterLink to="/about"
+                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
+                        關於</RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/contact"
                         class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
                         聯絡我們</RouterLink>
-                </li>
-                <li>
-                    <a href="#"
-                        class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">FAQ</a>
                 </li>
             </ul>
             <!-- 搜尋與購物車 -->
@@ -176,24 +204,31 @@ onUnmounted(() => {
                     @click="openModal">
                     <div class="i-material-symbols:search "></div>
                 </button>
-                <button
-                    class="bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer scale-125)">
+                <RouterLink to="/cart"
+                    class="relative flex items-center bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer scale-125)">
                     <div class="i-material-symbols:shopping-cart-outline "></div>
-                </button>
+                    <span
+                        class="absolute flex justify-center items-center bg-info font-size-3 text-secondary rd-100vh size-4 right-[-6px] bottom-2"
+                        v-if="cart.carts?.length">{{
+        cartNumb
+    }}</span>
+                </RouterLink>
             </div>
         </div>
     </nav>
     <!-- 搜尋的Modal -->
     <dialog ref="modal" @click="autoClose" class=" m-0 p-0 border-0 w-full max-w-full"
         :class="{ 'mt-9': lastScrollTop == 0 }" @touchmove.prevent @close="activeRoll">
-        <div class="w-100%  bg-secondary flex justify-center items-center py-5">
+        <div class="w-100%  bg-secondary flex justify-center items-center p-5">
             <form action="">
                 <div class="custom-input-group">
-                    <input type=" text" id="search" placeholder="搜尋">
+                    <input type=" text" id="search" placeholder="搜尋" v-model.trim="searchText" autocomplete="off"
+                        class="customBorder bg-secondary w-75 md:w-100">
                     <label for="search">搜尋料理</label>
                     <button
-                        class="bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer) absolute right-2  top-1/2 translate-y--1/2">
-                        <div class="i-material-symbols:search "></div>
+                        class="bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer) absolute right-2  top-1/2 translate-y--1/2"
+                        @click="goSearch(); modal.close(); ">
+                        <div class="i-material-symbols:search"></div>
                     </button>
                 </div>
             </form>
@@ -207,6 +242,12 @@ onUnmounted(() => {
 </template>
 
 <style scoped lang="scss">
+.router-link-active {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+}
+
+
 ::backdrop {
     opacity: .5;
 }
@@ -250,30 +291,24 @@ dialog[open] {
 .custom-input-group {
     position: relative;
 
-    &::before {
-        content: "";
-        inset: 0;
-        position: absolute;
-        border: #3D081B 1px solid;
-        border-radius: .75rem;
-        box-shadow: 0px 2px 0px #3D081B;
-        pointer-events: none;
-    }
-
     input {
         background-color: #F2EFDD;
-        border-radius: .75rem;
-        color: #3D081B;
-        width: 25rem;
+        border-radius: 12px;
+        border-width: 2px;
         padding-top: 14px;
         padding-bottom: 14px;
         padding-left: 16px;
         outline: 0;
 
-        &:focus {
+        &:focus,
+        &:not(:placeholder-shown) {
             padding-top: 18px;
             padding-bottom: 10px;
             outline: #3D081B 1.5px solid;
+        }
+
+        &::placeholder {
+            color: transparent
         }
 
         &:hover {
@@ -281,15 +316,10 @@ dialog[open] {
         }
     }
 
-
-    input::placeholder {
-        color: transparent
-    }
-
     label {
         position: absolute;
         transition: transform .1s ease-in-out;
-        color: #3D081B;
+        opacity: .6;
         left: 16px;
         top: 50%;
         transform: translateY(-50%);
@@ -297,8 +327,7 @@ dialog[open] {
 
     input:focus~label,
     input:not(:placeholder-shown)~label {
-        color: #3D081B;
-        transform: scale(0.8) translateY(-1.75rem) translateX(-0.25rem);
+        transform: scale(0.8) translateY(-1.75rem) translateX(-0.3rem);
     }
 }
 

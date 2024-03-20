@@ -163,7 +163,7 @@ defineExpose({
                         </div>
                         <div class="input-group col-span-2">
                             <label for="tags">標籤：</label>
-                            <input type="text" id="tags" v-model.trim="newTag">
+                            <input type="text" id="tags" v-model.trim="newTag" @keydown.enter="addTag">
                         </div>
                         <div class="col-span-2">
                             <div v-if="tempProduct.tags" class="mb-4 flex">

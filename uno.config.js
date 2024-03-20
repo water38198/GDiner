@@ -18,6 +18,7 @@ export default defineConfig({
             'primary': {
                 DEFAULT: '#3D081B',
                 'light': 'rgba(61,8,27,.8)',
+                '200': 'rgba(61,8,27,.2)',
                 'veryLight' : 'rgba(61,8,27,.03)'
             },
             'secondary': {

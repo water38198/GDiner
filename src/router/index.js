@@ -27,7 +27,15 @@ const router = createRouter({
         {
           path: 'products',
           component:()=>import('../views/front/ProductsView.vue')
-        }
+        },
+        {
+          path: 'product/:id',
+          component:()=>import('../views/front/SingleProduct.vue')
+        },
+        {
+          path: 'cart',
+          component:()=> import('../views/front/CartView.vue')
+        },
       ]
     },
     {
@@ -63,4 +71,11 @@ const router = createRouter({
   ]
 })
 
+// 每次頁面餮跳轉後都回到最上方
+router.afterEach(() => {
+      window.scrollTo({
+        top: 0,
+
+    })
+})
 export default router

@@ -47,8 +47,11 @@ function editProduct(product) {
     dialog.value.dialog.showModal();
 }
 function confirmProduct(product) {
+
     // 新增用 post ，修改用 put
     if (isNew.value) {
+        product.created = Date.now();
+
         axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/product`, {
             data: product
         }).then(res => {
