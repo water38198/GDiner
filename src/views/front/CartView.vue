@@ -18,7 +18,7 @@ const excludeList = computed(() => {
     }
     return list
 })
-const { getCart, updateCart, deleteCart } = store;
+const { getCart, updateCart, deleteCart, deleteCartAll } = store;
 const cartRef = ref();
 const loadingItems = ref([]);
 const userFormRef = ref()
@@ -31,6 +31,7 @@ const userForm = ref({
     },
     message: ""
 });
+const coupon = ref('');
 function submitOrder() {
     if (cart.value.carts.length === 0) {
         Swal.fire({
@@ -64,6 +65,34 @@ function submitOrder() {
             loadingItems.value.splice(loadingItems.value.indexOf("userForm"), 1)
         })
 }
+function useCoupon() {
+    if (coupon.value) {
+        axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/coupon`, {
+            data: {
+                'code': coupon.value
+            }
+        })
+            .then(res => {
+                Swal.fire({
+                    icon: 'success',
+                    title: `${res.data.message}`,
+                    toast: true,
+                    position: 'bottom-end',
+                    timer: 1500,
+                    showConfirmButton: false
+                })
+                coupon.value = '';
+                getCart();
+            })
+            .catch(err => {
+                Swal.fire({
+                    icon: 'error',
+                    title: `${err.response.data.message}`
+                })
+            })
+    }
+
+}
 // VeeValidation 手機驗證
 function isPhone(value) {
     const phoneNumber = /^(09)[0-9]{8}$/;
@@ -94,8 +123,8 @@ function isPhone(value) {
                                 <th class="text-right">小計</th>
                             </tr>
                         </thead>
-                        <tbody class="block md:table-row-group">
-                            <tr v-for="product in cart.carts" :key="product.id"
+                        <tbody class="block md:table-row-group ">
+                            <tr v-for="product in cart.carts" :key="product.id + '123'"
                                 class="grid gap-2 grid-rows-[repeat(2,auto)] grid-cols-[repeat(4,1fr)] md:table-row mb-6 w-100% ">
                                 <td class="hidden sm:block md:pt-10 row-start-1 row-end-3">
                                     <div class="me-2  w-100% h-30 md:(me-10 w-25)">
@@ -118,7 +147,7 @@ function isPhone(value) {
                                 </td>
                                 <td class="md:pt-10 align-top col-start-1 sm:col-start-2 col-end-4">
                                     <div class="md:mb-6 flex">
-                                        <div class="relative grid grid-cols-3 w-40 customBorder rd-3 h-10 h- md:h-12.5">
+                                        <div class="relative grid grid-cols-3 w-40 customBorder rd-3 h-10 md:h-12.5">
                                             <button
                                                 class="block bg-transparent border-0 px-4 cursor-pointer font-size-5 fw-900"
                                                 @click="product.qty - 1 > 0 ? product.qty-- : ''; updateCart(product);">
@@ -132,13 +161,13 @@ function isPhone(value) {
                                                 @click="product.qty++; updateCart(product);">
                                                 <div class="i-ic:round-plus"></div>
                                             </button>
-                                            <div class="absolute right--10 top-50% translate-y--50% flex ms-2 md:ms-4">
-                                                <button type="button"
-                                                    class="bg-transparent border-0 font-size-5 cursor-pointer"
-                                                    @click="deleteCart(product.id)">
-                                                    <div class="i-material-symbols:delete-outline"></div>
-                                                </button>
-                                            </div>
+                                        </div>
+                                        <div class="flex ms-2">
+                                            <button type="button"
+                                                class="bg-transparent border-0 font-size-5 cursor-pointer px-0"
+                                                @click="deleteCart(product.id)">
+                                                <div class="i-material-symbols:delete-outline"></div>
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
@@ -147,10 +176,19 @@ function isPhone(value) {
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="pt-10 text-end">
+                                    <button type="button"
+                                        class="bg-transparent border-0 underline underline-offset-4 cursor-pointer hover:text-primary-light"
+                                        @click="deleteCartAll">清空購物車</button>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
-                <div class="relative">
-                    <Loading :active="loadingItems.includes('userForm')" :is-full-page="false"></Loading>
+                <div>
+                    <Loading :active="loadingItems.includes('userForm')"></Loading>
                     <VForm class="grid grid-cols-2 gap-4" v-slot="{ errors }" @submit="submitOrder" ref="userFormRef"
                         autocomplete="off">
                         <div class="col-span-2 md:col-span-1 grid grid-cols-2 gap-4">
@@ -159,7 +197,7 @@ function isPhone(value) {
                                 <VField type="email" name="email" id="email"
                                     class="block w-100% p-(x-3 y-1.5) border-(1 solid #dee2e6) rd"
                                     :class="{ 'invalid': errors['email'] }" placeholder="請輸入 Email"
-                                    rules="required|email" v-model="userForm.user.email" autocomplete="username" />
+                                    rules="required|email" v-model="userForm.user.email" />
                                 <label for="email">Email</label>
                                 <ErrorMessage name="email" class="block ps-3 pt-2 text-red-500 font-size-3" />
                             </div>
@@ -193,14 +231,39 @@ function isPhone(value) {
                                     v-model="userForm.message" placeholder="請輸入留言" />
                                 <label for="message">留言(非必須)</label>
                             </div>
-
                         </div>
                         <div class="col-span-2 md:col-span-1">
                             <div class="md:sticky top-22 ">
                                 <div class="flex justify-center md:justify-end mb-10 font-size-5">
                                     <h3 class="font-size-5 font-serif me-5">總計</h3>
-                                    <p class="text-primary opacity-60">NT$ <span>{{ cart.final_total }}</span></p>
+                                    <p class="text-primary opacity-60" v-if="cart.total === cart.final_total">NT$
+                                        <span>{{ cart.final_total }}</span>
+                                    </p>
+                                    <p class="text-red-500" v-else><del class="font-size-3 me-2">NT${{ cart.total
+                                            }}</del><span class="font-size-5 text-red-500">NT${{ cart.final_total
+                                            }}</span>
+                                    </p>
                                 </div>
+                                <div class="w-60%  mx-auto md:(ml-auto mr-0)">
+                                    <div class="custom-input-group mb-4">
+                                        <input type="text" name="coupon" id="coupon"
+                                            class="block w-100% p-(x-3 y-1.5) border-(1 solid #dee2e6) rd"
+                                            placeholder="請輸入 優惠券" v-model.trim="coupon">
+                                        <label for="coupon">優惠券</label>
+                                        <button type="button" class="absolute right-0 top-50% translate-y--50% block h-100% border-0 bg-transparent p-(x-3 y-1.5) border-(l-2 solid primary) 
+                                            rd-(r-3) cursor-pointer hover:(bg-primary text-secondary)"
+                                            @click="useCoupon">使用</button>
+                                    </div>
+                                    <template v-if="cart.carts[0].coupon">
+                                        <div class="mb-4">
+                                            <p class="mb-2">已套用優惠券代碼：{{ cart.carts[0].coupon.code }}
+                                            </p>
+                                            <p>折扣金額： -{{ cart.total - cart.final_total }}</p>
+                                        </div>
+                                    </template>
+
+                                </div>
+
                                 <div class="text-center md:text-end">
                                     <button type="submit"
                                         class="max-w-60% w-100% h-12 p-(x-7.5 y-1.5) bg-info text-secondary border-0 rd-10 cursor-pointer hover:shadow-[0_0_3px_0_#3D081B]">送出訂單</button>
@@ -282,6 +345,10 @@ th {
     position: relative;
     margin-bottom: 16px;
 
+    .invalid {
+        @apply border-red shadow-red hover:outline-red;
+    }
+
     label {
         position: absolute;
         transition: transform .1s ease-in-out;
@@ -289,6 +356,7 @@ th {
         top: 0;
         left: 0;
         padding: 12px;
+        cursor: text;
     }
 
     input,

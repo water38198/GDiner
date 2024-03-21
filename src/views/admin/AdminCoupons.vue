@@ -51,7 +51,6 @@ function editCoupon(coupon) {
     couponModalRef.value.dialog.showModal()
 }
 function confirmCoupon(coupon) {
-
     if (isNew.value) {
         axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon`, {
             data: coupon
@@ -115,13 +114,25 @@ function deleteCoupon(coupon) {
             })
         })
 }
+function dateColor(date) {
+    if (date - Date.now() < 0) {
+        return 'text-red'
+    } else if (date - Date.now() < 3 * 24 * 60 * 60 * 1000) {
+        return 'text-orange'
+    } else if (date - Date.now() < 7 * 24 * 60 * 60 * 1000 && date - Date.now() > 3 * 24 * 60 * 60 * 1000) {
+        return 'text-yellow'
+    } else {
+        return 'text-green-700'
+    }
+
+}
 onMounted(() => {
     getCoupons();
 })
 </script>
 
 <template>
-    <div class="p-10">
+    <div class="p-10 flex flex-col h-100%">
         <h2 class="font-size-12">優惠券</h2>
         <div class="relative min-h-100">
             <Loading :active="isLoading" :is-full-page="false"></Loading>
@@ -157,7 +168,8 @@ onMounted(() => {
                     <tr class="border-b border-#DEE2E6 border-solid" v-for="coupon in coupons" :key="coupon.id">
                         <td>{{ coupon.title }}</td>
                         <td>{{ coupon.code }}</td>
-                        <td>{{ getMoment(coupon.due_date) }}</td>
+                        <td><span :class="dateColor(coupon.due_date)"> {{ getMoment(coupon.due_date) }}</span>
+                        </td>
                         <td>{{ coupon.percent }}</td>
                         <td class="text-center">
                             <span class="text-#198754" v-if="coupon.is_enabled">啟用</span>
@@ -181,8 +193,16 @@ onMounted(() => {
                 </tbody>
             </table>
         </div>
+        <div>
+            <ul class="grid gap-2">
+                <li>已過期 : <span class="text-red">紅色</span></li>
+                <li>三天之內 : <span class="text-orange">橘色</span></li>
+                <li>三到七天內 : <span class="text-yellow">黃色</span></li>
+                <li>七天以上 : <span class="text-green-700">綠色</span></li>
+            </ul>
+        </div>
         <template v-if="coupons.length">
-            <PaginationComp :pages="pagination" @change-page="getCoupons">
+            <PaginationComp :pages="pagination" @change-page="getCoupons" class="mt-auto">
             </PaginationComp>
         </template>
     </div>

@@ -14,7 +14,6 @@ export const useCartStore = defineStore('cart', () => {
         axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/cart`)
             .then((res => {
                 cart.value = res.data.data;
-                console.log(cart.value);
             }))
             .catch(err => {
                 Swal.fire({
@@ -62,8 +61,13 @@ export const useCartStore = defineStore('cart', () => {
             .then(() => {
                 getCart();
             })
-            .catch(err => {
-                console.log(err)
+            .catch(() => {
+                Swal.fire({
+                    title: '錯誤發生',
+                    icon: 'error',
+                    text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
+                    confirmButtonColor: '#3D081B',
+                })
             })
     })
     function deleteCart(id) {
@@ -79,9 +83,44 @@ export const useCartStore = defineStore('cart', () => {
                     timer: 1500
                 })
             })
-            .catch(err => {
-                console.log(err);
+            .catch(() => {
+                Swal.fire({
+                    title: '錯誤發生',
+                    icon: 'error',
+                    text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
+                    confirmButtonColor: '#3D081B',
+                })
             })
+    }
+    function deleteCartAll() {
+        Swal.fire({
+            title: '您確定要清空購物車嗎?',
+            showCancelButton: true,
+            confirmButtonText: '都給我消失吧~~!',
+            confirmButtonColor:'#3D081B',
+            cancelButtonText:'取消'
+        }).then(result => {
+            if (result.isConfirmed) {
+                        axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/carts`)
+            .then(() => {
+                getCart();
+                Swal.fire({
+                    title: '刪除成功',
+                    icon: 'success',
+                    timer: 2000,
+                    confirmButtonColor:'#3D081B'
+                })
+            })
+            .catch(() => {
+                Swal.fire({
+                    title: '錯誤發生',
+                    icon: 'error',
+                    text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
+                    confirmButtonColor: '#3D081B',
+                })
+            })
+            }
+        })
     }
     function addCart(id, qty, goCart = false) {
         isLoading.value = true;
@@ -116,5 +155,5 @@ export const useCartStore = defineStore('cart', () => {
         getCart();
     })
 
-    return { cart, isLoading, getCart, addCart, updateCart, deleteCart }
+    return { cart, isLoading, getCart, addCart, updateCart, deleteCart ,deleteCartAll}
 })

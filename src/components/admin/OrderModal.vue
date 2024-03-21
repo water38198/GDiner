@@ -19,8 +19,11 @@ function changePrice(product) {
     tempOrder.value.products[product.id].final_total = tempOrder.value.products[product.id].qty * tempOrder.value.products[product.id].product.price;
     tempOrder.value.products[product.id].total = tempOrder.value.products[product.id].final_total
 }
-
-
+// VeeValidation 手機驗證
+function isPhone(value) {
+    const phoneNumber = /^(09)[0-9]{8}$/;
+    return phoneNumber.test(value) ? true : "請輸入正確的電話號碼"
+}
 
 watch(() => props.tempOrder, () => {
     tempOrder.value = JSON.parse(JSON.stringify(props.tempOrder));
@@ -33,7 +36,7 @@ defineExpose({
 
 <template>
     <dialog ref="dialog" class="max-w-1140px  w-100% border-0 rd p-0 backdrop:backdrop-blur-3" @click="autoClose">
-        <form method="dialog">
+        <VForm method="dialog" @submit="$emit('confirmOrder', tempOrder)" v-slot="{ errors }">
             <div class="bg-#212529 flex justify-between items-center p-4">
                 <h3 class="text-white">修改訂單</h3>
                 <button type="button" class="i-ic:baseline-close p-2 text-white font-size-4 hover:cursor-pointer"
@@ -44,19 +47,29 @@ defineExpose({
                     <h4 class="text-center font-size-6 mb-2">客戶資料</h4>
                     <div class="input-group">
                         <label for="name">姓名</label>
-                        <input type="text" id="name" placeholder="請輸入標題" v-model="tempOrder.user.name">
+                        <VField type="text" id="name" placeholder="請輸入姓名" v-model="tempOrder.user.name" name="姓名"
+                            rules="required" :class="{ 'invalid': errors['姓名'] }" />
+                        <ErrorMessage name="姓名" class="block ps-2 pt-2 text-red-500 font-size-3" />
+
                     </div>
                     <div class="input-group">
                         <label for="tel">電話</label>
-                        <input type="tel" id="tel" placeholder="請輸入標題" v-model="tempOrder.user.tel">
+                        <VField type="tel" id="tel" placeholder="請輸入電話" v-model="tempOrder.user.tel" name="電話"
+                            :rules="isPhone" :class="{ 'invalid': errors['電話'] }" />
+                        <ErrorMessage name="電話" class="block ps-2 pt-2 text-red-500 font-size-3" />
+
                     </div>
                     <div class="input-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="請輸入標題" v-model="tempOrder.user.email">
+                        <VField type="email" id="email" placeholder="請輸入Email" v-model="tempOrder.user.email"
+                            name="Email" rules="required|email" :class="{ 'invalid': errors['Email'] }" />
+                        <ErrorMessage name="Email" class="block ps-2 pt-2 text-red-500 font-size-3" />
                     </div>
                     <div class="input-group">
                         <label for="address">地址</label>
-                        <input type="address" id="address" placeholder="請輸入標題" v-model="tempOrder.user.address">
+                        <VField type="address" id="address" placeholder="請輸入地址" v-model="tempOrder.user.address"
+                            name="地址" rules="required" :class="{ 'invalid': errors['地址'] }" />
+                        <ErrorMessage name="地址" class="block ps-2 pt-2 text-red-500 font-size-3" />
                     </div>
                     <div>
                         <h4>留言：</h4>
@@ -99,17 +112,21 @@ defineExpose({
                 <button type="button"
                     class="m-1 px-3 py-1.5 bg-transparent text-#6c757d border-(1 solid #6c757d ) rd hover:(cursor-pointer bg-#5c636a text-white)"
                     @click="dialog.close()">取消</button>
-                <button type="button"
+                <button type="submit"
                     class="m-1 px-3 py-1.5 text-white bg-#0d6efd border-0 rd hover:(cursor-pointer bg-#0b5ed7)"
-                    @click="$emit('confirmOrder', tempOrder)" :class="{ 'disabled': isChanged }">修改訂單</button>
+                    :class="{ 'disabled': isChanged }">修改訂單</button>
             </div>
-        </form>
+        </VForm>
     </dialog>
 </template>
 
 <style scoped lang="postcss">
 .input-group {
     @apply mb-4;
+
+    .invalid {
+        @apply border-red outline-(red 2px solid)
+    }
 
     label {
         @apply mb-2 block

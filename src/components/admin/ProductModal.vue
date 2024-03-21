@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const props = defineProps(['tempProduct', 'isNew']);
@@ -38,7 +39,11 @@ function upload(target, e) {
             }
         })
         .catch(err => {
-            console.log(err)
+            Swal.fire({
+                icon: 'error',
+                title: '錯誤發生',
+                text: err.response.data.message,
+            })
         })
 }
 
@@ -66,152 +71,176 @@ defineExpose({
 </script>
 <template>
     <dialog ref="dialog" class="max-w-1140px w-100% border-0 rd p-0 backdrop:backdrop-blur-3 " @click="autoClose">
-        <form method="dialog">
+        <VForm @submit="$emit('confirmProduct', tempProduct)" v-slot="{ errors }">
             <div class="bg-primary p-4 flex justify-between items-center">
                 <h3 class="text-white">{{ isNew ? "新增產品" : "編輯產品" }}</h3>
                 <button type="button" class="i-ic:baseline-close p-2 text-white font-size-4 hover:cursor-pointer"
                     @click="dialog.close()"></button>
             </div>
-            <div class="grid grid-cols-12 gap-6 p-3">
-                <div class="col-span-4">
-                    <div class="input-group">
-                        <label for="imagUrl" class="block">主要圖片</label>
-                        <input type="text" placeholder="請輸入圖片連結" v-model="tempProduct.imageUrl" class="mb-2">
-                        <img :src="tempProduct.imageUrl" alt="">
-                    </div>
-                    <form action="/api/thisismycourse2/admin/upload" enctype="multipart/form-data" method="post">
-                        <input type="file" name="file-to-upload" @change="upload('image', $event)">
-                    </form>
-                    <img src="" alt="">
-                    <!-- 檔案上傳 -->
-
-                    <div>
-                        <h4 class="font-size-5 mb-4">多圖新增</h4>
-                        <div v-for='(image, index) in tempProduct.imagesUrl' :key="image" class="mb-4">
-                            <div class="flex justify-between mb-2">
-                                <label for="images-1">圖片網址{{ index + 1 }}</label>
-                                <button
-                                    class="i-ic:baseline-close font-size-5 opacity-50  hover:(cursor-pointer opacity-75)"
-                                    @click="tempProduct.imagesUrl.splice(index, 1)"></button>
-                            </div>
-                            <div class="input-group">
-                                <input type="text" v-model="tempProduct.imagesUrl[index]" placeholder="請輸入圖片網址"
-                                    class=",b-2">
-                            </div>
-                            <img :src="image" alt="">
+            <div>
+                <div class="grid grid-cols-12 gap-6 p-3">
+                    <div class="col-span-4">
+                        <div class="input-group">
+                            <label for="imagUrl" class="block">主要圖片</label>
+                            <VField name="主要圖片" id="imageUrl" type="text" placeholder="請輸入圖片連結"
+                                v-model="tempProduct.imageUrl" :class="{ 'invalid': errors['主要圖片'] }"
+                                rules="required" />
+                            <ErrorMessage name="主要圖片" class="block ps-2 pt-2 text-red-500 font-size-3" />
+                            <img :src="tempProduct.imageUrl" alt="">
                         </div>
-                        <button type="button"
-                            class="inline-block w-100% bg-transparent border-#0d6efd border-solid border-1 rd text-#0d6efd py-1 mb-1"
-                            hover="cursor-pointer bg-#0d6efd text-white" @click="addNewImages">
-                            新增圖片網址
-                        </button>
                         <!-- 檔案上傳 -->
                         <form action="/api/thisismycourse2/admin/upload" enctype="multipart/form-data" method="post"
-                            class="mt-10">
-                            <input type="file" name="file-to-upload" @change="upload('images', $event)">
+                            class="my-4">
+                            <input type="file" name="file-to-upload" @change="upload('image', $event)">
                         </form>
-                    </div>
-                </div>
-                <div class="col-span-8">
-                    <div class="grid grid-cols-2 gap-col-6 gap-row-4 ">
-                        <div class="input-group  col-span-2">
-                            <label for="title">名稱：</label>
-                            <input type="text" id="title" placeholder="請輸入標題" v-model="tempProduct.title">
-                        </div>
-                        <div class="input-group">
-                            <label for="category">分類：</label>
-                            <select id="category" v-model="tempProduct.category">
-                                <option value="主食">主食</option>
-                                <option value="沙拉">沙拉</option>
-                                <option value="湯品">湯品</option>
-                                <option value="副食">副食</option>
-                                <option value="甜點">甜點</option>
-                                <option value="飲料">飲料</option>
-                                <option value="套餐">套餐</option>
-                            </select>
-
-                        </div>
-                        <div class="input-group">
-                            <label for="unit">單位：</label>
-                            <input type="text" id="unit" placeholder="請輸入單位" v-model="tempProduct.unit" list="units"
-                                autocomplete="off">
-                            <datalist id="units">
-                                <option value="碗"></option>
-                                <option value="客"></option>
-                                <option value="杯"></option>
-                                <option value="份"></option>
-                                <option value="個"></option>
-
-                            </datalist>
-                        </div>
-                        <div class="input-group">
-                            <label for="origin_price">原價：</label>
-                            <input type="number" id="origin_price" placeholder="請輸入原價" min="0"
-                                v-model.number="tempProduct.origin_price">
-                        </div>
-                        <div class="input-group">
-                            <label for="price">售價：</label>
-                            <input type="number" id="price" placeholder="請輸入售價" min="0"
-                                v-model.number="tempProduct.price">
-                        </div>
-                        <div class="input-group">
-                            <label for="veggie">素食:</label>
-                            <select name="" id="veggie" v-model="tempProduct.veggie">
-                                <option value="true">是</option>
-                                <option value="false">否</option>
-                            </select>
-                        </div>
-                        <div class="input-group col-span-2">
-                            <label for="tags">標籤：</label>
-                            <input type="text" id="tags" v-model.trim="newTag" @keydown.enter="addTag">
-                        </div>
-                        <div class="col-span-2">
-                            <div v-if="tempProduct.tags" class="mb-4 flex">
-                                <ul class="flex">
-                                    <li v-for="tag, index in tempProduct.tags" :key="`${index}+${tag}`"
-                                        class="flex px-2 py-2 border-(1 solid primary) rd me-2 ">
-                                        <span class="font-size-4 px-4">{{ tag }} </span>
-                                        <a class="border-0 bg-transparent p-0 hover:(cursor-pointer)"
-                                            @click="deleteTag(tag)">
-                                            <div class="i-ic:baseline-close"></div>
-                                        </a>
-                                    </li>
-                                </ul>
-
+                        <div>
+                            <h4 class="font-size-5 mb-4">多圖新增</h4>
+                            <div v-for='(image, index) in tempProduct.imagesUrl' :key="image" class="mb-4">
+                                <div class="flex justify-between mb-2">
+                                    <label for="images-1">圖片網址{{ index + 1 }}</label>
+                                    <button
+                                        class="i-ic:baseline-close font-size-5 opacity-50  hover:(cursor-pointer opacity-75)"
+                                        @click="tempProduct.imagesUrl.splice(index, 1)"></button>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" v-model="tempProduct.imagesUrl[index]" placeholder="請輸入圖片網址"
+                                        class=",b-2">
+                                </div>
+                                <img :src="image" alt="">
                             </div>
                             <button type="button"
-                                class="border-0 rd bg-primary text-white px-4 py-2 hover:(cursor-pointer bg-primary-light)"
-                                @click="addTag">新增標籤</button>
+                                class="inline-block w-100% bg-transparent border-#0d6efd border-solid border-1 rd text-#0d6efd py-1 mb-1"
+                                hover="cursor-pointer bg-#0d6efd text-white" @click="addNewImages">
+                                新增圖片網址
+                            </button>
+                            <!-- 檔案上傳 -->
+                            <form action="/api/thisismycourse2/admin/upload" enctype="multipart/form-data" method="post"
+                                class="mt-10">
+                                <input type="file" name="file-to-upload" @change="upload('images', $event)">
+                            </form>
                         </div>
-                        <div class="input-group col-span-2">
-                            <label for="description">產品敘述</label>
-                            <textarea name="" id="description" rows="6" v-model="tempProduct.description"></textarea>
-                        </div>
-                        <div class="input-group col-span-2">
-                            <label for="content">說明內容</label>
-                            <textarea name="" id="content" rows="4" v-model="tempProduct.content"></textarea>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="is_enabled" v-model="tempProduct.is_enabled" :true-value="1"
-                                :false-value="0">
-                            <label for="is_enabled">是否啟用</label>
+                    </div>
+                    <div class="col-span-8">
+                        <div class="grid grid-cols-2 gap-col-6 gap-row-4 ">
+                            <div class="input-group  col-span-2">
+                                <label for="title">名稱：</label>
+                                <VField type="text" id="title" name="名稱" rules="required" placeholder="請輸入標題"
+                                    v-model="tempProduct.title" :class="{ 'invalid': errors['名稱'] }" />
+                                <ErrorMessage name="名稱" class="block ps-2 pt-2 text-red-500 font-size-3" />
+                            </div>
+                            <div class="input-group">
+                                <label for="category">分類：</label>
+                                <VField as="select" name="分類" rules="required" id="category"
+                                    :class="{ 'invalid': errors['分類'] }" v-model="tempProduct.category">
+                                    <option value="主食">主食</option>
+                                    <option value="沙拉">沙拉</option>
+                                    <option value="湯品">湯品</option>
+                                    <option value="副食">副食</option>
+                                    <option value="甜點">甜點</option>
+                                    <option value="飲料">飲料</option>
+                                    <option value="套餐">套餐</option>
+                                </VField>
+                                <ErrorMessage name="分類" class="block ps-2 pt-2 text-red-500 font-size-3" />
+                            </div>
+                            <div class="input-group">
+                                <label for="unit">單位：</label>
+                                <VField type="text" id="unit" placeholder="請輸入單位" v-model="tempProduct.unit"
+                                    list="units" name="單位" rules="required" :class="{ 'invalid': errors['單位'] }"
+                                    autocomplete="off" />
+                                <datalist id="units">
+                                    <option value="碗"></option>
+                                    <option value="客"></option>
+                                    <option value="杯"></option>
+                                    <option value="份"></option>
+                                    <option value="個"></option>
+                                </datalist>
+                                <ErrorMessage name="單位" class="block ps-2 pt-2 text-red-500 font-size-3" />
+                            </div>
+                            <div class="input-group">
+                                <label for="origin_price">原價：</label>
+                                <VField type="number" name="原價" id="origin_price" placeholder="請輸入原價" min="0"
+                                    rules="required|min_value:0" :class="{ 'invalid': errors['原價'] }"
+                                    v-model.number="tempProduct.origin_price" />
+                                <ErrorMessage name="原價" class="block ps-2 pt-2 text-red-500 font-size-3" />
+                            </div>
+                            <div class="input-group">
+                                <label for="price">售價：</label>
+                                <VField type="number" id="price" placeholder="請輸入售價" min="0"
+                                    v-model.number="tempProduct.price" name="售價"
+                                    :rules="{ required: true, max_value: tempProduct.origin_price, min_value: 0 }"
+                                    :class="{ 'invalid': errors['售價'] }" />
+                                <ErrorMessage name="售價" class="block ps-2 pt-2 text-red-500 font-size-3" />
+
+                            </div>
+                            <div class="input-group">
+                                <label for="veggie">素食:</label>
+                                <VField as="select" id="veggie" v-model="tempProduct.veggie" name="素食" rules="required"
+                                    :class="{ 'invalid': errors['素食'] }">
+                                    <option value="全素" class="text-green-700">全素</option>
+                                    <option value="蛋奶素" class="text-yellow-700">蛋奶素</option>
+                                    <option value="葷食" class="text-red">葷食</option>
+                                </VField>
+                                <ErrorMessage name="素食" class="block ps-2 pt-2 text-red-500 font-size-3" />
+                            </div>
+                            <div class="input-group col-span-2">
+                                <label for="tags">標籤：</label>
+                                <input type="text" id="tags" v-model.trim="newTag" @keydown.enter="addTag">
+                            </div>
+                            <div class="col-span-2">
+                                <div v-if="tempProduct.tags" class="mb-4 flex">
+                                    <ul class="flex">
+                                        <li v-for="tag, index in tempProduct.tags" :key="`${index}+${tag}`"
+                                            class="flex px-2 py-2 border-(1 solid primary) rd me-2 ">
+                                            <span class="font-size-4 px-4">{{ tag }} </span>
+                                            <a class="border-0 bg-transparent p-0 hover:(cursor-pointer)"
+                                                @click="deleteTag(tag)">
+                                                <div class="i-ic:baseline-close"></div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <button type="button"
+                                    class="border-0 rd bg-primary text-white px-4 py-2 hover:(cursor-pointer bg-primary-light)"
+                                    @click="addTag">新增標籤</button>
+                            </div>
+                            <div class="input-group col-span-2">
+                                <label for="description">產品敘述:</label>
+                                <VField as="textarea" id="description" rows="6" v-model="tempProduct.description"
+                                    name="產品敘述" rules="required" :class="{ 'invalid': errors['產品敘述'] }"></VField>
+                                <ErrorMessage name="產品敘述" class="block ps-2 pt-2 text-red-500 font-size-3" />
+                            </div>
+                            <div class="input-group col-span-2">
+                                <label for="content">內容說明:</label>
+                                <VField as="textarea" id="content" rows="4" v-model="tempProduct.content" name="內容說明"
+                                    rules="required" :class="{ 'invalid': errors['內容說明'] }">
+                                </VField>
+                                <ErrorMessage name="內容說明" class="block ps-2 pt-2 text-red-500 font-size-3" />
+                            </div>
+                            <div>
+                                <input type="checkbox" id="is_enabled" v-model="tempProduct.is_enabled" :true-value="1"
+                                    :false-value="0">
+                                <label for="is_enabled">是否啟用</label>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="text-end p-3 border-(t solid #dee2e6)">
+                    <button type="button"
+                        class="m-1 px-3 py-1.5 bg-transparent text-#6c757d border-(1 solid #6c757d ) rd hover:(cursor-pointer bg-#5c636a text-white)"
+                        @click="dialog.close()">取消</button>
+                    <button type="submit"
+                        class="m-1 px-3 py-1.5 text-white bg-#0d6efd border-0 rd hover:(cursor-pointer bg-#0b5ed7)">確定</button>
+                </div>
             </div>
-            <div class="text-end p-3 border-(t solid #dee2e6)">
-                <button type="button"
-                    class="m-1 px-3 py-1.5 bg-transparent text-#6c757d border-(1 solid #6c757d ) rd hover:(cursor-pointer bg-#5c636a text-white)"
-                    @click="dialog.close()">取消</button>
-                <button type="button"
-                    class="m-1 px-3 py-1.5 text-white bg-#0d6efd border-0 rd hover:(cursor-pointer bg-#0b5ed7)"
-                    @click="$emit('confirmProduct', tempProduct)">確定</button>
-            </div>
-        </form>
+        </VForm>
     </dialog>
 </template>
 <style scoped lang="postcss">
 .input-group {
+    .invalid {
+        @apply border-red outline-(red 2px solid)
+    }
+
     label {
         @apply mb-2 block font-size-5
     }

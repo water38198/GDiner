@@ -23,6 +23,7 @@ function getOrders(page = 1) {
         .then(res => {
             orders.value = res.data.orders;
             pagination.value = res.data.pagination;
+            console.log(orders.value)
         })
         .catch(err => {
             Swal.fire({
@@ -69,7 +70,8 @@ function confirmOrder(order) {
     // 重新加總總價格 data.total 
     let total = 0;
     total = Object.keys(data.products).reduce((a, b) => {
-        return a + data.products[b].final_total
+        const coupon = data.products[b].coupon ? data.products[b].coupon.percent / 100 : 1 //如果有使用coupon
+        return a + data.products[b].final_total * coupon
     }, 0)
     data.total = total
     axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${order.id}`, {
@@ -84,7 +86,12 @@ function confirmOrder(order) {
             }
         })
     }).catch(err => {
-        console.log(err)
+        Swal.fire({
+            title: '錯誤發生',
+            icon: 'error',
+            text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+            confirmButtonColor: '#3D081B',
+        })
     })
 }
 
@@ -141,7 +148,7 @@ onMounted(() => {
                         </td>
                         <td>
                             <ul>
-                                <li v-for="data, key in order.user" :key="data">
+                                <li v-for="data, key in order.user" :key="data" class="pt-2">
                                     {{ key }} : {{ data }}
                                 </li>
                             </ul>

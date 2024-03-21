@@ -39,6 +39,7 @@ export default defineConfig({
     },
     shortcuts: {
         'customBorder': 'shadow-[0_2px_0_0_#3D081B] border-(3 #3D081B solid)',
-        'customBorder-xl' :'shadow-[0_5px_0_0_#3D081B] border-(3 #3D081B solid)'
+        'customBorder-xl': 'shadow-[0_5px_0_0_#3D081B] border-(3 #3D081B solid)',
+        
     }
 })
