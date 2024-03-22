@@ -32,3 +32,22 @@ button {
 .font-kai {
     font-family: "標楷體", DFKai-sb, BiauKai, 'AR PL UKai TW';
 }
+
+input,
+textarea {
+    font-size: initial;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Noto Serif TC', serif;
+    line-height: 1.2;
+}
+
+p {
+    line-height: 1.5;
+}
