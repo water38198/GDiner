@@ -100,6 +100,7 @@ function isPhone(value) {
 </script>
 
 <template>
+
     <Loading :active="isLoading" :is-full-page="true"></Loading>
     <div class="container px-2 md:px-12 py-20">
         <div class="relative mb-10" ref="cartRef">
@@ -116,22 +117,22 @@ function isPhone(value) {
                         <thead
                             class="block md:table-header-group w-100% mb-4 border-(b-1 solid primary-veryLight) text-primary-200">
                             <tr class="flex md:table-row justify-between">
-                                <th class="text-left ">料理</th>
+                                <th class="text-left">料理</th>
                                 <th class="md:50% lg:w-60%"></th>
                                 <th class="hidden md:block text-start">數量</th>
                                 <th class="text-right">小計</th>
                             </tr>
                         </thead>
-                        <tbody class="block md:table-row-group ">
+                        <tbody class="block md:table-row-group">
                             <tr v-for="product in cart.carts" :key="product.id + '123'"
-                                class="grid gap-2 grid-rows-[repeat(2,auto)] grid-cols-[repeat(4,1fr)] md:table-row mb-6 w-100% ">
-                                <td class="hidden sm:block md:pt-10 row-start-1 row-end-3">
-                                    <div class="me-2  w-100% h-30 md:(me-10 w-25)">
+                                class="grid gap-2 grid-rows-[repeat(2,auto)] grid-cols-[repeat(12,1fr)] md:table-row mb-6 w-100% ">
+                                <td class="md:pt-10 row-start-1 row-end-3 col-span-3">
+                                    <div class="me-2 w-100% h-30 lg:(me-10 w-25)">
                                         <img :src="product.product.imageUrl" alt=""
                                             class="block max-w-25 w-100% h-100% border-(2 solid primary) rd-2.5">
                                     </div>
                                 </td>
-                                <td class="md:pt-10 align-top text-start col-start-1 sm:(col-start-2 ) col-end-4">
+                                <td class="md:pt-10 align-top col-start-4 col-end-10">
                                     <div>
                                         <RouterLink :to="`/product/${product.product.id}`"
                                             class="block mb-2 lh-normal hover:(underline underline-offset-4 decoration-2)">
@@ -144,7 +145,7 @@ function isPhone(value) {
                                         </div>
                                     </div>
                                 </td>
-                                <td class="md:pt-10 align-top col-start-1 sm:col-start-2 col-end-4">
+                                <td class="md:pt-10 align-top col-start-4 col-end-10">
                                     <div class="md:mb-6 flex">
                                         <div class="relative grid grid-cols-3 w-40 customBorder rd-3 h-10 md:h-12.5">
                                             <button
@@ -153,7 +154,7 @@ function isPhone(value) {
                                                 <div class="i-ic:round-minus"></div>
                                             </button>
                                             <input type="number" name="" id="quantity" :value="product.qty"
-                                                class=" block bg-transparent border-0 appearance-none outline-0 w-100% text-center"
+                                                class="block bg-transparent border-0 appearance-none outline-0 w-100% text-center font-size-4"
                                                 min="1" @change="updateCart(product, $event)">
                                             <button
                                                 class="block bg-transparent border-0 px-4 cursor-pointer font-size-5 fw-900"
@@ -170,8 +171,8 @@ function isPhone(value) {
                                         </div>
                                     </div>
                                 </td>
-                                <td class="md:pt-10 align-top text-end row-start-1 col-start-4">
-                                    <span class="ps-10 text-nowrap">NT$ {{ product.final_total }}</span>
+                                <td class="row-start-1 row-end-3 col-start-10 col-end-13 md:pt-10 align-top text-end ">
+                                    <span class="pe-4 sm:ps-10 text-nowrap">NT$ {{ product.final_total }}</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -187,13 +188,14 @@ function isPhone(value) {
                     </table>
                 </div>
                 <div>
+
                     <Loading :active="loadingItems.includes('userForm')"></Loading>
                     <VForm class="grid grid-cols-2 gap-4" v-slot="{ errors }" @submit="submitOrder" autocomplete="off">
                         <div class="col-span-2 md:col-span-1 grid grid-cols-2 gap-4">
                             <h2 class="col-span-2 mb-10 font-size-10 lh-tight font-serif">顧客資訊</h2>
                             <div class="custom-input-group mb-4 col-span-2">
                                 <VField type="email" name="email" id="email"
-                                    class="block w-100% p-(x-3 y-1.5) border-(1 solid #dee2e6) rd"
+                                    class="block w-100% p-(x-3 y-1.5) border-(1 solid #dee2e6) font-size-4 rd"
                                     :class="{ 'invalid': errors['email'] }" placeholder="請輸入 Email"
                                     rules="required|email" v-model="userForm.user.email" />
                                 <label for="email">Email</label>
@@ -287,61 +289,13 @@ function isPhone(value) {
     </div>
 </template>
 
-<style lang="postcss" scoped>
-.card {
-    .card-image {
-        @apply rd-3 customBorder-xl bg-primary overflow-hidden mb-4;
-
-    }
-
-    img {
-        transition: all .5s ease-in-out;
-        display: block;
-    }
-
-    .icon {
-        transition: all .5s ease-in-out;
-    }
-}
-
-.card:hover {
-    img {
-        transform: scale(1.1);
-        transition: all .5s ease-in-out;
-    }
-
-    h3 {
-        text-decoration: underline;
-        text-underline-offset: 4px;
-    }
-
-    .icon {
-        transform: scaleX(1.5) translateX(0.1rem);
-        transition: all .5s ease-in-out;
-    }
-}
-
-th {
-    @apply pb-4 text-primary opacity-60
-}
-
-[type=number]::-webkit-outer-spin-button,
-[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-[type=number] {
-    -moz-appearance: textfield;
-    appearance: none;
-}
-
+<style scoped lang="scss">
 .custom-input-group {
     position: relative;
     margin-bottom: 16px;
 
     .invalid {
-        @apply border-red shadow-red hover:outline-red;
+        @apply border-red shadow-red hover:outline-red
     }
 
     label {
@@ -385,5 +339,20 @@ th {
         padding-top: 16px;
         padding-bottom: 8px;
     }
+}
+
+th {
+    @apply pb-4 text-primary opacity-60
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: none;
 }
 </style>

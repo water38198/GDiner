@@ -3,7 +3,6 @@ import { fileURLToPath, URL } from 'node:url'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-
 // eslint-disable-next-line no-control-regex
 const INVALID_CHAR_REGEX = /[\x00-\x1F\x7F<>*#"{}|^[\]`;?:&=+$,]/g;
 const DRIVE_LETTER_REGEX = /^[a-z]:/i;
@@ -20,7 +19,7 @@ export default defineConfig({
     }
   },
   /* global process */
-  base: process.env.NODE_ENV === 'production' ? '/GDiner/' : '/',
+  base:process.env.NODE_ENV === 'production' ? '/GDiner/' : '/',
       // 錯誤修正 參考:https://israynotarray.com/other/20220928/1377668819/
   build: {
     rollupOptions: {

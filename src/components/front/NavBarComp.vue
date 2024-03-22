@@ -70,7 +70,6 @@ function toggleDetail(e) {
             stopRoll();
         }
     }
-
 }
 function animating(e) {
     // 如果剛剛是關閉動畫，則移除 class 與 open標籤
@@ -107,7 +106,7 @@ watch(() => route.path, () => {
 </script>
 
 <template>
-    <div class="bg-info  py-2.5 flex justify-center">
+    <div class="bg-info py-2.5 flex justify-center">
         <span class="tracking-widest text-white">
             訂單滿千免運
         </span>
@@ -171,7 +170,7 @@ watch(() => route.path, () => {
                 </details>
             </div>
             <!-- Logo -->
-            <h1 class="py-2 mx-auto md:mx-0">
+            <h1 class="mx-auto md:mx-0 py-2">
                 <RouterLink to="/" class="text-primary flex items-center ">
                     <img src="@/assets/logo.png" alt="阿橘飯店Logo" class="w-100%">
                 </RouterLink>
@@ -202,7 +201,7 @@ watch(() => route.path, () => {
             <!-- 搜尋與購物車 -->
             <div class="flex gap-2">
                 <button class="font-size-6 text-primary hover:( scale-125)" @click="openModal">
-                    <div class="i-material-symbols:search "></div>
+                    <div class="i-material-symbols:search"></div>
                 </button>
                 <RouterLink to="/cart"
                     class="relative flex items-center bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer scale-125)">
@@ -224,13 +223,14 @@ watch(() => route.path, () => {
                     <input type=" text" id="search" placeholder="搜尋" v-model.trim="searchText" autocomplete="off"
                         class="customBorder bg-secondary w-75 md:w-100" @keyup.enter="goSearch">
                     <label for="search">搜尋料理</label>
-                    <button type="button" class="absolute right-2  top-1/2 translate-y--1/2 font-size-6 text-primary"
+                    <button type="button" class="absolute right-2 top-1/2 translate-y--1/2 font-size-6 text-primary"
                         @click="goSearch">
                         <div class="i-material-symbols:search"></div>
                     </button>
                 </div>
             </form>
-            <button type="button" class="text-primary font-size-8 hover:(opacity-50)" @click="searchModal.close()">
+            <button type="button" class="text-primary font-size-6 md:font-size-8 px-3 hover:(opacity-50)"
+                @click="searchModal.close()">
                 <div class="i-material-symbols:close-rounded"></div>
             </button>
         </div>
@@ -281,8 +281,6 @@ dialog[open] {
     top: -128px;
 }
 
-
-
 .custom-input-group {
     position: relative;
 
@@ -293,6 +291,7 @@ dialog[open] {
         padding-bottom: 14px;
         padding-left: 16px;
         outline: 0;
+        font-size: 1rem;
 
         &:focus,
         &:not(:placeholder-shown) {
