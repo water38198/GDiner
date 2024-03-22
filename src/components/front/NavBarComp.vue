@@ -4,18 +4,20 @@ import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useCartStore } from '@/stores/cartStore'
 
+// 取得購物車資料
 const store = useCartStore();
 const { cart } = storeToRefs(store);
 
 const route = useRoute();
 const router = useRouter();
 
-const modal = ref();
-// 滾動前，距離頂端的距離
-const lastScrollTop = ref(0);
-const isShow = ref(true);// 是否顯示 Navbar
+const searchModal = ref(); //搜尋欄的ref
+const searchText = ref('')// 搜尋的文字
 
-const details = ref();
+const lastScrollTop = ref(0);// 滾動前，距離頂端的距離
+const isShow = ref(true);// 滾動後是否顯示 Navbar
+
+const details = ref();//側邊選單ref
 const detailsIsOpen = ref(false);
 
 const cartNumb = computed(() => {
@@ -25,21 +27,19 @@ const cartNumb = computed(() => {
     })
     return num
 })
-// 搜尋的文字
-const searchText = ref('')
 
 function openModal() {
-    stopRoll()
-    modal.value.showModal()
+    //打開搜尋時，禁止滑動
+    stopRoll();
+    searchModal.value.showModal();
 }
 function autoClose(e) {
     if (e.target.nodeName === 'DIALOG') {
-        modal.value.close();
+        searchModal.value.close();
     }
 }
 function scrolling() {
-    // 滾動到目前與頂端的距離
-    let scrollTop = window.scrollY || window.pageYOffset;
+    let scrollTop = window.scrollY || window.pageYOffset;// 滾動到目前與頂端的距離
     // 如果新的比較大表示往下滾動，則不要顯示 Navbar
     if (scrollTop > lastScrollTop.value && lastScrollTop.value > 124) {
         isShow.value = false;
@@ -57,12 +57,13 @@ function activeRoll() {
 function toggleDetail(e) {
     // 如果點擊到開關的按鈕 或是外層
     if (e.target.dataset.type === 'button' || e.target.dataset.type === 'layer') {
-        // 啟動關閉動畫並允許滾動
+        // 如果是開啟的狀態，啟動關閉動畫並允許滾動
         if (details.value.hasAttribute('open')) {
             details.value.classList.add('closing');
             detailsIsOpen.value = false;
             activeRoll();
-        } else { //啟動開啟動畫並禁止滾動
+        } else {
+            //啟動開啟動畫並禁止滾動
             details.value.classList.add('opening');
             details.value.setAttribute('open', '');
             detailsIsOpen.value = true;
@@ -76,7 +77,7 @@ function animating(e) {
     if (e.animationName.includes('close')) {
         details.value.classList.remove('closing')
         details.value.removeAttribute('open')
-    } else if (e.animationName.includes('open')) { //如果是開啟動畫則移除 class
+    } else if (e.animationName.includes('open')) {//如果是開啟動畫則移除 class
         details.value.classList.remove('opening')
     }
 }
@@ -84,6 +85,7 @@ function goSearch() {
     if (!searchText.value) return;
     router.push(`/products?search=${searchText.value}`);
     searchText.value = '';
+    searchModal.value.close();
 }
 
 onMounted(() => {
@@ -91,7 +93,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', scrolling)
+    window.removeEventListener('scroll', scrolling);
 })
 
 // 偵測路由變化，一有變換則關閉側邊選單
@@ -116,14 +118,14 @@ watch(() => route.path, () => {
             <!-- RWD漢堡選單 -->
             <div class="flex md:hidden items-center w-80px">
                 <details class="md:hidden" ref="details" @click.prevent="toggleDetail">
-                    <summary class="font-size-6 text-primary" v-if="details">
+                    <summary class="font-size-6 text-primary">
                         <div :class="detailsIsOpen ? 'i-material-symbols:close-rounded' : 'i-ic:baseline-menu'"
                             data-type="button">
                         </div>
                     </summary>
                     <!-- 側邊選單 -->
                     <div class="absolute left-0 top-87px w-100vw h-100vh z-2" data-type="layer">
-                        <div class="sideNavbar absolute left-0 z-3  w-80vw flex flex-col  bg-secondary pt-10  border-(r-8 primary solid)"
+                        <div class="sideNavbar absolute left-0 z-3  w-80vw flex flex-col bg-secondary pt-10 border-(r-8 primary solid)"
                             @animationend="animating">
                             <ul class="mb-auto">
                                 <li>
@@ -157,22 +159,22 @@ watch(() => route.path, () => {
                                 <li><a href="#" class="inline-block p-3 text-primary font-size-5 ">
                                         <div class="i-ic:baseline-tiktok hover:(transform-scale-120)"></div>
                                     </a></li>
-                                <li><a href="#" class="inline-block p-3 text-primary font-size-5 ">
+                                <li><a href="mailto:GDiner@example.com"
+                                        class="inline-block p-3 text-primary font-size-5 ">
                                         <div
                                             class="i-material-symbols:mail-outline-rounded hover:(transform-scale-120)">
                                         </div>
                                     </a></li>
                             </ul>
                         </div>
-
                     </div>
                 </details>
             </div>
             <!-- Logo -->
             <h1 class="py-2 mx-auto md:mx-0">
-                <a href="#" class="text-primary flex items-center ">
+                <RouterLink to="/" class="text-primary flex items-center ">
                     <img src="@/assets/logo.png" alt="阿橘飯店Logo" class="w-100%">
-                </a>
+                </RouterLink>
             </h1>
             <!-- PC選單 -->
             <ul class="hidden md:flex items-center gap-6 text-primary me-a ">
@@ -199,42 +201,36 @@ watch(() => route.path, () => {
             </ul>
             <!-- 搜尋與購物車 -->
             <div class="flex gap-2">
-                <button
-                    class="bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer scale-125)"
-                    @click="openModal">
+                <button class="font-size-6 text-primary hover:( scale-125)" @click="openModal">
                     <div class="i-material-symbols:search "></div>
                 </button>
                 <RouterLink to="/cart"
                     class="relative flex items-center bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer scale-125)">
                     <div class="i-material-symbols:shopping-cart-outline "></div>
                     <span
-                        class="absolute flex justify-center items-center bg-info font-size-3 text-secondary rd-100vh size-4 right-[-6px] bottom-2"
-                        v-if="cart.carts?.length">{{
-        cartNumb
-    }}</span>
+                        class="absolute flex justify-center items-center bg-info font-size-3 text-secondary rd-50% size-4 right-[-6px] bottom-2"
+                        v-if="cart.carts?.length">{{ cartNumb }}
+                    </span>
                 </RouterLink>
             </div>
         </div>
     </nav>
     <!-- 搜尋的Modal -->
-    <dialog ref="modal" @click="autoClose" class=" m-0 p-0 border-0 w-full max-w-full"
-        :class="{ 'mt-9': lastScrollTop == 0 }" @touchmove.prevent @close="activeRoll">
+    <dialog ref="searchModal" @click="autoClose" class="m-0 p-0 border-0 w-full max-w-full"
+        :class="{ 'mt-9': lastScrollTop == 0 }" @close="activeRoll">
         <div class="w-100%  bg-secondary flex justify-center items-center p-5">
             <form action="">
                 <div class="custom-input-group">
                     <input type=" text" id="search" placeholder="搜尋" v-model.trim="searchText" autocomplete="off"
-                        class="customBorder bg-secondary w-75 md:w-100">
+                        class="customBorder bg-secondary w-75 md:w-100" @keyup.enter="goSearch">
                     <label for="search">搜尋料理</label>
-                    <button
-                        class="bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer) absolute right-2  top-1/2 translate-y--1/2"
-                        @click="goSearch(); modal.close(); ">
+                    <button type="button" class="absolute right-2  top-1/2 translate-y--1/2 font-size-6 text-primary"
+                        @click="goSearch">
                         <div class="i-material-symbols:search"></div>
                     </button>
                 </div>
             </form>
-            <button type="button"
-                class="text-primary font-size-8 bg-transparent border-0 outline-0 hover:(cursor-pointer opacity-50)"
-                @click="modal.close()">
+            <button type="button" class="text-primary font-size-8 hover:(opacity-50)" @click="searchModal.close()">
                 <div class="i-material-symbols:close-rounded"></div>
             </button>
         </div>
@@ -246,7 +242,6 @@ watch(() => route.path, () => {
     text-decoration: underline;
     text-underline-offset: 6px;
 }
-
 
 ::backdrop {
     opacity: .5;
@@ -292,7 +287,6 @@ dialog[open] {
     position: relative;
 
     input {
-        background-color: #F2EFDD;
         border-radius: 12px;
         border-width: 2px;
         padding-top: 14px;

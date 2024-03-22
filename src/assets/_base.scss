@@ -18,6 +18,13 @@ a {
     text-decoration: none;
 }
 
+button {
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
 .font-serif {
     font-family: 'Noto Serif TC', serif;
 }

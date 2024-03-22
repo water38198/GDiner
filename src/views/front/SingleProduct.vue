@@ -62,16 +62,18 @@ function autoClose(e) {
     }
 }
 
-
+function veggieColor(veggie) {
+    return veggie === '全素' ? "text-green-700" : veggie === '蛋奶素' ? "text-yellow-500" : "text-red-700"
+}
 
 onMounted(() => {
     getProduct();
-
 })
 
 // url的產品id變動時重新抓API
 watch(() => route.params, () => {
     id.value = route.params.id;
+    quantity.value = 1;
     getProduct();
 })
 
@@ -79,7 +81,6 @@ watch(() => route.params, () => {
 
 
 <template>
-
     <main class="py-10">
         <div class="container px-4 md:px-12.5 ">
             <div class="grid md:grid-cols-[40%_60%] gap-10 mb-16">
@@ -98,8 +99,12 @@ watch(() => route.params, () => {
                 </div>
                 <!-- 文字內容 -->
                 <div>
-                    <p class="font-size-4 text-info mb-3">{{ product.category }}</p>
                     <h2 class="font-size-10 font-serif mb-6">{{ product.title }}</h2>
+                    <div class="flex gap-2">
+                        <p class="font-size-4 text-info mb-3">{{ product.category }}</p>
+                        <p class="font-size-4" :class="veggieColor(product.veggie)">{{ product.veggie }}</p>
+                    </div>
+
                     <div class="mb-6" v-if="product.origin_price !== product.price">
                         <del class="me-4">NT${{ product.origin_price }}</del>
                         <span class="text-red font-size-6">NT${{ product.price }}</span>

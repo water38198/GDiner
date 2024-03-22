@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 import RandomProduct from '@/components/front/RandomProduct.vue';
 
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 const store = useCartStore();
@@ -21,7 +22,6 @@ const excludeList = computed(() => {
 const { getCart, updateCart, deleteCart, deleteCartAll } = store;
 const cartRef = ref();
 const loadingItems = ref([]);
-const userFormRef = ref()
 const userForm = ref({
     user: {
         email: "",
@@ -49,7 +49,6 @@ function submitOrder() {
                 text: `訂單號碼：${res.data.orderId}`,
                 didClose: () => {
                     getCart();
-                    userFormRef.value.resetForm();
                 }
             })
         })
@@ -189,8 +188,7 @@ function isPhone(value) {
                 </div>
                 <div>
                     <Loading :active="loadingItems.includes('userForm')"></Loading>
-                    <VForm class="grid grid-cols-2 gap-4" v-slot="{ errors }" @submit="submitOrder" ref="userFormRef"
-                        autocomplete="off">
+                    <VForm class="grid grid-cols-2 gap-4" v-slot="{ errors }" @submit="submitOrder" autocomplete="off">
                         <div class="col-span-2 md:col-span-1 grid grid-cols-2 gap-4">
                             <h2 class="col-span-2 mb-10 font-size-10 lh-tight font-serif">顧客資訊</h2>
                             <div class="custom-input-group mb-4 col-span-2">
@@ -261,15 +259,12 @@ function isPhone(value) {
                                             <p>折扣金額： -{{ cart.total - cart.final_total }}</p>
                                         </div>
                                     </template>
-
                                 </div>
-
                                 <div class="text-center md:text-end">
                                     <button type="submit"
                                         class="max-w-60% w-100% h-12 p-(x-7.5 y-1.5) bg-info text-secondary border-0 rd-10 cursor-pointer hover:shadow-[0_0_3px_0_#3D081B]">送出訂單</button>
                                 </div>
                             </div>
-
                         </div>
                     </VForm>
                 </div>

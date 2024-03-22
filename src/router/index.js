@@ -43,10 +43,6 @@ const router = createRouter({
       component: () => import('../views/AdminLayout.vue'),
       children: [
         {
-          path: 'home',
-          component: () => import('../views/admin/AdminHome.vue')
-        },
-        {
           path: 'products',
           component: () => import('../views/admin/AdminProducts.vue')
         },

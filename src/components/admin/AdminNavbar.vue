@@ -31,10 +31,6 @@ function logOut() {
     <nav class="bg-secondary">
         <ul class="nav-list flex flex-col gap-10 py-8 h-full">
             <li>
-                <RouterLink to="/admin/home" class="block px-8 py-4 ml-8 rd-[100vw_0_0_100vw] font-size-8">總覽
-                </RouterLink>
-            </li>
-            <li>
                 <RouterLink to="/admin/products" class="block px-8 py-4 ml-8 rd-[100vw_0_0_100vw] font-size-8">產品
                 </RouterLink>
             </li>

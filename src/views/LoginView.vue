@@ -35,7 +35,7 @@ function login() {
                 title: "登入成功",
                 timer: 1000,
                 didClose: () => {
-                    router.replace("/admin/home")
+                    router.replace("/admin")
                 }
             })
         }).catch(err => {
