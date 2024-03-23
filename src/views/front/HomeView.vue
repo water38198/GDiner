@@ -70,7 +70,7 @@ onMounted(() => {
       </h2>
       <ul class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <li v-for="(product, index) in products.slice(0, 8)" :key="product.id" data-aos="fade-up"
-          :data-aos-delay="100 * index">
+          :data-aos-delay="50 * index" data-aos-once="true">
           <div class="card">
             <RouterLink :to="`/product/${product.id}`" class="block">
               <div class="card-image">

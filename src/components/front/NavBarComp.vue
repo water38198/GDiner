@@ -176,8 +176,8 @@ watch(() => route.path, () => {
                 </RouterLink>
             </h1>
             <!-- PC選單 -->
-            <ul class="hidden md:flex items-center gap-6 text-primary me-a ">
-                <li class="">
+            <ul class="hidden md:flex items-center gap-6 text-primary me-auto">
+                <li>
                     <RouterLink to="/recommend"
                         class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
                         推薦</RouterLink>
@@ -241,6 +241,7 @@ watch(() => route.path, () => {
 .router-link-active {
     text-decoration: underline;
     text-underline-offset: 6px;
+    opacity: 1;
 }
 
 ::backdrop {
