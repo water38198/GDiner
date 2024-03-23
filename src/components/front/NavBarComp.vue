@@ -149,17 +149,17 @@ watch(() => route.path, () => {
                                 <li><a href="#" class="inline-block p-3 text-primary font-size-5">
                                         <div class="i-mdi:twitter hover:(transform-scale-120)"></div>
                                     </a></li>
-                                <li><a href="#" class="inline-block p-3 text-primary font-size-5 ">
+                                <li><a href="#" class="inline-block p-3 text-primary font-size-5">
                                         <div class="i-ant-design:facebook-filled hover:(transform-scale-120)"></div>
                                     </a></li>
-                                <li><a href="#" class="inline-block p-3 text-primary font-size-5 ">
+                                <li><a href="#" class="inline-block p-3 text-primary font-size-5">
                                         <div class="i-ph:instagram-logo-bold hover:(transform-scale-120)"></div>
                                     </a></li>
-                                <li><a href="#" class="inline-block p-3 text-primary font-size-5 ">
+                                <li><a href="#" class="inline-block p-3 text-primary font-size-5">
                                         <div class="i-ic:baseline-tiktok hover:(transform-scale-120)"></div>
                                     </a></li>
                                 <li><a href="mailto:GDiner@example.com"
-                                        class="inline-block p-3 text-primary font-size-5 ">
+                                        class="inline-block p-3 text-primary font-size-5">
                                         <div
                                             class="i-material-symbols:mail-outline-rounded hover:(transform-scale-120)">
                                         </div>

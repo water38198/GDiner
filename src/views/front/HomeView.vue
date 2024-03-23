@@ -45,7 +45,7 @@ onMounted(() => {
   <Loading :active="isLoading"></Loading>
   <header class="pt-80 sm:py-12.5 mb-10">
     <div class="container">
-      <div class="flex sm:(px-12.5 py-15) ">
+      <div class="flex sm:(px-12.5 py-15)" data-aos="flip-up">
         <div
           class="bg-secondary px-9 py-10  border-(t-3 b-3 primary solid) sm:(max-w-550px customBorder-xl rd-3 text-start) text-primary text-center ">
           <h2 class="font-size-12 text-center mb-3 sm:mb-8 fw-bold">
@@ -69,7 +69,8 @@ onMounted(() => {
         </div>
       </h2>
       <ul class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <li v-for="product in products.slice(0, 8)" :key="product.id">
+        <li v-for="(product, index) in products.slice(0, 8)" :key="product.id" data-aos="fade-up"
+          :data-aos-delay="100 * index">
           <div class="card">
             <RouterLink :to="`/product/${product.id}`" class="block">
               <div class="card-image">
@@ -90,7 +91,7 @@ onMounted(() => {
         尋找心中的美味<div class="i-fxemoji:potoffood inline-block"></div>
       </h2>
       <div class="grid gap-1.5 grid-cols-2 md:(grid-flow-col grid-cols-3 gap-3)">
-        <div class="col-span-1 row-span-1">
+        <div class="col-span-1 row-span-1" data-aos="zoom-in">
           <div class="card">
             <RouterLink to="/products" class="block">
               <div class="card-image">
@@ -107,7 +108,7 @@ onMounted(() => {
             </RouterLink>
           </div>
         </div>
-        <div class="col-span-1 row-span-1">
+        <div class="col-span-1 row-span-1" data-aos="zoom-in">
           <div class="card">
             <RouterLink to="/products?category=套餐" class="block">
               <div class="card-image">
@@ -124,7 +125,7 @@ onMounted(() => {
             </RouterLink>
           </div>
         </div>
-        <div class="col-span-2 row-span-2">
+        <div class="col-span-2 row-span-2" data-aos="zoom-in">
           <div class="card h-100%">
             <RouterLink to="/products?sort=最新" class="flex flex-col h-100%">
               <div class="card-image flex-1">
@@ -144,7 +145,7 @@ onMounted(() => {
       </div>
     </section>
     <!-- 初次嘗鮮 -->
-    <section class="mb-16">
+    <section class="mb-16" data-aos="flip-right">
       <div class="flex flex-wrap customBorder-xl rd-3 overflow-hidden bg-primary">
         <div class="w-100% md:w-50%">
           <img
@@ -185,7 +186,7 @@ onMounted(() => {
         </div>
       </div>
     </section>
-    <section class="mb-16">
+    <section class="mb-16" data-aos="flip-left">
       <div class="flex flex-wrap customBorder-xl rd-3 overflow-hidden bg-primary">
         <div
           class="w-100% md:w-50% flex flex-col justify-center bg-secondary border-(b-3 solid primary) md:border-(b-0 r-3) p-6 sm:p-10 md:p-15 ">
@@ -203,21 +204,21 @@ onMounted(() => {
 
     <section class="mb-16">
       <div class="grid md:grid-cols-3 gap-6 md:gap-3">
-        <div class="customBorder-xl rd-3 pt-6 text-center">
+        <div class="customBorder-xl rd-3 pt-6 text-center" data-aos="fade-up" data-aos-delay="100">
           <h4 class="font-size-12 text-info">
             <div class="i-material-symbols:pets inline-block"></div>
           </h4>
           <h5 class="font-size-8 text-info">精心打造</h5>
           <p class="p-6">"每一道菜都是精心打造的藝術品，不僅滿足您的味蕾，更是一場視覺和味覺的盛宴。"</p>
         </div>
-        <div class="customBorder-xl rd-3 pt-6 text-center">
+        <div class="customBorder-xl rd-3 pt-6 text-center" data-aos="fade-up" data-aos-delay="300">
           <h4 class="font-size-12 text-info text-center">
             <div class="i-simple-icons:codefresh inline-block"></div>
           </h4>
           <h5 class="font-size-8 text-info">新鮮原料</h5>
           <p class="p-6">"新鮮的材料，每日用最短的時間從產地直送到餐廳。"</p>
         </div>
-        <div class="customBorder-xl rd-3 pt-6 text-center">
+        <div class="customBorder-xl rd-3 pt-6 text-center" data-aos="fade-up" data-aos-delay="500">
           <h4 class="font-size-12 text-info">
             <div class="i-material-symbols:favorite inline-block"></div>
           </h4>
