@@ -2,15 +2,14 @@
 import { ref, onMounted, watch, watchEffect, computed } from 'vue'
 import axios from 'axios'
 import Loading from 'vue-loading-overlay'
-import { useRoute, useRouter } from 'vue-router';
-import Swal from 'sweetalert2';
+import { useRoute, useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
-const isLoading = ref(false)
+const isLoading = ref(false);
 
 const productsListRef = ref(); // 列表的Ref
-
 const sortBy = ref(''); // 排序的類別
 const filterCategories = ref([]); // 已選擇的篩選類別
 const lowPrice = ref(); // 最低價 
@@ -39,11 +38,12 @@ const filteredList = computed(() => {// 經過篩選的資料
     }
     // 價格
     if (lowPrice.value > 0) {
-        newList = newList.filter(product => product.price >= lowPrice.value)
+        newList = newList.filter(product => product.price >= lowPrice.value);
     }
-    if (highPrice.value > 0 && highPrice.value > lowPrice.value) {
-        newList = newList.filter(product => product.price <= highPrice.value)
+    if (highPrice.value > 0) {
+        newList = newList.filter(product => product.price <= highPrice.value);
     }
+
     // 排序
     if (sortBy.value === '最新') newList = newList.sort((a, b) => b.created - a.created);
     if (sortBy.value === '最舊') newList = newList.sort((a, b) => a.created - b.created);
@@ -51,13 +51,13 @@ const filteredList = computed(() => {// 經過篩選的資料
     if (sortBy.value === '最低價格') newList = newList.sort((a, b) => a.price - b.price);
     // 搜尋
     if (searchText.value) {
-        newList = newList.filter(product => product.title.includes(searchText.value))
+        newList = newList.filter(product => product.title.includes(searchText.value));
     }
     return newList;
 })
 
 function getProducts() {
-    isLoading.value = true
+    isLoading.value = true;
     axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products/all`)
         .then(res => {
             products.value = res.data.products;
@@ -71,7 +71,7 @@ function getProducts() {
             })
         })
         .finally(() => {
-            isLoading.value = false
+            isLoading.value = false;
         })
 }
 function deleteCategory(category) {
@@ -84,11 +84,11 @@ function resetCategory() {
 function resetPriceRange() {
     lowPrice.value = null;
     highPrice.value = null;
-    priceRangeText.value = ""
+    priceRangeText.value = "";
 }
 function resetSearch() {
     searchText.value = '';
-    router.push('/products');
+    router.push('/products');//Url整理乾淨
 }
 function resetFilter() {
     resetCategory();
@@ -101,56 +101,48 @@ function changePage(action) {
     if (typeof action === 'number') {
         pages.value.current = action;
     } else if (action === '+') {
-        pages.value.current++
+        pages.value.current++;
     } else {
         pages.value--
     }
     window.scrollTo({
         top: 0,
-        behavior: "smooth"
     })
 }
 
 onMounted(() => {
+    // 抓取任何的篩選、分類、搜尋
     if (route.query.category) {
-        filterCategories.value.push(route.query.category)
+        filterCategories.value.push(route.query.category);
     }
     if (route.query.sort) {
         sortBy.value = route.query.sort;
     }
     if (route.query.search) {
-        searchText.value = route.query.search
+        searchText.value = route.query.search;
     }
     getProducts();
 
 })
 watch(() => route.query, () => {
     if (route.query.search) {
-        searchText.value = route.query.search
+        searchText.value = route.query.search;
     }
 })
 watchEffect(() => {
-    // 分類的篩選
-    // if (filterCategories.value.length !== 0) {
-    //     let newList = [];
-    //     filterCategories.value.forEach(category => {
-    //         newList = [...products.value.filter(product => product.category === category)].concat(newList);
-    //     })
-    //     filteredList.value = newList;
-    // } else {
-    //     filteredList.value = products.value
-    // }
-    // 價格篩選的文字 1.低有，高沒有 2.低有高有，高>低 3.低有高有，低>高 4.低沒有，高有
-    if (lowPrice.value >= 0 && highPrice.value == undefined) {
-        priceRangeText.value = `${lowPrice.value} ~ `
-    } else if (highPrice.value - lowPrice.value > 0) {
-        priceRangeText.value = `${lowPrice.value} ~ ${highPrice.value}`;
-    } else if (highPrice.value - lowPrice.value < 0) {
-        priceRangeText.value = `${lowPrice.value} ~ `
-    } else if (lowPrice.value == undefined && highPrice.value >= 0) {
-        priceRangeText.value = ` ~ ${highPrice.value}`
-    } if (lowPrice.value === null && highPrice.value === null) {
+    // 計算價格範圍
+    let lowText = lowPrice.value;
+    let highText = highPrice.value;
+    if (lowPrice.value == undefined || lowPrice.value == null) {
+        lowText = '';
+    }
+    if (highPrice.value == undefined || highPrice.value == null) {
+        highText = '';
+    }
+    if (lowText == '' && highText == '') {
         priceRangeText.value = ''
+    } else {
+        priceRangeText.value = `${lowText} ~ ${highText}`
     }
     // 計算頁數
     pages.value.total = Math.ceil(filteredList.value.length / 12);
@@ -162,14 +154,14 @@ watchEffect(() => {
 <template>
     <Loading :active="isLoading"></Loading>
     <div class="container px-4 lg:px-12.5">
-        <h2 class="mb-10 py-6 font-size-10 md:(mb-16 font-size-15) font-serif">料理</h2>
+        <h2 class="mb-10 py-6 font-size-10 md:(mb-16 font-size-15)">料理</h2>
         <!-- 篩選 -->
         <div class="flex flex-wrap justify-between mb-6">
             <form action="" class="flex gap-2 sm:gap-4">
                 <h3>篩選：</h3>
                 <details class="relative mb-4">
                     <summary
-                        class="flex list-none text-primary-light hover:(cursor-pointer underline underline-offset-4)">
+                        class="flex list-none text-primary-light cursor-pointer hover:(underline underline-offset-4)">
                         <span class="text-primary-light hover:text-primary">分類</span>
                         <div class="i-material-symbols:keyboard-arrow-down"></div>
                     </summary>
@@ -185,55 +177,56 @@ watchEffect(() => {
                             <li>
                                 <label for="主食" class="relative flex gap-3 py-2.5 lh-tight cursor-pointer">
                                     <input type="checkbox" id="主食" value="主食" v-model="filterCategories"
-                                        class="appearance-none m-0 size-5  rd-1 cursor-pointer ">
+                                        class="appearance-none m-0 size-5 rd-1 cursor-pointer">
                                     主食
                                 </label>
                             </li>
                             <li>
                                 <label for="沙拉" class="relative flex gap-3 py-2.5 lh-tight cursor-pointer">
                                     <input type="checkbox" id="沙拉" value="沙拉" v-model="filterCategories"
-                                        class="appearance-none m-0 size-5  rd-1 cursor-pointer ">
+                                        class="appearance-none m-0 size-5 rd-1 cursor-pointer">
                                     沙拉
                                 </label>
                             </li>
                             <li>
                                 <label for="湯品" class="relative flex gap-3 py-2.5 lh-tight cursor-pointer">
                                     <input type="checkbox" id="湯品" value="湯品" v-model="filterCategories"
-                                        class="appearance-none m-0 size-5  rd-1 cursor-pointer ">
+                                        class="appearance-none m-0 size-5 rd-1 cursor-pointer">
                                     湯品
                                 </label>
                             </li>
                             <li>
                                 <label for="副食" class="relative flex gap-3 py-2.5 lh-tight cursor-pointer">
                                     <input type="checkbox" id="副食" value="副食" v-model="filterCategories"
-                                        class="appearance-none m-0 size-5  rd-1 cursor-pointer ">
+                                        class="appearance-none m-0 size-5 rd-1 cursor-pointer">
                                     副食
                                 </label>
                             </li>
                             <li>
                                 <label for="甜點" class="relative flex gap-3 py-2.5 lh-tight cursor-pointer">
                                     <input type="checkbox" id="甜點" value="甜點" v-model="filterCategories"
-                                        class="appearance-none m-0 size-5  rd-1 cursor-pointer ">
+                                        class="appearance-none m-0 size-5 rd-1 cursor-pointer">
                                     甜點
                                 </label>
                             </li>
                             <li>
                                 <label for="飲料" class="relative flex gap-3 py-2.5 lh-tight cursor-pointer">
                                     <input type="checkbox" id="飲料" value="飲料" v-model="filterCategories"
-                                        class="appearance-none m-0 size-5  rd-1 cursor-pointer ">
+                                        class="appearance-none m-0 size-5 rd-1 cursor-pointer">
                                     飲料
                                 </label>
                             </li>
                             <li>
                                 <label for="套餐" class="relative flex gap-3 py-2.5 lh-tight cursor-pointer">
                                     <input type="checkbox" id="套餐" value="套餐" v-model="filterCategories"
-                                        class="appearance-none m-0 size-5  rd-1 cursor-pointer ">
+                                        class="appearance-none m-0 size-5 rd-1 cursor-pointer">
                                     套餐
                                 </label>
                             </li>
                         </ul>
                     </div>
                 </details>
+                <!-- 價格範圍 -->
                 <details class="relative">
                     <summary
                         class="flex list-none text-primary-light hover:(cursor-pointer underline underline-offset-4)">
@@ -251,14 +244,14 @@ watchEffect(() => {
                         <div class="flex items-center p-5">
                             <span class="me-1">$</span>
                             <div class="price-group ">
-                                <input type="number" id="lowPrice" v-model='lowPrice' class="w-100% font-size-3"
+                                <input type="number" id="lowPrice" v-model.trim='lowPrice' class="w-100%"
                                     placeholder="最低價" min="0">
                                 <label for="lowPrice">最低價</label>
                             </div>
                             <span class="ms-5 me-1">$</span>
                             <div class="price-group">
-                                <input type="number" id="highPrice" class="w-100%" placeholder="最高價" v-model='highPrice'
-                                    min="0">
+                                <input type="number" id="highPrice" v-model.trim='highPrice' class="w-100%"
+                                    placeholder="最高價" min="0">
                                 <label for="highPrice">最高價</label>
                             </div>
                         </div>
@@ -312,13 +305,13 @@ watchEffect(() => {
         <div class="relative min-h-100 mb-12" ref="productsListRef">
             <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" v-if="filteredList.length > 0">
                 <li v-for="product in filteredList.slice(12 * (pages.current - 1), 12 * pages.current)"
-                    :key="product.id">
+                    :key="product.id" data-aos="fade-up" :data-aos-delay="500" data-aos-offset="0">
                     <div class="card">
                         <RouterLink :to='`/product/${product.id}`' class="block">
                             <div class="card-image">
-                                <img :src="product.imageUrl" alt="" class="block h-150px w-100% sm:h-350px md:h-300px">
+                                <img :src="product.imageUrl" alt="" class="block w-100% h-150px sm:h-350px md:h-300px">
                             </div>
-                            <h3 class="mb-4  tracking-wider">{{ product.title }}</h3>
+                            <h3 class="mb-4 tracking-wider">{{ product.title }}</h3>
                             <div class="pb-4">
                                 <span>NT$ {{ product.price }}</span>
                             </div>
@@ -327,8 +320,9 @@ watchEffect(() => {
                 </li>
             </ul>
             <!-- 如果沒有符合條件 -->
-            <div v-else>
-                <h3 class="pt-10 font-size-6 text-center">很抱歉，沒有符合條件的商品。(〒︿〒)</h3>
+            <div v-else-if="filteredList.length === 0 && (filterCategories.length !== 0 || priceRangeText
+        !== '' || searchText !== '')">
+                <h3 class="pt-10 font-size-6 text-center">很抱歉，沒有符合條件的商品。<br>(〒︿〒)</h3>
             </div>
         </div>
         <!-- 分頁 -->
@@ -357,30 +351,7 @@ watchEffect(() => {
     </div>
 </template>
 
-<style lang="postcss" scoped>
-.card {
-    .card-image {
-        @apply rd-3 customBorder-xl bg-primary overflow-hidden mb-4;
-    }
-
-    img {
-        transition: all .5s ease-in-out;
-        display: block;
-    }
-}
-
-.card:hover {
-    img {
-        transform: scale(1.1);
-        transition: all .5s ease-in-out;
-    }
-
-    h3 {
-        text-decoration: underline;
-        text-underline-offset: 4px;
-    }
-}
-
+<style lang="scss" scoped>
 summary::marker {
     content: '';
     list-style: none;
@@ -432,7 +403,6 @@ details[open]>summary::before {
         border-radius: 12px;
         outline: 0;
         padding: 0.75rem;
-
 
         &::placeholder {
             color: transparent;
