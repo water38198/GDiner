@@ -35,7 +35,7 @@ defineExpose({
 </script>
 
 <template>
-    <dialog ref="dialog" class="max-w-1140px  w-100% border-0 rd p-0 backdrop:backdrop-blur-3" @click="autoClose">
+    <dialog ref="dialog" class="max-w-1140px w-100% border-0 rd p-0 backdrop:backdrop-blur-3" @click="autoClose">
         <VForm method="dialog" @submit="$emit('confirmOrder', tempOrder)" v-slot="{ errors }">
             <div class="bg-#212529 flex justify-between items-center p-4">
                 <h3 class="text-white">修改訂單</h3>
@@ -47,27 +47,27 @@ defineExpose({
                     <h4 class="text-center font-size-6 mb-2">客戶資料</h4>
                     <div class="input-group">
                         <label for="name">姓名</label>
-                        <VField type="text" id="name" placeholder="請輸入姓名" v-model="tempOrder.user.name" name="姓名"
+                        <VField type="text" id="name" placeholder="請輸入姓名" v-model.trim="tempOrder.user.name" name="姓名"
                             rules="required" :class="{ 'invalid': errors['姓名'] }" />
                         <ErrorMessage name="姓名" class="block ps-2 pt-2 text-red-500 font-size-3" />
 
                     </div>
                     <div class="input-group">
                         <label for="tel">電話</label>
-                        <VField type="tel" id="tel" placeholder="請輸入電話" v-model="tempOrder.user.tel" name="電話"
+                        <VField type="tel" id="tel" placeholder="請輸入電話" v-model.trim="tempOrder.user.tel" name="電話"
                             :rules="isPhone" :class="{ 'invalid': errors['電話'] }" />
                         <ErrorMessage name="電話" class="block ps-2 pt-2 text-red-500 font-size-3" />
 
                     </div>
                     <div class="input-group">
                         <label for="email">Email</label>
-                        <VField type="email" id="email" placeholder="請輸入Email" v-model="tempOrder.user.email"
+                        <VField type="email" id="email" placeholder="請輸入Email" v-model.trim="tempOrder.user.email"
                             name="Email" rules="required|email" :class="{ 'invalid': errors['Email'] }" />
                         <ErrorMessage name="Email" class="block ps-2 pt-2 text-red-500 font-size-3" />
                     </div>
                     <div class="input-group">
                         <label for="address">地址</label>
-                        <VField type="address" id="address" placeholder="請輸入地址" v-model="tempOrder.user.address"
+                        <VField type="address" id="address" placeholder="請輸入地址" v-model.trim="tempOrder.user.address"
                             name="地址" rules="required" :class="{ 'invalid': errors['地址'] }" />
                         <ErrorMessage name="地址" class="block ps-2 pt-2 text-red-500 font-size-3" />
                     </div>
@@ -102,8 +102,9 @@ defineExpose({
                     </table>
                 </div>
                 <div class="text-end col-start-2">
-                    <label for="is_paid" class="me-2">
-                        <input type="checkbox" id="is_paid" v-model="tempOrder.is_paid" class="custom-checkbox">
+                    <label for="is_paid" class="me-2 cursor-pointer">
+                        <input type="checkbox" id="is_paid" v-model="tempOrder.is_paid"
+                            class="custom-checkbox cursor-pointer">
                         是否付款
                     </label>
                 </div>
@@ -113,7 +114,7 @@ defineExpose({
                     class="m-1 px-3 py-1.5 bg-transparent text-#6c757d border-(1 solid #6c757d ) rd hover:(cursor-pointer bg-#5c636a text-white)"
                     @click="dialog.close()">取消</button>
                 <button type="submit"
-                    class="m-1 px-3 py-1.5 text-white bg-#0d6efd border-0 rd hover:(cursor-pointer bg-#0b5ed7)"
+                    class="m-1 px-3 py-1.5 text-white bg-#0d6efd border-0 rd cursor-pointer hover:( bg-#0b5ed7)"
                     :class="{ 'disabled': isChanged }">修改訂單</button>
             </div>
         </VForm>
@@ -121,44 +122,7 @@ defineExpose({
 </template>
 
 <style scoped lang="postcss">
-.input-group {
-    @apply mb-4;
-
-    .invalid {
-        @apply border-red outline-(red 2px solid)
-    }
-
-    label {
-        @apply mb-2 block
-    }
-
-    input, textarea, select {
-        @apply w-100% rd border-1 border-solid px-3 py-1.5 font-size-4 focus:(outline-0 border-#86b7fe border-solid shadow-[0px_0px_0px_0.25rem_#C2DBFE]);
-    }
-}
-
 .disabled {
     @apply pointer-events-none op-65;
-}
-
-.custom-checkbox {
-    @apply appearance-none relative inline-block h-7 w-12 align-middle rd-8 shadow-[inset_0px_1px_3px_#0003];
-    transition: .25s linear background;
-    background-color: lightgrey;
-
-    &::before {
-        content: "";
-        transition: .25s linear transform;
-        transform: translateX(0);
-        @apply block w-5 h-5 bg-#fff rd-1.2rem absolute top-1 left-1 shadow-[0px_1px_3_px_#0003];
-    }
-
-    &:checked {
-        @apply bg-green;
-    }
-
-    &:checked::before {
-        transform: translateX(1.25rem);
-    }
 }
 </style>

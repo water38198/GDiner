@@ -6,7 +6,6 @@ import moment from 'moment'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 
-
 import OrderModal from '@/components/admin/OrderModal.vue';
 import PaginationComp from '@/components/PaginationComp.vue';
 
@@ -23,7 +22,6 @@ function getOrders(page = 1) {
         .then(res => {
             orders.value = res.data.orders;
             pagination.value = res.data.pagination;
-            console.log(orders.value)
         })
         .catch(err => {
             Swal.fire({
@@ -38,7 +36,7 @@ function getOrders(page = 1) {
 }
 function openOrderModal(order) {
     tempOrder.value = order;
-    orderModalRef.value.dialog.showModal()
+    orderModalRef.value.dialog.showModal();
 }
 function deleteOrder(id) {
     Swal.fire({
@@ -73,7 +71,7 @@ function confirmOrder(order) {
         const coupon = data.products[b].coupon ? data.products[b].coupon.percent / 100 : 1 //如果有使用coupon
         return a + data.products[b].final_total * coupon
     }, 0)
-    data.total = total
+    data.total = total;
     axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${order.id}`, {
         data
     }).then((res) => {

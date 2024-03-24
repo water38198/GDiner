@@ -3,21 +3,21 @@ import { ref, watch } from 'vue'
 
 import moment from 'moment'
 
-
 const props = defineProps(['tempCoupon', 'isNew'])
-const tempCoupon = ref(props.tempCoupon)
-const dialog = ref()
-const dateTime = ref('')
+const tempCoupon = ref(props.tempCoupon);
+const dialog = ref();
+const dateTime = ref('');//日期
 function autoClose(e) {
     if (e.target.nodeName === "DIALOG") {
         dialog.value.close();
     }
-}
+};
 
 watch(() => props.tempCoupon, () => {
     tempCoupon.value = { ...props.tempCoupon };
+    // 時間戳記轉換成日期
     if (tempCoupon.value.due_date) {
-        dateTime.value = moment(tempCoupon.value.due_date).format('YYYY-MM-DD')
+        dateTime.value = moment(tempCoupon.value.due_date * 1000).format('YYYY-MM-DD')
     };
     if (!tempCoupon.value.is_enabled) {
         tempCoupon.value.is_enabled = 0
@@ -35,21 +35,21 @@ defineExpose({
     <dialog ref="dialog" class="max-w-1140px w-100% border-0 rd p-0 backdrop:backdrop-blur-3" @click="autoClose">
         <VForm method="dialog" v-slot="{ errors }" @submit="$emit('confirmCoupon', tempCoupon)">
             <div class="bg-#212529 p-4 flex justify-between items-center">
-                <h3 class="text-white">{{ isNew ? "新增優惠券" : "編輯優惠券" }}</h3>
-                <button type="button" class="i-ic:baseline-close p-2 text-white font-size-4 hover:cursor-pointer"
+                <h3 class="text-white">{{ isNew ? "新增" : "編輯" }}</h3>
+                <button type="button" class="i-ic:baseline-close p-2 text-white font-size-4 cursor-pointer"
                     @click="dialog.close()"></button>
             </div>
             <div class="grid grid-cols-2 gap-6 p-5">
                 <div class="input-group">
                     <label for="name">名稱：</label>
                     <VField type="text" id="name" name="名稱" rules="required" placeholder="請輸入名稱"
-                        v-model="tempCoupon.title" :class="{ 'invalid': errors['名稱'] }" />
+                        v-model.trim="tempCoupon.title" :class="{ 'invalid': errors['名稱'] }" />
                     <ErrorMessage name="名稱" class="block ps-3 pt-2 text-red-500 font-size-3"></ErrorMessage>
                 </div>
                 <div class="input-group">
                     <label for="code">優惠碼：</label>
                     <VField type="text" id="code" name="優惠碼" rules="required" placeholder="請輸入優惠碼"
-                        :class="{ 'invalid': errors['優惠碼'] }" v-model="tempCoupon.code" />
+                        :class="{ 'invalid': errors['優惠碼'] }" v-model.trim="tempCoupon.code" />
                     <ErrorMessage name="優惠碼" class="block ps-3 pt-2 text-red-500 font-size-3"></ErrorMessage>
                 </div>
 
@@ -85,40 +85,3 @@ defineExpose({
         </VForm>
     </dialog>
 </template>
-
-<style scoped lang="postcss">
-.input-group {
-    label {
-        @apply mb-2 block;
-    }
-
-    .invalid {
-        @apply border-red outline-(red 2px solid)
-    }
-
-    input, textarea, select {
-        --at-apply: w-100% rd border-1 border-solid px-3 py-1.5 font-size-4 focus:(outline-0 border-#86b7fe border-solid shadow-[0px_0px_0px_0.25rem_#C2DBFE])
-    }
-}
-
-.custom-checkbox {
-    @apply appearance-none relative inline-block h-7 w-12 align-middle rd-8 shadow-[inset_0px_1px_3px_#0003];
-    transition: .25s linear background;
-    background-color: lightgrey;
-
-    &::before {
-        content: "";
-        transition: .25s linear transform;
-        transform: translateX(0);
-        @apply block w-5 h-5 bg-#fff rd-1.2rem absolute top-1 left-1 shadow-[0px_1px_3_px_#0003];
-    }
-
-    &:checked {
-        @apply bg-green;
-    }
-
-    &:checked::before {
-        transform: translateX(1.25rem);
-    }
-}
-</style>

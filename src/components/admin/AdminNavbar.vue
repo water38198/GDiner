@@ -42,14 +42,13 @@ function logOut() {
                 <RouterLink to="/admin/coupons" class="block px-8 py-4 ml-8 rd-[100vw_0_0_100vw] font-size-8">優惠券
                 </RouterLink>
             </li>
-            <li class="mt-auto ">
-                <a href="#" class="block px-8  ml-8  font-size-4" @click.prevent="logOut">登出</a>
-            </li>
-            <li>
+            <li class="mt-auto">
                 <RouterLink to="/" class="block px-8 py-4 ml-8  font-size-4">回前台
                 </RouterLink>
             </li>
-
+            <li>
+                <a href="#" class="block px-8  ml-8  font-size-4" @click.prevent="logOut">登出</a>
+            </li>
         </ul>
     </nav>
 

@@ -92,3 +92,40 @@
         outline: 1.5px solid #3D081B;
     }
 }
+
+.input-group {
+    label {
+        @apply mb-2 block;
+    }
+
+    .invalid {
+        @apply border-red outline-(red 2px solid)
+    }
+
+    input,
+    textarea,
+    select {
+        --at-apply: w-100% rd border-1 border-solid px-3 py-1.5 font-size-4 focus:(outline-0 border-#86b7fe border-solid shadow-[0px_0px_0px_0.25rem_#C2DBFE])
+    }
+}
+
+.custom-checkbox {
+    @apply appearance-none relative inline-block h-7 w-12 align-middle rd-8 shadow-[inset_0px_1px_3px_#0003];
+    transition: .25s linear background;
+    background-color: lightgrey;
+
+    &::before {
+        content: "";
+        transition: .25s linear transform;
+        transform: translateX(0);
+        @apply block w-5 h-5 bg-#fff rd-1.2rem absolute top-1 left-1 shadow-[0px_1px_3_px_#0003];
+    }
+
+    &:checked {
+        @apply bg-green;
+    }
+
+    &:checked::before {
+        transform: translateX(1.25rem);
+    }
+}

@@ -18,11 +18,11 @@ function autoClose(e) {
 function addNewImages() {
     // 先檢查有無 imagesUrl屬性
     if (!tempProduct.value.imagesUrl) {
-        tempProduct.value.imagesUrl = []
+        tempProduct.value.imagesUrl = [];
     }
     // 如果最後一個為空則不能新增圖片
     if (tempProduct.value.imagesUrl[tempProduct.value.imagesUrl.length - 1] === "") return
-    tempProduct.value.imagesUrl.push("")
+    tempProduct.value.imagesUrl.push("");
 }
 //上傳圖片
 function upload(target, e) {
@@ -46,7 +46,6 @@ function upload(target, e) {
             })
         })
 }
-
 function addTag() {
     if (newTag.value == '') return //如果是空的就無視
     if (!tempProduct.value.tags) { //如果沒有 tags 則建立一個 tags陣列
@@ -109,8 +108,8 @@ defineExpose({
                                 <img :src="image" alt="">
                             </div>
                             <button type="button"
-                                class="inline-block w-100% bg-transparent border-#0d6efd border-solid border-1 rd text-#0d6efd py-1 mb-1"
-                                hover="cursor-pointer bg-#0d6efd text-white" @click="addNewImages">
+                                class="inline-block w-100% bg-transparent border-primary border-solid border-1 rd text-primary py-1 mb-1 cursor-pointer hover:(bg-primary text-secondary)"
+                                @click="addNewImages">
                                 新增圖片網址
                             </button>
                             <!-- 檔案上傳 -->
@@ -229,24 +228,9 @@ defineExpose({
                         class="m-1 px-3 py-1.5 bg-transparent text-#6c757d border-(1 solid #6c757d ) rd hover:(cursor-pointer bg-#5c636a text-white)"
                         @click="dialog.close()">取消</button>
                     <button type="submit"
-                        class="m-1 px-3 py-1.5 text-white bg-#0d6efd border-0 rd hover:(cursor-pointer bg-#0b5ed7)">確定</button>
+                        class="m-1 px-3 py-1.5 text-secondary bg-primary border-0 rd cursor-pointer hover:(bg-primary-light)">確定</button>
                 </div>
             </div>
         </VForm>
     </dialog>
 </template>
-<style scoped lang="postcss">
-.input-group {
-    .invalid {
-        @apply border-red outline-(red 2px solid)
-    }
-
-    label {
-        @apply mb-2 block font-size-5
-    }
-
-    input, textarea, select {
-        @apply w-100% rd border-1 border-solid px-3 py-1.5 font-size-4 focus:(outline-0 border-#86b7fe border-solid shadow-[0px_0px_0px_0.25rem_#C2DBFE])
-    }
-}
-</style>

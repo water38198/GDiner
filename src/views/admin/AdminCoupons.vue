@@ -5,17 +5,15 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 import moment from 'moment'
 
-
-import PaginationComp from '@/components/PaginationComp.vue';
 import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
+import PaginationComp from '@/components/PaginationComp.vue';
 import CouponModal from '@/components/admin/CouponModal.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const coupons = ref([]);
 const isLoading = ref(false);
-const pagination = ref({})
-const tempCoupon = ref({})
+const pagination = ref({});
+const tempCoupon = ref({});
 const couponModalRef = ref();
 const isNew = ref(false);
 
@@ -23,7 +21,7 @@ function getCoupons(page = 1) {
     isLoading.value = true;
     axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupons?page=${page}`)
         .then(res => {
-            coupons.value = res.data.coupons
+            coupons.value = res.data.coupons;
             pagination.value = res.data.pagination;
         })
         .catch(err => {
@@ -51,6 +49,7 @@ function editCoupon(coupon) {
     couponModalRef.value.dialog.showModal()
 }
 function confirmCoupon(coupon) {
+    coupon.due_date = coupon.due_date / 1000;
     if (isNew.value) {
         axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon`, {
             data: coupon
@@ -95,31 +94,43 @@ function confirmCoupon(coupon) {
 }
 function deleteCoupon(coupon) {
     const { id } = coupon;
-    axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon/${id}`)
-        .then(res => {
-            Swal.fire({
-                title: `${res.data.message}`,
-                icon: 'success',
-                didClose: () => {
-                    getCoupons();
-                }
-            })
-            couponModalRef.value.dialog.close();
-        }).catch(err => {
-            Swal.fire({
-                title: '錯誤發生',
-                text: `${err.response.data.message}`,
-                icon: 'error',
-                target: 'dialog'
-            })
-        })
+    Swal.fire({
+        title: `你確定要刪除優惠券${coupon.title}`,
+        icon: 'question',
+        showCancelButton: true,
+        cancelButtonText: '取消',
+        confirmButtonText: '確定'
+    }).then(result => {
+        if (result.isConfirmed) {
+            axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon/${id}`)
+                .then(res => {
+                    Swal.fire({
+                        title: `${res.data.message}`,
+                        icon: 'success',
+                        didClose: () => {
+                            getCoupons();
+                        }
+                    })
+                    couponModalRef.value.dialog.close();
+                }).catch(err => {
+                    Swal.fire({
+                        title: '錯誤發生',
+                        text: `${err.response.data.message}`,
+                        icon: 'error',
+                        target: 'dialog'
+                    })
+                })
+        }
+    })
+
 }
 function dateColor(date) {
-    if (date - Date.now() < 0) {
+    const now = Date.now() / 1000;
+    if (date - now < 0) {
         return 'text-red'
-    } else if (date - Date.now() < 3 * 24 * 60 * 60 * 1000) {
+    } else if (date - now < 3 * 24 * 60 * 60) {
         return 'text-orange'
-    } else if (date - Date.now() < 7 * 24 * 60 * 60 * 1000 && date - Date.now() > 3 * 24 * 60 * 60 * 1000) {
+    } else if (date - now < 7 * 24 * 60 * 60 && date - now > 3 * 24 * 60 * 60) {
         return 'text-yellow'
     } else {
         return 'text-green-700'
@@ -142,8 +153,8 @@ onMounted(() => {
                     class="bg-#0d6efd border-0 text-white cursor-pointer inline-block px-3 py-1.5 rd font-size-4 hover:bg-#0b5ed7"
                     @click="addCoupon">建立優惠券</button>
             </div>
-            <!-- 產品列表 -->
-            <table class="w-100% mt-6">
+            <!-- 優惠券列表 -->
+            <table class="w-100% my-6">
                 <thead class="border-b-1 border-black border-solid fw-bold text-left">
                     <tr>
                         <th width="120">
@@ -168,7 +179,7 @@ onMounted(() => {
                     <tr class="border-b border-#DEE2E6 border-solid" v-for="coupon in coupons" :key="coupon.id">
                         <td>{{ coupon.title }}</td>
                         <td>{{ coupon.code }}</td>
-                        <td><span :class="dateColor(coupon.due_date)"> {{ getMoment(coupon.due_date) }}</span>
+                        <td><span :class="dateColor(coupon.due_date)"> {{ getMoment(coupon.due_date * 1000) }}</span>
                         </td>
                         <td>{{ coupon.percent }}</td>
                         <td class="text-center">
@@ -192,8 +203,6 @@ onMounted(() => {
                     </tr>
                 </tbody>
             </table>
-        </div>
-        <div>
             <ul class="grid gap-2">
                 <li>已過期 : <span class="text-red">紅色</span></li>
                 <li>三天之內 : <span class="text-orange">橘色</span></li>
@@ -201,6 +210,7 @@ onMounted(() => {
                 <li>七天以上 : <span class="text-green-700">綠色</span></li>
             </ul>
         </div>
+
         <template v-if="coupons.length">
             <PaginationComp :pages="pagination" @change-page="getCoupons" class="mt-auto">
             </PaginationComp>

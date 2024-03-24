@@ -137,6 +137,9 @@ onMounted(() => {
                 <thead class="border-b-1 border-black border-solid fw-bold text-left">
                     <tr>
                         <th width="120">
+                            縮圖
+                        </th>
+                        <th width="120">
                             分類
                         </th>
                         <th>產品名稱</th>
@@ -156,6 +159,9 @@ onMounted(() => {
                 </thead>
                 <tbody>
                     <tr class="border-b border-#DEE2E6 border-solid" v-for="product in products" :key="product.id">
+                        <td>
+                            <img :src="product.imageUrl" alt="" width="120" height="100">
+                        </td>
                         <td>{{ product.category }}</td>
                         <td>{{ product.title }}</td>
                         <td class="text-end">{{ product.origin_price }}</td>
@@ -195,5 +201,6 @@ onMounted(() => {
 td,
 th {
     padding: 8px;
+    vertical-align: middle;
 }
 </style>
