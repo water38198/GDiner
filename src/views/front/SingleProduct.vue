@@ -82,9 +82,9 @@ watch(() => route.params, () => {
                 <!-- 商品圖片 -->
                 <div>
                     <div class="mb-8">
-                        <div class="product-image customBorder-xl bg-primary bg-cover bg-center rd-3 overflow-hidden w-100% h-300px lg:h-500px cursor-pointer"
-                            :style="{ 'background-image': `url(${product.imageUrl})` }" @click="showBigImg()">
-                        </div>
+                        <img class="product-image customBorder-xl bg-primary bg-cover bg-center rd-3 overflow-hidden w-100% h-300px lg:h-500px cursor-pointer"
+                            :src="product.imageUrl" @click="showBigImg()">
+
                     </div>
                     <template v-if="product.imagesUrl">
                         <div class="grid grid-cols-4 gap-4 mb-4">
@@ -149,7 +149,10 @@ watch(() => route.params, () => {
                     </div>
                 </div>
             </div>
-            <RandomProduct :exclude="[product.id]"></RandomProduct>
+            <template v-if="product.id">
+
+                <RandomProduct :exclude="[product.id]"></RandomProduct>
+            </template>
         </div>
         <dialog ref="imgDialogRef" @click="autoClose" class="bg-secondary">
             <img :src="currentImg" alt="" class="block max-h-80vh">
