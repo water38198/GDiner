@@ -1,11 +1,9 @@
 <script setup>
 import axios from 'axios'
 import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router'
 import Swal from 'sweetalert2'
 import Loading from 'vue-loading-overlay'
 
-const route = useRoute();
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const randomProductList = ref([]);
 const products = ref([]);
@@ -16,9 +14,9 @@ const props = defineProps({
         default: () => []
     }
 })
+
 function getProducts() {
     LoadingItems.value.push('products');
-
     axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products/all`)
         .then(res => {
             products.value = res.data.products;
@@ -36,7 +34,7 @@ function getProducts() {
             LoadingItems.value.splice(LoadingItems.value.indexOf('products'), 1)
         })
 }
-
+// 取得隨機的一個數字
 function generateNumber(max) {
     const random = Math.random() * (max + 1);
     return Math.floor(random);
@@ -45,13 +43,12 @@ function generateRandomProduct() {
     randomProductList.value = [];//清空
     if (products.value.length === 0) return;
     const list = [...products.value];
-    props.exclude.forEach(id => {
+    props.exclude.forEach(id => {   //移除已經有的產品(單一產品頁 或是 購物車內)
         list.filter(product => product.id !== id)
     });
-    // const list = products.value.filter(item => item.id !== product.value.id)  //去除本頁料理的料理列表
     const length = list.length;
     const numbList = [];
-    while (numbList.length < 3) {
+    while (numbList.length < 3) { //產出 3 個不同的 index
         const num = generateNumber(length);
         if (!numbList.includes(num)) {
             numbList.push(num)
@@ -64,8 +61,7 @@ onMounted(() => {
     getProducts();
 })
 
-watch(() => route.params, () => {
-
+watch(() => props.exclude, () => {
     getProducts();
 })
 </script>
@@ -74,17 +70,17 @@ watch(() => route.params, () => {
     <template v-if="products.length > 0">
         <div class="relative">
             <Loading :active="LoadingItems.includes('products')" :is-full-page="false"></Loading>
-            <h3 class="font-serif lh-tight font-size-7 mb-10">誠心推薦</h3>
+            <h3 class="font-size-7 mb-10">誠心推薦</h3>
             <div v-if="randomProductList.length > 0">
                 <ul class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <li v-for="product in randomProductList" :key="product.id">
+                    <li v-for="product in randomProductList" :key="product.id" data-aos="fade-left">
                         <div class="card">
                             <RouterLink :to='`/product/${product.id}`' class="block">
                                 <div class="customBorder-xl rd-3 overflow-hidden mb-4">
                                     <img :src="product.imageUrl" alt=""
-                                        class="block h-150px w-100% sm:h-350px md:h-350px">
+                                        class="block w-100% h-150px  sm:h-350px md:h-350px">
                                 </div>
-                                <h3 class="mb-4  tracking-wider">{{ product.title }}</h3>
+                                <h3 class="mb-4 tracking-wider">{{ product.title }}</h3>
                                 <div class="pb-4">
                                     <span>NT$ {{ product.price }}</span>
                                 </div>
@@ -96,23 +92,3 @@ watch(() => route.params, () => {
         </div>
     </template>
 </template>
-
-<style lang="scss" scoped>
-.card {
-    img {
-        transition: all .5s ease-in-out;
-    }
-
-    &:hover {
-        img {
-            transform: scale(1.05);
-            transition: all .5s ease-in-out;
-        }
-
-        h3 {
-            text-decoration: underline;
-            text-underline-offset: 4px;
-        }
-    }
-}
-</style>
