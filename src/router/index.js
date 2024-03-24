@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-
+import SingleProduct from '../views/front/SingleProduct.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -30,7 +30,7 @@ const router = createRouter({
         },
         {
           path: 'product/:id',
-          component:()=>import('../views/front/SingleProduct.vue')
+          component:SingleProduct
         },
         {
           path: 'cart',

@@ -7,7 +7,6 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 import RandomProduct from '@/components/front/RandomProduct.vue';
 
-
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 const store = useCartStore();
@@ -20,7 +19,6 @@ const excludeList = computed(() => {
     return list
 })
 const { getCart, updateCart, deleteCart, deleteCartAll } = store;
-const cartRef = ref();
 const loadingItems = ref([]);
 const userForm = ref({
     user: {
@@ -32,6 +30,7 @@ const userForm = ref({
     message: ""
 });
 const coupon = ref('');
+
 function submitOrder() {
     if (cart.value.carts.length === 0) {
         Swal.fire({
@@ -90,7 +89,6 @@ function useCoupon() {
                 })
             })
     }
-
 }
 // VeeValidation 手機驗證
 function isPhone(value) {
@@ -101,13 +99,13 @@ function isPhone(value) {
 
 <template>
 
-    <Loading :active="isLoading" :is-full-page="true"></Loading>
-    <div class="container px-2 md:px-12 py-20">
-        <div class="relative mb-10" ref="cartRef">
+    <Loading :active="isLoading"></Loading>
+    <div class="container px-2 md:px-12 py-10">
+        <div class="mb-10">
             <!-- 購物車有東西 -->
-            <div v-if="cart.carts?.length">
-                <div class="flex justify-between items-center pt-12.5 pb-7.5">
-                    <h2 class="font-size-12 lh-tight font-serif">購物車</h2>
+            <div v-if="cart.carts?.length > 0" data-aos='fade-up'>
+                <div class="flex justify-between items-center pb-7.5">
+                    <h2 class="font-size-12">購物車</h2>
                     <RouterLink to="/products" class="tracking-widest underline underline-offset-4 hover:decoration-2">
                         繼續購物
                     </RouterLink>
@@ -118,16 +116,16 @@ function isPhone(value) {
                             class="block md:table-header-group w-100% mb-4 border-(b-1 solid primary-veryLight) text-primary-200">
                             <tr class="flex md:table-row justify-between">
                                 <th class="text-left">料理</th>
-                                <th class="md:50% lg:w-60%"></th>
+                                <th class="md:w-50% lg:w-60%"></th>
                                 <th class="hidden md:block text-start">數量</th>
                                 <th class="text-right">小計</th>
                             </tr>
                         </thead>
                         <tbody class="block md:table-row-group">
                             <tr v-for="product in cart.carts" :key="product.id + '123'"
-                                class="grid gap-2 grid-rows-[repeat(2,auto)] grid-cols-[repeat(12,1fr)] md:table-row mb-6 w-100% ">
+                                class="grid gap-2 grid-rows-[repeat(2,auto)] grid-cols-[repeat(12,1fr)] md:table-row w-100% mb-6">
                                 <td class="md:pt-10 row-start-1 row-end-3 col-span-3">
-                                    <div class="me-2 w-100% h-30 lg:(me-10 w-25)">
+                                    <div class="w-100% h-30 me-2 md:w-25 lg:me-10">
                                         <img :src="product.product.imageUrl" alt=""
                                             class="block max-w-25 w-100% h-100% border-(2 solid primary) rd-2.5">
                                     </div>
@@ -176,9 +174,9 @@ function isPhone(value) {
                                 </td>
                             </tr>
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="4" class="pt-10 text-end">
+                        <tfoot class="block md:table-row-group">
+                            <tr class="block md:table-row">
+                                <td colspan="4" class="block md:table-cell w-100% pt-10 text-end">
                                     <button type="button"
                                         class="bg-transparent border-0 underline underline-offset-4 cursor-pointer hover:text-primary-light"
                                         @click="deleteCartAll">清空購物車</button>
@@ -188,46 +186,40 @@ function isPhone(value) {
                     </table>
                 </div>
                 <div>
-
                     <Loading :active="loadingItems.includes('userForm')"></Loading>
                     <VForm class="grid grid-cols-2 gap-4" v-slot="{ errors }" @submit="submitOrder" autocomplete="off">
                         <div class="col-span-2 md:col-span-1 grid grid-cols-2 gap-4">
-                            <h2 class="col-span-2 mb-10 font-size-10 lh-tight font-serif">顧客資訊</h2>
+                            <h2 class="col-span-2 mb-10 font-size-10">顧客資訊</h2>
                             <div class="custom-input-group mb-4 col-span-2">
-                                <VField type="email" name="email" id="email"
-                                    class="block w-100% p-(x-3 y-1.5) border-(1 solid #dee2e6) font-size-4 rd"
-                                    :class="{ 'invalid': errors['email'] }" placeholder="請輸入 Email"
-                                    rules="required|email" v-model="userForm.user.email" />
+                                <VField type="email" name="email" id="email" :class="{ 'invalid': errors['email'] }"
+                                    placeholder="請輸入 Email" rules="required|email" v-model="userForm.user.email" />
                                 <label for="email">Email</label>
-                                <ErrorMessage name="email" class="block ps-3 pt-2 text-red-500 font-size-3" />
+                                <ErrorMessage name="email"
+                                    class="absolute block left-3 bottom--5 text-red-500 font-size-3" />
                             </div>
                             <div class="custom-input-group mb-4">
-                                <VField type="text" name="姓名" id="name"
-                                    class="block w-100% p-(x-3 y-1.5) border-(1 solid #dee2e6) rd"
-                                    :class="{ 'invalid': errors['姓名'] }" rules="required" placeholder="請輸入 姓名"
-                                    v-model="userForm.user.name" />
+                                <VField type="text" name="姓名" id="name" :class="{ 'invalid': errors['姓名'] }"
+                                    rules="required" placeholder="請輸入 姓名" v-model="userForm.user.name" />
                                 <label for="姓名">姓名</label>
-                                <ErrorMessage name="姓名" class="block ps-3 pt-2 text-red-500 font-size-3" />
+                                <ErrorMessage name="姓名"
+                                    class="absolute block left-3 bottom--5 text-red-500 font-size-3" />
                             </div>
                             <div class="custom-input-group mb-4">
-                                <VField type="tel" name="電話" id="tel"
-                                    class="block w-100% p-(x-3 y-1.5) border-(1 solid #dee2e6) rd"
-                                    :class="{ 'invalid': errors['電話'] }" :rules="isPhone" placeholder="請輸入 電話"
-                                    v-model="userForm.user.tel" />
+                                <VField type="tel" name="電話" id="tel" :class="{ 'invalid': errors['電話'] }"
+                                    :rules="isPhone" placeholder="請輸入 電話" v-model="userForm.user.tel" />
                                 <label for="電話">電話</label>
-                                <ErrorMessage name="電話" class="block ps-3 pt-2 text-red-500 font-size-3" />
+                                <ErrorMessage name="電話"
+                                    class="absolute block left-3 bottom--5 text-red-500 font-size-3" />
                             </div>
                             <div class="custom-input-group mb-4 col-span-2">
-                                <VField type="address" name="地址" id="address"
-                                    class="block w-100% p-(x-3 y-1.5) border-(1 solid #dee2e6) rd"
-                                    :class="{ 'invalid': errors['地址'] }" rules="required" placeholder="請輸入 地址"
-                                    v-model="userForm.user.address" />
+                                <VField type="address" name="地址" id="address" :class="{ 'invalid': errors['地址'] }"
+                                    rules="required" placeholder="請輸入 地址" v-model="userForm.user.address" />
                                 <label for="地址">地址</label>
-                                <ErrorMessage name="地址" class="block ps-3 pt-2 text-red-500 font-size-3" />
+                                <ErrorMessage name="地址"
+                                    class="absolute block left-3 bottom--5 text-red-500 font-size-3" />
                             </div>
                             <div class="custom-input-group mb-4 col-span-2">
                                 <VField as="textarea" name="userForm.message" id="message" cols="30" rows="10"
-                                    class="block w-100% p-(x-3 y-1.5) border-(1 solid #dee2e6) rd"
                                     v-model="userForm.message" placeholder="請輸入留言" />
                                 <label for="message">留言(非必須)</label>
                             </div>
@@ -290,57 +282,6 @@ function isPhone(value) {
 </template>
 
 <style scoped lang="scss">
-.custom-input-group {
-    position: relative;
-    margin-bottom: 16px;
-
-    .invalid {
-        @apply border-red shadow-red hover:outline-red
-    }
-
-    label {
-        position: absolute;
-        transition: transform .1s ease-in-out;
-        opacity: 0.6;
-        top: 0;
-        left: 0;
-        padding: 12px;
-        cursor: text;
-    }
-
-    input,
-    textarea {
-        @apply customBorder border-width-2 bg-transparent rd-3 outline-0 p-(x-3 y-3) hover:(outline-(1px solid primary));
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-        color: transparent;
-    }
-
-    input:focus~label,
-    input:not(:placeholder-shown)~label {
-        transform: scale(0.8) translateY(-12px) translateX(-4px);
-    }
-
-    textarea:focus~label,
-    textarea:not(:placeholder-shown)~label {
-        transform: scale(0.8) translateY(-12px) translateX(-10px);
-    }
-
-    input:focus,
-    input:not(:placeholder-shown) {
-        padding-top: 16px;
-        padding-bottom: 8px;
-    }
-
-    textarea:focus,
-    textarea:not(:placeholder-shown) {
-        padding-top: 16px;
-        padding-bottom: 8px;
-    }
-}
-
 th {
     @apply pb-4 text-primary opacity-60
 }

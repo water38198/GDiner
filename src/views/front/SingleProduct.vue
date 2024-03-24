@@ -19,12 +19,14 @@ const product = ref({});
 const quantity = ref(1);
 const LoadingItems = ref([]);
 const imgDialogRef = ref();
+const currentImg = ref('');
 
 function getProduct() {
     LoadingItems.value.push('product');
     axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${id.value}`)
         .then(res => {
-            product.value = res.data.product
+            product.value = res.data.product;
+            console.log(product.value)
         })
         .catch(err => {
             Swal.fire({
@@ -35,10 +37,9 @@ function getProduct() {
             })
         })
         .finally(() => {
-            LoadingItems.value.splice(LoadingItems.value.indexOf('product'), 1)
+            LoadingItems.value.splice(LoadingItems.value.indexOf('product'), 1);
         })
 }
-
 function changeQuantity(event) {
     if (event.target.value < 1 || typeof (+event.target.value) !== 'number') {
         Swal.fire({
@@ -51,9 +52,9 @@ function changeQuantity(event) {
         quantity.value = event.target.value;
     }
 }
-
-function showBigImg() {
-    imgDialogRef.value.showModal()
+function showBigImg(img = product.value.imageUrl) {
+    currentImg.value = img;
+    imgDialogRef.value.showModal();
 }
 function autoClose(e) {
     // 點擊 dialog 外圍區域自動關閉
@@ -61,7 +62,6 @@ function autoClose(e) {
         imgDialogRef.value.close();
     }
 }
-
 function veggieColor(veggie) {
     return veggie === '全素' ? "text-green-700" : veggie === '蛋奶素' ? "text-yellow-500" : "text-red-700"
 }
@@ -76,10 +76,7 @@ watch(() => route.params, () => {
     quantity.value = 1;
     getProduct();
 })
-
 </script>
-
-
 <template>
     <main class="py-10">
         <div class="container px-4 md:px-12.5 ">
@@ -89,22 +86,30 @@ watch(() => route.params, () => {
                 <div>
                     <div class="mb-8">
                         <div class="product-image customBorder-xl bg-primary bg-cover bg-center rd-3 overflow-hidden w-100% h-300px lg:h-500px cursor-pointer"
-                            :style="{ 'background-image': `url(${product.imageUrl})` }" @click="showBigImg">
+                            :style="{ 'background-image': `url(${product.imageUrl})` }" @click="showBigImg()">
                         </div>
                     </div>
+                    <template v-if="product.imagesUrl">
+                        <div class="grid grid-cols-4 gap-4 mb-4">
+                            <div v-for="img in product.imagesUrl" :key="img">
+                                <img :src="img" alt="" class="block w-100% h-25 rd-3 cursor-pointer"
+                                    @click="showBigImg(img)">
+                            </div>
+                        </div>
+                    </template>
                     <div class="flex flex-wrap gap-2">
                         <span v-for="tag in product.tags" :key="tag"
-                            class="border-(2 solid primary-200) px-4 py-2 rd-10 text-primary-2">{{ tag }}</span>
+                            class="border-(2 solid primary-200) px-4 py-2 rd-10 text-primary-2">{{
+                    tag }}</span>
                     </div>
                 </div>
                 <!-- 文字內容 -->
                 <div>
-                    <h2 class="font-size-10 font-serif mb-6">{{ product.title }}</h2>
+                    <h2 class="mb-6 font-size-10 font-serif">{{ product.title }}</h2>
                     <div class="flex gap-2">
-                        <p class="font-size-4 text-info mb-3">{{ product.category }}</p>
+                        <p class="mb-3 font-size-4 text-info">{{ product.category }}</p>
                         <p class="font-size-4" :class="veggieColor(product.veggie)">{{ product.veggie }}</p>
                     </div>
-
                     <div class="mb-6" v-if="product.origin_price !== product.price">
                         <del class="me-4">NT${{ product.origin_price }}</del>
                         <span class="text-red font-size-6">NT${{ product.price }}</span>
@@ -115,14 +120,14 @@ watch(() => route.params, () => {
                     <div class="mb-6">
                         <label class="block mb-3 font-size-3 text-primary-light" for="quantity">數量</label>
                         <div class="relative grid grid-cols-3 w-40 customBorder rd-3 h-12.5">
-                            <button class="block bg-transparent border-0 px-4 cursor-pointer font-size-5 fw-900"
+                            <button class="block px-4 bg-transparent border-0 cursor-pointer font-size-5 fw-900"
                                 @click="quantity - 1 > 0 ? quantity-- : ''">
                                 <div class="i-ic:round-minus"></div>
                             </button>
                             <input type="number" name="" id="quantity" :value="quantity"
-                                class=" block bg-transparent border-0 appearance-none outline-0 w-100% text-center"
+                                class=" block w-100% bg-transparent border-0 appearance-none outline-0  text-center"
                                 min="1" @change="changeQuantity($event)">
-                            <button class="block bg-transparent border-0 px-4 cursor-pointer font-size-5 fw-900"
+                            <button class="block px-4 bg-transparent border-0 cursor-pointer font-size-5 fw-900"
                                 @click="quantity++">
                                 <div class="i-ic:round-plus"></div>
                             </button>
@@ -130,16 +135,16 @@ watch(() => route.params, () => {
                     </div>
                     <div class="md:max-w-100 w-100% mb-6">
                         <button
-                            class="block customBorder rd-10 w-100% bg-transparent mb-4 py-3 cursor-pointer hover:outline-(1px solid primary)"
+                            class="block w-100% mb-4 py-3 customBorder rd-10 bg-transparent cursor-pointer hover:outline-(1px solid primary)"
                             @click="addCart(product.id, quantity)"
                             :class="{ 'pointer-events-none opacity-75': isLoading }">加入購物車</button>
                         <RouterLink to="/cart" @click="addCart(product.id, quantity, true)"
-                            class="block w-100% rd-10 bg-info text-secondary text-center py-3 shadow-[0_2px_0_0_#3D081B] hover:shadow-[0_2px_2px_0_#3D081B]">
+                            class="block w-100% py-3 rd-10 bg-info text-secondary text-center shadow-[0_2px_0_0_#3D081B] hover:shadow-[0_2px_2px_0_#3D081B]">
                             立即購買</RouterLink>
                     </div>
                     <div class="mb-6">
                         <h3 class="mb-3 font-size-5">商品介紹：</h3>
-                        <p class="lh-normal">{{ product.description }}</p>
+                        <p>{{ product.description }}</p>
                     </div>
                     <div>
                         <h3 class="mb-3 font-size-5">商品內容：</h3>
@@ -150,7 +155,7 @@ watch(() => route.params, () => {
             <RandomProduct :exclude="[product.id]"></RandomProduct>
         </div>
         <dialog ref="imgDialogRef" @click="autoClose" class="bg-secondary">
-            <img :src="product.imageUrl" alt="" class="block max-h-80vh">
+            <img :src="currentImg" alt="" class="block max-h-80vh">
         </dialog>
     </main>
 </template>
@@ -165,5 +170,10 @@ watch(() => route.params, () => {
 [type=number] {
     -moz-appearance: textfield;
     appearance: none;
+}
+
+::backdrop {
+    opacity: 1;
+    backdrop-filter: blur(2px);
 }
 </style>
