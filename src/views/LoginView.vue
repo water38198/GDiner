@@ -53,51 +53,22 @@ function login() {
 <template>
     <Loading :active="isLoading" :full-page="true"></Loading>
     <main>
-        <div class="flex justify-center items-center h-screen font-sans">
-            <form action="" ref="loginForm">
+        <div class="container">
+            <form action="" ref="loginForm" class="max-w-100 mx-auto pt-20">
                 <h1 class="text-center font-size-12 mb-8 font-medium">登入</h1>
-                <div class="custom-input-group mb-4 position-relative">
-                    <input type="email" id="email" placeholder="Email address"
-                        class=" font-size-4 px-3 py-4 b-1 border-solid border-#ced4da rd outline-none pointer-events-none"
-                        v-model="user.username">
-                    <label for="email"
-                        class="position-absolute block w-100% top-0 left-0 z-2 p-4 hover:cursor-text">Email
+                <div class="custom-input-group mb-4">
+                    <input type="email" id="email" placeholder="Email address" v-model="user.username">
+                    <label for="email">Email
                         address</label>
                 </div>
                 <div class="custom-input-group mb-4 position-relative">
-                    <input type="password" id="password" placeholder="Password"
-                        class="font-size-4 px-3 py-4 b-1 border-solid border-#ced4da rd outline-none pointer-events-none"
-                        v-model="user.password" @keyup.enter="login">
-                    <label for="password"
-                        class="position-absolute block w-100% top-0 left-0 z-2 p-4 hover:cursor-text">Password</label>
+                    <input type="password" id="password" placeholder="Password" v-model="user.password"
+                        @keyup.enter="login">
+                    <label for="password">Password</label>
                 </div>
                 <button type="button" @click="login"
-                    class="block w-100% text-white bg-primary  hover:bg-primary-light border-0 rd px-4 py-2 font-size-5 hover:cursor-pointer">登入</button>
+                    class="block w-100% text-white bg-primary  hover:bg-primary-light border-0 rd-3 px-4 py-2 font-size-5 cursor-pointer">登入</button>
             </form>
         </div>
     </main>
 </template>
-
-<style lang="scss" scoped>
-.custom-input-group {
-    input::placeholder {
-        color: transparent;
-    }
-
-    label {
-        transition: transform .1s ease-in-out;
-        user-select: none;
-    }
-
-    input:focus~label,
-    input:not(:placeholder-shown)~label {
-        color: rgba(0, 0, 0, 0.5);
-        transform: scale(0.85) translateY(-1rem) translateX(-1.5rem);
-    }
-
-    input:focus {
-        padding-top: 20px;
-        padding-bottom: 12px;
-    }
-}
-</style>
