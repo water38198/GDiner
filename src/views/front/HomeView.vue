@@ -62,7 +62,7 @@ onMounted(() => {
       </div>
     </div>
   </header>
-  <main class="py-6 md:py-16 px-4 md:(container px-12.5)">
+  <main class="py-6 md:py-10 px-4 md:(container px-12.5)">
     <!-- 火熱商品 -->
     <section class="relative mb-16" ref="hotProductsRef">
       <h2 class="font-size-7 tracking-widest mb-7.5 flex">火熱商品 <div class="i-twemoji:fire inline-block">

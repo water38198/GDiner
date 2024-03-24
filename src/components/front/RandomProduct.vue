@@ -64,7 +64,7 @@ onMounted(() => {
             <div v-if="randomProductList.length > 0">
                 <ul class="grid grid-cols-2 md:grid-cols-3 gap-4">
                     <li v-for="(randomProduct, index) in randomProductList" :key="randomProduct.id + index"
-                        data-aos="fade-left">
+                        data-aos="zoom-in" :data-delay="100 * index">
                         <div class="card">
                             <RouterLink :to='`/product/${randomProduct.id}`' class="block">
                                 <div class="customBorder-xl rd-3 overflow-hidden mb-4">

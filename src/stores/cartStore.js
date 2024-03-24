@@ -52,6 +52,7 @@ export const useCartStore = defineStore('cart', () => {
         }
         const product_id = product.id;
         const qty = product.qty;
+        isLoading.value = true;
         axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${product_id}`, {
             data: {
                 product_id,
