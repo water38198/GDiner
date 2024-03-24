@@ -14,7 +14,6 @@ const store = useCartStore();
 const { isLoading } = storeToRefs(store);
 const { addCart } = store;
 const route = useRoute();
-const id = ref(route.params.id);
 const product = ref({});
 const quantity = ref(1);
 const LoadingItems = ref([]);
@@ -23,10 +22,9 @@ const currentImg = ref('');
 
 function getProduct() {
     LoadingItems.value.push('product');
-    axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${id.value}`)
+    axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${route.params.id}`)
         .then(res => {
             product.value = res.data.product;
-            console.log(product.value)
         })
         .catch(err => {
             Swal.fire({
@@ -72,7 +70,6 @@ onMounted(() => {
 
 // url的產品id變動時重新抓API
 watch(() => route.params, () => {
-    id.value = route.params.id;
     quantity.value = 1;
     getProduct();
 })
