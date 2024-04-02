@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
-
 export const useCartStore = defineStore('cart', () => {
   const cart = ref({});
   const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -14,6 +13,7 @@ export const useCartStore = defineStore('cart', () => {
     axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/cart`)
       .then((res => {
         cart.value = res.data.data;
+        console.log(cart.value)
       }))
       .catch(err => {
         Swal.fire({
@@ -38,6 +38,7 @@ export const useCartStore = defineStore('cart', () => {
   }
   const updateCart = debounce((product, event) => {
     // 直接修改 input 數量時 輸入小於 1 的數量 或是 輸入非數字都會跳錯並修正為原本的數字
+    console.log(product)
     if (event) {
       if (event.target.value <= 0 || typeof (+event.target.value) !== 'number') {
         Swal.fire({
@@ -50,10 +51,11 @@ export const useCartStore = defineStore('cart', () => {
         product.qty = +event.target.value
       }
     }
-    const product_id = product.id;
+    const orderId = product.id;
+    const {product_id} = product;
     const qty = product.qty;
     isLoading.value = true;
-    axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${product_id}`, {
+    axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${orderId}`, {
       data: {
         product_id,
         qty
