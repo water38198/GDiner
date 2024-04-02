@@ -1,6 +1,6 @@
 import '@unocss/reset/eric-meyer.css'
 import 'virtual:uno.css'
-import './assets/main.scss'
+import './assets/scss/main.scss'
 
 import 'sweetalert2/src/sweetalert2.scss'
 import 'vue-loading-overlay/dist/css/index.css';
