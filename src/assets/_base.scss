@@ -4,30 +4,30 @@
 
 *,
 body {
-    box-sizing: border-box;
-    font-family: "Noto Sans TC", sans-serif;
-    color: #3D081B;
+  box-sizing: border-box;
+  font-family: "Noto Sans TC", sans-serif;
+  color: #3D081B;
 }
 
 img {
-    max-width: 100%;
-    object-fit: cover;
+  max-width: 100%;
+  object-fit: cover;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 button {
-    border: 0;
-    outline: 0;
-    background-color: transparent;
-    cursor: pointer;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 input,
 textarea {
-    font-size: initial;
+  font-size: initial;
 }
 
 h1,
@@ -36,10 +36,10 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Noto Serif TC', serif;
-    line-height: 1.2;
+  font-family: 'Noto Serif TC', serif;
+  line-height: 1.2;
 }
 
 p {
-    line-height: 1.5;
+  line-height: 1.5;
 }

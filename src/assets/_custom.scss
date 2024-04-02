@@ -1,131 +1,131 @@
 .font-serif {
-    font-family: 'Noto Serif TC', serif;
+  font-family: 'Noto Serif TC', serif;
 }
 
 .font-kai {
-    font-family: "標楷體", DFKai-sb, BiauKai, 'AR PL UKai TW';
+  font-family: "標楷體", DFKai-sb, BiauKai, 'AR PL UKai TW';
 }
 
 .card {
-    .card-image {
-        @apply rd-3 customBorder-xl bg-primary overflow-hidden mb-4;
-    }
+  .card-image {
+    @apply rd-3 customBorder-xl bg-primary overflow-hidden mb-4;
+  }
 
-    img {
-        transition: all .5s ease-in-out;
-        display: block;
-    }
+  img {
+    transition: all .5s ease-in-out;
+    display: block;
+  }
 }
 
 .card:hover {
-    img {
-        transform: scale(1.05);
-        transition: all .5s ease-in-out;
-    }
+  img {
+    transform: scale(1.05);
+    transition: all .5s ease-in-out;
+  }
 
-    h3 {
-        text-decoration: underline;
-        text-underline-offset: 4px;
-    }
+  h3 {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
 }
 
 .custom-input-group {
-    position: relative;
+  position: relative;
 
-    .invalid {
-        @apply border-red-400 shadow-red hover: outline-red;
+  .invalid {
+    @apply border-red-400 shadow-red hover: outline-red;
+  }
+
+  .invalid~label {
+    color: red
+  }
+
+  input,
+  textarea {
+    border-width: 2px;
+    @apply w-100% customBorder rd-3 p-3 bg-transparent outline-0;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: transparent;
+  }
+
+  label {
+    position: absolute;
+    transition: transform .1s ease-in-out;
+    user-select: none;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: rgba(61, 8, 27, 0.8);
+
+    &:hover {
+      cursor: text;
     }
+  }
 
-    .invalid~label {
-        color: red
-    }
+  textarea~label {
+    top: 0;
+    transform: translateY(12px);
+  }
 
-    input,
-    textarea {
-        border-width: 2px;
-        @apply w-100% customBorder rd-3 p-3 bg-transparent outline-0;
-    }
+  input:focus~label,
+  input:not(:placeholder-shown)~label {
+    transform: translateX(-10%) translateY(calc(-1rem - 50%)) scale(0.8);
+  }
 
-    input::placeholder,
-    textarea::placeholder {
-        color: transparent;
-    }
+  textarea:focus~label,
+  textarea:not(:placeholder-shown)~label {
+    transform: translateX(-10%) scale(0.8);
+  }
 
-    label {
-        position: absolute;
-        transition: transform .1s ease-in-out;
-        user-select: none;
-        top: 50%;
-        left: 12px;
-        transform: translateY(-50%);
-        color: rgba(61, 8, 27, 0.8);
+  input:focus,
+  input:not(:placeholder-shown),
+  textarea:not(:placeholder-shown) textarea:focus {
+    padding-top: 16px;
+    padding-bottom: 8px;
+  }
 
-        &:hover {
-            cursor: text;
-        }
-    }
-
-    textarea~label {
-        top: 0;
-        transform: translateY(12px);
-    }
-
-    input:focus~label,
-    input:not(:placeholder-shown)~label {
-        transform: translateX(-10%) translateY(calc(-1rem - 50%)) scale(0.8);
-    }
-
-    textarea:focus~label,
-    textarea:not(:placeholder-shown)~label {
-        transform: translateX(-10%) scale(0.8);
-    }
-
-    input:focus,
-    input:not(:placeholder-shown),
-    textarea:not(:placeholder-shown) textarea:focus {
-        padding-top: 16px;
-        padding-bottom: 8px;
-    }
-
-    input:hover,
-    textarea:hover {
-        outline: 1.5px solid #3D081B;
-    }
+  input:hover,
+  textarea:hover {
+    outline: 1.5px solid #3D081B;
+  }
 }
 
 .input-group {
-    label {
-        @apply mb-2 block;
-    }
+  label {
+    @apply mb-2 block;
+  }
 
-    .invalid {
-        @apply border-red outline-(red 2px solid)
-    }
+  .invalid {
+    @apply border-red outline-(red 2px solid)
+  }
 
-    input,
-    textarea,
-    select {
-        --at-apply: w-100% rd border-1 border-solid px-3 py-1.5 font-size-4 focus:(outline-0 border-#86b7fe border-solid shadow-[0px_0px_0px_0.25rem_#C2DBFE])
-    }
+  input,
+  textarea,
+  select {
+    --at-apply: w-100% rd border-1 border-solid px-3 py-1.5 font-size-4 focus:(outline-0 border-#86b7fe border-solid shadow-[0px_0px_0px_0.25rem_#C2DBFE])
+  }
 }
 
 .custom-checkbox {
-    @apply appearance-none relative inline-block h-7 w-12 align-middle rd-8 shadow-[inset_0px_1px_3px_#0003];
-    transition: .25s linear background;
-    background-color: lightgrey;
+  @apply appearance-none relative inline-block h-7 w-12 align-middle rd-8 shadow-[inset_0px_1px_3px_#0003];
+  transition: .25s linear background;
+  background-color: lightgrey;
 
-    &::before {
-        content: "";
-        transition: .25s linear transform;
-        transform: translateX(0);
-        @apply block w-5 h-5 bg-#fff rd-1.2rem absolute top-1 left-1 shadow-[0px_1px_3_px_#0003];
-    }
+  &::before {
+    content: "";
+    transition: .25s linear transform;
+    transform: translateX(0);
+    @apply block w-5 h-5 bg-#fff rd-1.2rem absolute top-1 left-1 shadow-[0px_1px_3_px_#0003];
+  }
 
-    &:checked {
-        @apply bg-green;
-    }
+  &:checked {
+    @apply bg-green;
+  }
 
-    &:checked::before {
-        transform: translateX(1.25rem);
-    }
+  &:checked::before {
+    transform: translateX(1.25rem);
+  }
 }

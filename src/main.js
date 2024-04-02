@@ -14,12 +14,12 @@ import { localize, setLocale } from '@vee-validate/i18n'
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json'
 // 將規則一一加入VeeValidate
 Object.keys(AllRules).forEach(rule => {
-    defineRule(rule, AllRules[rule]);
+  defineRule(rule, AllRules[rule]);
 });
 // 將當前 VeeValidate 的語系設定為繁體中文
 configure({
-    generateMessage: localize({ zh_TW: zhTW }),
-    validateOnInput: true,
+  generateMessage: localize({ zh_TW: zhTW }),
+  validateOnInput: true,
 });
 setLocale('zh_TW');
 //VeeValidate 結束
