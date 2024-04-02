@@ -9,8 +9,7 @@ body {
   color: #3D081B;
 }
 
-img {
-  max-width: 100%;
+img {max-width: 100%;
   object-fit: cover;
 }
 
@@ -36,7 +35,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Noto Serif TC', serif;
+  font-family: 'Noto Serif TC', serif, sans-serif;
   line-height: 1.2;
 }
 

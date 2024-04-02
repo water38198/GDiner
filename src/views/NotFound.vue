@@ -1,8 +1,6 @@
 <script setup>
-
 import { useRouter } from 'vue-router'
 const router = useRouter();
-
 </script>
 
 <template>
@@ -44,6 +42,5 @@ const router = useRouter();
         </li>
       </ul>
     </div>
-
   </div>
 </template>

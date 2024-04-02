@@ -4,10 +4,8 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import moment from 'moment'
 import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
-
 import OrderModal from '@/components/admin/OrderModal.vue';
-import PaginationComp from '@/components/PaginationComp.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const orders = ref([]);
@@ -92,19 +90,20 @@ function confirmOrder(order) {
     })
   })
 }
-
 function getMoment(data) {
   return moment(data).format('YYYY-MM-DD')
 }
+
 onMounted(() => {
   getOrders();
 })
 </script>
+
 <template>
   <div class="p-10">
     <h2 class="font-size-12">訂單</h2>
     <div class="relative min-h-100">
-      <Loading :active="isLoading" :is-full-page="false"></Loading>
+      <Loading :active="isLoading" :is-full-page="false" />
       <!-- 訂單列表 -->
       <table class="w-100% mt-6">
         <thead class="border-b-1 border-black border-solid fw-bold text-left">
@@ -180,10 +179,10 @@ onMounted(() => {
       </table>
     </div>
     <template v-if="orders.length">
-      <PaginationComp :pages="pagination" @change-page="getOrders"></PaginationComp>
+      <PaginationComponent :pages="pagination" @change-page="getOrders" />
     </template>
   </div>
-  <OrderModal :temp-order="tempOrder" ref="orderModalRef" @confirm-order="confirmOrder"></OrderModal>
+  <OrderModal :temp-order="tempOrder" ref="orderModalRef" @confirm-order="confirmOrder" />
 </template>
 <style lang="postcss">
 td,

@@ -5,9 +5,8 @@ import Swal from 'sweetalert2'
 import axios from 'axios';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
-
 import ProductModal from '@/components/admin/ProductModal.vue';
-import PaginationComp from '@/components/PaginationComp.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const products = ref([]);
@@ -121,18 +120,18 @@ onMounted(() => {
   getProducts();
 })
 </script>
+
 <template>
   <div class="p-10">
     <h2 class="font-size-12">產品</h2>
     <div class="text-end mt-6">
-      <!-- 新增按鈕 -->
       <button type="button"
         class="bg-primary border-0 text-white cursor-pointer inline-block px-3 py-1.5 rd font-size-4 hover:bg-primary-light"
         @click="addNewProduct()">建立新的產品</button>
     </div>
     <!-- 產品列表 -->
     <div class="relative min-h-100">
-      <Loading :active="isLoading" :is-full-page="false"></Loading>
+      <Loading :active="isLoading" :is-full-page="false" />
       <table class="w-100% mt-6">
         <thead class="border-b-1 border-black border-solid fw-bold text-left">
           <tr>
@@ -160,7 +159,7 @@ onMounted(() => {
         <tbody>
           <tr class="border-b border-#DEE2E6 border-solid" v-for="product in products" :key="product.id">
             <td>
-              <img :src="product.imageUrl" alt="" width="120" height="100">
+              <img :src="product.imageUrl" :alt="`${product.title}的圖片`" width="120" height="100">
             </td>
             <td>{{ product.category }}</td>
             <td>{{ product.title }}</td>
@@ -188,13 +187,11 @@ onMounted(() => {
         </tbody>
       </table>
     </div>
-
   </div>
   <!-- Modal -->
-  <ProductModal @confirm-product="confirmProduct" :temp-product="tempProduct" :is-new="isNew" ref="dialog">
-  </ProductModal>
+  <ProductModal @confirm-product="confirmProduct" :temp-product="tempProduct" :is-new="isNew" ref="dialog" />
   <template v-if="products.length">
-    <PaginationComp :pages="pagination" @change-page="getProducts"></PaginationComp>
+    <PaginationComponent :pages="pagination" @change-page="getProducts" />
   </template>
 </template>
 <style lang="postcss">

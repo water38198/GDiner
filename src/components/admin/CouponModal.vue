@@ -1,6 +1,5 @@
 <script setup>
 import { ref, watch } from 'vue'
-
 import moment from 'moment'
 
 const props = defineProps(['tempCoupon', 'isNew'])

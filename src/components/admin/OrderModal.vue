@@ -50,14 +50,12 @@ defineExpose({
             <VField type="text" id="name" placeholder="請輸入姓名" v-model.trim="tempOrder.user.name" name="姓名"
               rules="required" :class="{ 'invalid': errors['姓名'] }" />
             <ErrorMessage name="姓名" class="block ps-2 pt-2 text-red-500 font-size-3" />
-
           </div>
           <div class="input-group">
             <label for="tel">電話</label>
             <VField type="tel" id="tel" placeholder="請輸入電話" v-model.trim="tempOrder.user.tel" name="電話" :rules="isPhone"
               :class="{ 'invalid': errors['電話'] }" />
             <ErrorMessage name="電話" class="block ps-2 pt-2 text-red-500 font-size-3" />
-
           </div>
           <div class="input-group">
             <label for="email">Email</label>
@@ -84,7 +82,6 @@ defineExpose({
                 <th class="font-size-5">商品名稱</th>
                 <th class="font-size-5">數量</th>
               </tr>
-
             </thead>
             <tbody>
               <tr v-for="product in tempOrder.products" :key="product.id">

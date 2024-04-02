@@ -51,7 +51,6 @@ function logOut() {
       </li>
     </ul>
   </nav>
-
 </template>
 
 <style scoped>

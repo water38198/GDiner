@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import Swal from 'sweetalert2'
@@ -51,7 +50,7 @@ function login() {
 </script>
 
 <template>
-  <Loading :active="isLoading" :full-page="true"></Loading>
+  <Loading :active="isLoading" :full-page="true" />
   <main>
     <div class="container">
       <form action="" ref="loginForm" class="max-w-100 mx-auto pt-20">

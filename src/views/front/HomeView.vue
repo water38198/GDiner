@@ -42,7 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Loading :active="isLoading"></Loading>
+  <Loading :active="isLoading" />
   <header class="pt-80 sm:py-12.5 mb-10">
     <div class="container">
       <div class="flex sm:(px-12.5 py-15)" data-aos="flip-up">
@@ -97,7 +97,7 @@ onMounted(() => {
               <div class="card-image">
                 <img
                   src="https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711206743079.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=c6yUTZed7cSDED%2F%2BIJwocTGP1Kqc1BF9vYeZMeaIa6TSP4SC495wLe%2BRs4DYuCc9BBr%2FG2t0%2F8eLy8LBlyOoIoMH7v%2FpVa7Jk4LWgL0gtDcdxr4TtFN%2B3tujwdZrEDoSIcN2gUFdDGcV6B9OekGSuRmL4rMiNX8s9tYdJXBuFO2yb9BRSsidVvehETmli0FY0qB1bokkRQPZDryVOGR5yqgXsr6JyWPQ7wfP7eKaB3%2B%2BAaZW2R2Cqv9t%2Fjfq82OaCNvTmWapAsFbRFu1YjgPBdxc7po0k%2FllH0Q8PSuBX8jTraIuFajZTdffdUus64a3E1Jxbteck3uLB4oxt0z7dg%3D%3D"
-                  alt="" class="h-200px sm:h-250px md:h-400px">
+                  alt="shrimps and noodles" class="h-200px sm:h-250px md:h-400px">
               </div>
               <div class="pb-4">
                 <h4 class="flex items-center font-size-5">其他好東西 <div
@@ -150,7 +150,7 @@ onMounted(() => {
         <div class="w-100% md:w-50%">
           <img
             src="https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711208425781.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=NWxF8O%2Fes5b9vlE%2BZLMUoLIM6pe7jbIYBdqtaiyGfiNRlG4MAbaD6Bxi%2B%2BkHT5ZeyXUdvdXa%2FdgIgkMYWVcQpV%2F5Iv1pV%2FzG1HYczU1AU9SalqaW2uX7U7yYQiS0XfjdOx1FJ%2By8pWHT6u0YJifDuKB7VRwzY230UumPJ%2FNlP3uzlW4RsQRSzp4P2JjPmSPb3snvXsBHDx7UUtra3tQ9DohSXSgHVcFujVl0owAke4DEnPJ%2BKUKJRy%2FpYXr5%2B63FFCRHxTjNG3EMeECFrqezTog8KWCgnSYqiHFmgSs3A69hBnNCpCkQr%2FEJuwyR%2F5dGqmJUCZrULtPe5j3xuSAk0g%3D%3D"
-            alt="" class="block md:h-100%">
+            alt="some vegetables on the table" class="block md:h-100%">
         </div>
         <div class="w-100% md:w-50%  bg-secondary border-(t-3 solid primary) md:border-(t-0 l-3) p-6 sm:p-10 md:p-15">
           <h4 class="font-size-10 sm:font-size-12 font-italic flex items-center gap-2 mb-5">簡單 - 快速 - 享用美味!
@@ -237,8 +237,6 @@ header {
   background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711206531765.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=pgnZTmwOymp3mYzu8ht8Eo6cnKBY5zHjTi6Md22%2F%2FYE2J3e0ojerFRE25Ik0CHX328%2BMsDtfKUGRPHGL97I8i%2FIdm%2FszuAMO3W2JNQTia6HYK2qGmAJLJvvpDapce0xXip%2Bsh4MqPa4PTnpBrpep1BQIZP1k0IVFRZ8RkvGtpS9STfJRhNRk6pbNNblNB8BQ0imy4etYjTJYWTeKibPN%2FtfZQ%2Bp42ZwtjL6kzNkZXB8azC71u%2BDmdFIqFl%2FfwfGBzrMHqeztO8jDAM9XrmUpcAqOXAewCAWr3l8qnhU8Rne%2BYeMEbwROCIP4kcURVvNPCaNmEXN4fLi6MCnXOnZfnA%3D%3D');
   background-size: cover;
 }
-
-
 
 .custom-input-group {
   position: relative;

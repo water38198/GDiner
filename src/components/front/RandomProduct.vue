@@ -65,7 +65,8 @@ onMounted(() => {
             <div class="card">
               <RouterLink :to='`/product/${randomProduct.id}`' class="block">
                 <div class="customBorder-xl rd-3 overflow-hidden mb-4">
-                  <img :src="randomProduct.imageUrl" alt="" class="block w-100% h-150px  sm:h-350px md:h-350px">
+                  <img :src="randomProduct.imageUrl" :alt="`${randomProduct.title}的圖片`"
+                    class="block w-100% h-150px  sm:h-350px md:h-350px">
                 </div>
                 <h3 class="mb-4 tracking-wider">{{ randomProduct.title }}</h3>
                 <div class="pb-4">

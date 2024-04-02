@@ -1,17 +1,15 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import { useRouter, RouterView } from 'vue-router'
 import Loading from 'vue-loading-overlay'
-
 import AdminNavbar from '@/components/admin/AdminNavbar.vue';
 
 const { VITE_URL } = import.meta.env;
 const router = useRouter();
+const isChecked = ref(false);
 
-const isChecked = ref(false)
 function checkAdmin() {
   // 取出 token
   const token = document.cookie
@@ -40,14 +38,12 @@ onMounted(() => {
 })
 </script>
 
-
 <template>
-  <Loading :active="!isChecked" :full-page="true"></Loading>
+  <Loading :active="!isChecked" :full-page="true" />
   <div class="grid grid-cols-[20rem_1fr] gap-2 h-screen">
     <AdminNavbar />
     <div v-if="isChecked">
-      <RouterView></RouterView>
+      <RouterView />
     </div>
   </div>
-
 </template>

@@ -26,11 +26,11 @@ function getProducts() {
       isLoading.value = false;
     })
 }
+
 onMounted(() => {
   getProducts();
 })
 </script>
-
 
 <template>
   <Loading :active="isLoading"></Loading>
@@ -73,7 +73,7 @@ onMounted(() => {
             <div class="card">
               <RouterLink :to="`/product/${product.id}`" class="block">
                 <div class="card-image">
-                  <img :src="product.imageUrl" alt="" class="block h-150px w-100% md:h-250px">
+                  <img :src="product.imageUrl" :alt="`${product.title} 的圖片`" class="block h-150px w-100% md:h-250px">
                 </div>
                 <h3 class="mb-4 tracking-wider">{{ product.title }}</h3>
                 <div class="pb-4">
@@ -103,7 +103,7 @@ onMounted(() => {
             <div class="card">
               <RouterLink :to='`/product/${product.id}`' class="block">
                 <div class="card-image">
-                  <img :src="product.imageUrl" alt="" class="block h-150px w-100% md:h-250px">
+                  <img :src="product.imageUrl" :alt="`${product.title} 的圖片`" class="block h-150px w-100% md:h-250px">
                 </div>
                 <h3 class="mb-4 tracking-wider">{{ product.title }}</h3>
                 <div class="pb-4">

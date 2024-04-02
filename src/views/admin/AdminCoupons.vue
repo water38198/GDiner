@@ -1,12 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import moment from 'moment'
-
 import Loading from 'vue-loading-overlay';
-import PaginationComp from '@/components/PaginationComp.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
 import CouponModal from '@/components/admin/CouponModal.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -212,8 +210,7 @@ onMounted(() => {
     </div>
 
     <template v-if="coupons.length">
-      <PaginationComp :pages="pagination" @change-page="getCoupons" class="mt-auto">
-      </PaginationComp>
+      <PaginationComponent :pages="pagination" @change-page="getCoupons" class="mt-auto" />
     </template>
   </div>
 

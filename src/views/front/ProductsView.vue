@@ -6,16 +6,14 @@ import { useRoute, useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-
 const isLoading = ref(false);
-
-const productsListRef = ref(); // 列表的Ref
-const sortBy = ref(''); // 排序的類別
-const filterCategories = ref([]); // 已選擇的篩選類別
-const lowPrice = ref(); // 最低價 
-const highPrice = ref(); // 最高價
-const priceRangeText = ref(''); // 顯示價格範圍的文字
-const searchText = ref('');//搜尋的文字
+const productsListRef = ref();
+const sortBy = ref('');
+const filterCategories = ref([]);
+const lowPrice = ref();
+const highPrice = ref();
+const priceRangeText = ref('');
+const searchText = ref('');
 
 const route = useRoute();
 const router = useRouter();
@@ -24,9 +22,9 @@ const pages = ref({
   current: 1,
   total: 0
 })
-const products = ref([]);// 料理的原始資料
+const products = ref([]);
 
-const filteredList = computed(() => {// 經過篩選的資料
+const filteredList = computed(() => {
   let newList = [];
   // 分類：主食、甜點、湯品
   if (filterCategories.value.length > 0) {
@@ -122,13 +120,14 @@ onMounted(() => {
     searchText.value = route.query.search;
   }
   getProducts();
-
 })
+
 watch(() => route.query, () => {
   if (route.query.search) {
     searchText.value = route.query.search;
   }
 })
+
 watchEffect(() => {
   // 計算價格範圍
   let lowText = lowPrice.value;
@@ -150,9 +149,8 @@ watchEffect(() => {
 })
 </script>
 
-
 <template>
-  <Loading :active="isLoading"></Loading>
+  <Loading :active="isLoading" />
   <div class="container px-4 lg:px-12.5">
     <h2 class="mb-10 py-6 font-size-10 md:(mb-16 font-size-15)">料理</h2>
     <!-- 篩選 -->
@@ -303,7 +301,8 @@ watchEffect(() => {
           <div class="card">
             <RouterLink :to='`/product/${product.id}`' class="block">
               <div class="card-image">
-                <img :src="product.imageUrl" alt="" class="block w-100% h-150px sm:h-350px md:h-300px">
+                <img :src="product.imageUrl" :alt="`${product.title}的圖片`"
+                  class="block w-100% h-150px sm:h-350px md:h-300px">
               </div>
               <h3 class="mb-4 tracking-wider">{{ product.title }}</h3>
               <div class="pb-4">

@@ -1,14 +1,13 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import NavBarComp from '@/components/front/NavBarComp.vue';
-import FooterComp from '@/components/front/FooterComp.vue';
+import FrontNavbar from '@/components/front/FrontNavbar.vue';
+import FrontFooter from '@/components/front/FrontFooter.vue';
 </script>
-
 
 <template>
   <div class="bg-secondary min-h-screen grid">
-    <NavBarComp />
+    <FrontNavbar />
     <RouterView />
-    <FooterComp />
+    <FrontFooter />
   </div>
 </template>

@@ -8,7 +8,6 @@ import axios from 'axios'
 import RandomProduct from '@/components/front/RandomProduct.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-
 const store = useCartStore();
 const { cart, isLoading } = storeToRefs(store);
 const excludeList = computed(() => {
@@ -98,8 +97,7 @@ function isPhone(value) {
 </script>
 
 <template>
-
-  <Loading :active="isLoading"></Loading>
+  <Loading :active="isLoading" />
   <div class="container px-2 md:px-12 py-10">
     <div class="mb-10">
       <!-- 購物車有東西 -->
@@ -126,7 +124,7 @@ function isPhone(value) {
                 class="grid gap-2 grid-rows-[repeat(2,auto)] grid-cols-[repeat(12,1fr)] md:table-row w-100% mb-6">
                 <td class="md:pt-10 row-start-1 row-end-3 col-span-3">
                   <div class="w-100% h-30 me-2 md:w-25 lg:me-10">
-                    <img :src="product.product.imageUrl" alt=""
+                    <img :src="product.product.imageUrl" :alt="`${product.product.title}的照片`"
                       class="block max-w-25 w-100% h-100% border-(2 solid primary) rd-2.5">
                   </div>
                 </td>
@@ -146,14 +144,14 @@ function isPhone(value) {
                 <td class="md:pt-10 align-top col-start-4 col-end-10">
                   <div class="md:mb-6 flex">
                     <div class="relative grid grid-cols-3 w-40 customBorder rd-3 h-10 md:h-12.5">
-                      <button class="block bg-transparent border-0 px-4 cursor-pointer font-size-5 fw-900"
+                      <button type="button" class="block bg-transparent border-0 px-4 cursor-pointer font-size-5 fw-900"
                         @click="product.qty - 1 > 0 ? product.qty-- : ''; updateCart(product);">
                         <div class="i-ic:round-minus"></div>
                       </button>
                       <input type="number" name="" id="quantity" :value="product.qty"
                         class="block bg-transparent border-0 appearance-none outline-0 w-100% text-center font-size-4"
                         min="1" @change="updateCart(product, $event)">
-                      <button class="block bg-transparent border-0 px-4 cursor-pointer font-size-5 fw-900"
+                      <button type="button" class="block bg-transparent border-0 px-4 cursor-pointer font-size-5 fw-900"
                         @click="product.qty++; updateCart(product);">
                         <div class="i-ic:round-plus"></div>
                       </button>
@@ -183,7 +181,7 @@ function isPhone(value) {
           </table>
         </div>
         <div>
-          <Loading :active="loadingItems.includes('userForm')"></Loading>
+          <Loading :active="loadingItems.includes('userForm')" />
           <VForm class="grid grid-cols-2 gap-4" v-slot="{ errors }" @submit="submitOrder" autocomplete="off">
             <div class="col-span-2 md:col-span-1 grid grid-cols-2 gap-4">
               <h2 class="col-span-2 mb-10 font-size-10">顧客資訊</h2>
@@ -269,8 +267,7 @@ function isPhone(value) {
       </div>
 
     </div>
-    <!-- 誠心推薦 -->
-    <RandomProduct :exclude="excludeList"></RandomProduct>
+    <RandomProduct :exclude="excludeList" />
   </div>
 </template>
 

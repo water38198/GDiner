@@ -68,6 +68,7 @@ defineExpose({
   dialog
 })
 </script>
+
 <template>
   <dialog ref="dialog" class="max-w-1140px w-100% border-0 rd p-0 backdrop:backdrop-blur-3 " @click="autoClose">
     <VForm @submit="$emit('confirmProduct', tempProduct)" v-slot="{ errors }">
@@ -84,7 +85,7 @@ defineExpose({
               <VField name="主要圖片" id="imageUrl" type="text" placeholder="請輸入圖片連結" v-model="tempProduct.imageUrl"
                 :class="{ 'invalid': errors['主要圖片'] }" rules="required" />
               <ErrorMessage name="主要圖片" class="block ps-2 pt-2 text-red-500 font-size-3" />
-              <img :src="tempProduct.imageUrl" alt="">
+              <img :src="tempProduct.imageUrl" alt="產品主要照片">
             </div>
             <!-- 檔案上傳 -->
             <form action="/api/thisismycourse2/admin/upload" enctype="multipart/form-data" method="post" class="my-4">
@@ -95,13 +96,14 @@ defineExpose({
               <div v-for='(image, index) in tempProduct.imagesUrl' :key="image" class="mb-4">
                 <div class="flex justify-between mb-2">
                   <label for="images-1">圖片網址{{ index + 1 }}</label>
-                  <button class="i-ic:baseline-close font-size-5 opacity-50  hover:(cursor-pointer opacity-75)"
+                  <button type="button"
+                    class="i-ic:baseline-close font-size-5 opacity-50  hover:(cursor-pointer opacity-75)"
                     @click="tempProduct.imagesUrl.splice(index, 1)"></button>
                 </div>
                 <div class="input-group">
                   <input type="text" v-model="tempProduct.imagesUrl[index]" placeholder="請輸入圖片網址" class=",b-2">
                 </div>
-                <img :src="image" alt="">
+                <img :src="image" alt="產品照片">
               </div>
               <button type="button"
                 class="inline-block w-100% bg-transparent border-primary border-solid border-1 rd text-primary py-1 mb-1 cursor-pointer hover:(bg-primary text-secondary)"

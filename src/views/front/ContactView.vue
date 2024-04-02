@@ -41,7 +41,6 @@ function sendForm() {
           :class="{ 'invalid': errors['留言'] }"></VField>
         <label for="message">留言</label>
         <ErrorMessage name="留言" class="absolute block left-3 bottom--5 text-red-500 font-size-3" />
-
       </div>
       <div>
         <button type="submit"

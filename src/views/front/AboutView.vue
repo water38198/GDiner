@@ -4,7 +4,7 @@
       <div class="md:max-w-[min(40%,75rem)] overflow-hidden">
         <img
           src="https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711216053420.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=HkBEZCuESNLHJ72TGNtjLJSVEKb6Z4dqO9aLrBxo76gp5PKyZFIjj1jSObWog9obZ6eUqTfK6bGB2nGRIP%2B1TYTVOchocvUCYx2X3NDRM5sFsGNjXCDTqzhctJH73LMG4s3bpZ3qQrATV4S7P9QMYEeIK%2FtlkpQeah00Oq2JNCUY0lcctSfijJhDriKd0jP%2FGhiZqL6yQ3P8fR1Byi7ijTpdo5WOnmPLr%2F%2FhkdBU33BBCJkbex4Ix0RYyg2hxAQ5leq8tpEGB0K7igXl9xgaM%2F94j3jm%2Fhv%2FhsFyjCFlEsQhaG17zediDNe61fDO70DRWlIOOxrnCloeNIzYgNwfIg%3D%3D"
-          alt="" class="block w-100% h-100% rd-(tl-2 tr-2) md:rd-(tr-0 bl-2)">
+          alt="一堆蔬菜在桌上" class="block w-100% h-100% rd-(tl-2 tr-2) md:rd-(tr-0 bl-2)">
       </div>
       <div class="flex-1 p-6 md:p-10 border-(t-2 solid primary) md:border-(l-2 t-0)">
         <div class="flex flex-col justify-center h-100% ">
@@ -19,7 +19,6 @@
         </div>
       </div>
     </div>
-
     <div class="flex flex-col-reverse md:flex-row customBorder-xl rd-3 mb-20" data-aos="flip-right"
       data-aos-duration="1000">
       <div class="flex-1 p-6 md:p-10 border-(t-2 solid primary) md:border-(t-0 r-2 solid primary)">
@@ -38,20 +37,18 @@
             </ul>
           </div>
         </div>
-
       </div>
       <div class="md:max-w-[min(40%,75rem)] overflow-hidden">
         <img
           src="https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711216606972.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=kaQq2TNtNi0VFPIw8oQK9vx5ptQugbgYm5CJKrm0Oa4F8%2BLwKZVijV1ykE3ZtVTzG5eIM2KFA0aTzWY4TQTuvF0E56d9aWOuVPJPcv8cVgCtRVZJ9%2Bl9V7eVv0yoUQyRy80C0IMG%2BCJ%2FEjs4DIX87HZCJTFBe6lC9FYH88DYEpI7gGhYur9WOHr6jXlyeBspdnSD%2BV97C4QUkAZMlxBq0HNu4CsYm5t88Z5CeJXLlTIkB0e%2FOPZFxSHNbhPqOyFLf%2B00krxL8Rr6FB2NnEwjcXL6i1gHSQxdmuIK%2BeAhxqIPw4wAmuN%2F1O%2BPDmrr93eINz4HwGS6mCFhIt85MSvH9A%3D%3D"
-          alt="" class="block w-100% h-100% rd-(tl-2 tr-2) md:rd-(tl-0 br-2)">
+          alt="很多蔬菜在櫃子裡" class="block w-100% h-100% rd-(tl-2 tr-2) md:rd-(tl-0 br-2)">
       </div>
     </div>
-
     <div class="flex flex-col md:flex-row mb-10 customBorder-xl rd-3" data-aos="zoom-in" data-aos-duration="1000">
       <div class="md:max-w-[min(40%,75rem)]">
         <img
           src="https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711216695611.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=FLlpLP6irJdhwdcx1OKP%2B0tV425bjzaMMr%2F1uobUDX41FS%2FhxG9OhDraw69UQOvOHf%2Bqhaqo59KkUnShCok4SNvjHP8WG5RFCLGiV3ll9n4FdqE181zVyff2IDH78frU3z6yzX95y9HAi08rIWqQgxgSQqfXRV2lQBInUQ1sGCUnx6d3hy2YNLTpJ0iEfgWUDg%2BEilHKucUffsOTcOwHPPq4djCUVAyzLMHdyp30SbfV4gx7r8pdDTA9lz78oq6zGGIpYqlLT9F6JLz1RgmTJORKp7%2FmEq7zOXXXzUunWuchQXwQq2%2BSU0tKc66NS8%2B%2BfZlNH2ECRdDxXxgFspQb4w%3D%3D"
-          alt="" class="block w-100% h-100% max-h-500px object-top rd-(tl-2 tr-2) md:rd-(tr-0 bl-2)">
+          alt="阿橘師的美照" class="block w-100% h-100% max-h-500px object-top rd-(tl-2 tr-2) md:rd-(tr-0 bl-2)">
       </div>
       <div class="flex-1 p-6 md:p-10 border-(t-2 solid primary) md:border-(l-2 t-0)">
         <div class="flex flex-col justify-center h-100%">
@@ -65,7 +62,6 @@
             <p class="tracking-widest">
               阿橘師具有豐富的烹飪經驗和廚藝技巧，他對料理的熱愛源於對美食的熱情和對飲食文化的深刻理解。他不僅擅長中式料理的精湛技藝，還善於創造出新鮮、創意十足的西式菜餚，讓客人在阿橘飯店品嚐到來自不同文化的美味。
             </p>
-
           </div>
         </div>
       </div>

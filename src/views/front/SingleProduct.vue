@@ -6,7 +6,6 @@ import Swal from 'sweetalert2'
 import Loading from 'vue-loading-overlay'
 import { useCartStore } from '@/stores/cartStore'
 import { storeToRefs } from 'pinia'
-
 import RandomProduct from '@/components/front/RandomProduct.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -55,7 +54,6 @@ function showBigImg(img = product.value.imageUrl) {
   imgDialogRef.value.showModal();
 }
 function autoClose(e) {
-  // 點擊 dialog 外圍區域自動關閉
   if (e.target.nodeName === "DIALOG") {
     imgDialogRef.value.close();
   }
@@ -74,6 +72,7 @@ watch(() => route.params, () => {
   getProduct();
 })
 </script>
+
 <template>
   <main class="py-10">
     <div class="container px-4 md:px-12.5 ">
@@ -85,12 +84,12 @@ watch(() => route.params, () => {
             <img
               class="product-image customBorder-xl bg-primary bg-cover bg-center rd-3 overflow-hidden w-100% h-300px lg:h-500px cursor-pointer"
               :src="product.imageUrl" @click="showBigImg()">
-
           </div>
           <template v-if="product.imagesUrl">
             <div class="grid grid-cols-4 gap-4 mb-4">
               <div v-for="img in product.imagesUrl" :key="img">
-                <img :src="img" alt="" class="block w-100% h-25 rd-3 cursor-pointer" @click="showBigImg(img)">
+                <img :src="img" :alt="`${product.title}的圖片`" class="block w-100% h-25 rd-3 cursor-pointer"
+                  @click="showBigImg(img)">
               </div>
             </div>
           </template>
@@ -118,13 +117,14 @@ watch(() => route.params, () => {
             <label class="block mb-3 font-size-3 text-primary-light" for="quantity">數量</label>
             <div class="relative grid grid-cols-3 w-40 customBorder rd-3 h-12.5">
               <button class="block px-4 bg-transparent border-0 cursor-pointer font-size-5 fw-900"
-                @click="quantity - 1 > 0 ? quantity-- : ''">
+                @click="quantity - 1 > 0 ? quantity-- : ''" type="button">
                 <div class="i-ic:round-minus"></div>
               </button>
               <input type="number" name="" id="quantity" :value="quantity"
                 class=" block w-100% bg-transparent border-0 appearance-none outline-0  text-center" min="1"
                 @change="changeQuantity($event)">
-              <button class="block px-4 bg-transparent border-0 cursor-pointer font-size-5 fw-900" @click="quantity++">
+              <button class="block px-4 bg-transparent border-0 cursor-pointer font-size-5 fw-900" @click="quantity++"
+                type="button">
                 <div class="i-ic:round-plus"></div>
               </button>
             </div>
@@ -132,8 +132,8 @@ watch(() => route.params, () => {
           <div class="md:max-w-100 w-100% mb-6">
             <button
               class="block w-100% mb-4 py-3 customBorder rd-10 bg-transparent cursor-pointer hover:outline-(1px solid primary)"
-              @click="addCart(product.id, quantity)"
-              :class="{ 'pointer-events-none opacity-75': isLoading }">加入購物車</button>
+              @click="addCart(product.id, quantity)" :class="{ 'pointer-events-none opacity-75': isLoading }"
+              type="button">加入購物車</button>
             <RouterLink to="/cart" @click="addCart(product.id, quantity, true)"
               class="block w-100% py-3 rd-10 bg-info text-secondary text-center shadow-[0_2px_0_0_#3D081B] hover:shadow-[0_2px_2px_0_#3D081B]">
               立即購買</RouterLink>
@@ -149,12 +149,11 @@ watch(() => route.params, () => {
         </div>
       </div>
       <template v-if="product.id">
-
-        <RandomProduct :exclude="[product.id]"></RandomProduct>
+        <RandomProduct :exclude="[product.id]" />
       </template>
     </div>
     <dialog ref="imgDialogRef" @click="autoClose" class="bg-secondary">
-      <img :src="currentImg" alt="" class="block max-h-80vh">
+      <img :src="currentImg" alt="關閉" class="block max-h-80vh">
     </dialog>
   </main>
 </template>
