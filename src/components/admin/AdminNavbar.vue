@@ -9,7 +9,7 @@ const router = useRouter();
 function logOut() {
   axios.post(`${VITE_URL}/v2/logOut`)
     .then(() => {
-      document.cookie = `myToken=; expires=; path=/`
+      document.cookie = `myToken=; expires=;`
       Swal.fire({
         icon: 'success',
         title: '登出成功',

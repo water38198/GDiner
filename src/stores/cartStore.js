@@ -13,7 +13,6 @@ export const useCartStore = defineStore('cart', () => {
     axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/cart`)
       .then((res => {
         cart.value = res.data.data;
-        console.log(cart.value)
       }))
       .catch(err => {
         Swal.fire({

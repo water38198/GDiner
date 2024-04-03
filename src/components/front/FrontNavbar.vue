@@ -170,7 +170,7 @@ watch(() => route.path, () => {
       <!-- Logo -->
       <h1 class="mx-auto md:mx-0 py-2">
         <RouterLink to="/" class="text-primary flex items-center ">
-          <img src="@/assets/img/logo.png" alt="阿橘飯店Logo" class="w-100%">
+          <img src="@/assets/img/logo.png" alt="阿橘飯店Logo" class="w-30">
         </RouterLink>
       </h1>
       <!-- PC選單 -->

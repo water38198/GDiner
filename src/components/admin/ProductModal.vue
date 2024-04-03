@@ -36,7 +36,8 @@ function upload(target, e) {
         tempProduct.value.imagesUrl[tempProduct.value.imagesUrl.length - 1] = res.data.imageUrl
       } else if (target === 'image') {
         tempProduct.value.imageUrl = res.data.imageUrl
-      }
+      };
+      e.target.value = "";
     })
     .catch(err => {
       Swal.fire({
