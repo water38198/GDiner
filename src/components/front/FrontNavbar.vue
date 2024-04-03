@@ -7,16 +7,12 @@ import { useCartStore } from '@/stores/cartStore'
 // 取得購物車資料
 const store = useCartStore();
 const { cart } = storeToRefs(store);
-
 const route = useRoute();
 const router = useRouter();
-
-const searchModal = ref(); //搜尋欄的ref
+const searchIsShow = ref(false); //搜尋欄的ref
 const searchText = ref('')// 搜尋的文字
-
 const lastScrollTop = ref(0);// 滾動前，距離頂端的距離
 const isShow = ref(true);// 滾動後是否顯示 Navbar
-
 const details = ref();//側邊選單ref
 const detailsIsOpen = ref(false);
 
@@ -28,16 +24,6 @@ const cartNumb = computed(() => {
   return num
 })
 
-function openModal() {
-  //打開搜尋時，禁止滑動
-  stopRoll();
-  searchModal.value.showModal();
-}
-function autoClose(e) {
-  if (e.target.nodeName === 'DIALOG') {
-    searchModal.value.close();
-  }
-}
 function scrolling() {
   let scrollTop = window.scrollY || window.pageYOffset;// 滾動到目前與頂端的距離
   // 如果新的比較大表示往下滾動，則不要顯示 Navbar
@@ -84,7 +70,7 @@ function goSearch() {
   if (!searchText.value) return;
   router.push(`/products?search=${searchText.value}`);
   searchText.value = '';
-  searchModal.value.close();
+  searchIsShow.value = !searchIsShow.value;
 }
 
 onMounted(() => {
@@ -168,13 +154,13 @@ watch(() => route.path, () => {
         </details>
       </div>
       <!-- Logo -->
-      <h1 class="mx-auto md:mx-0 py-2">
+      <h1 class="mx-auto md:mx-0 py-3">
         <RouterLink to="/" class="text-primary flex items-center ">
           <img src="@/assets/img/logo.png" alt="阿橘飯店Logo" class="w-30">
         </RouterLink>
       </h1>
       <!-- PC選單 -->
-      <ul class="hidden md:flex items-center gap-6 text-primary me-auto">
+      <ul class="hidden md:flex items-center gap-4 lg:gap-6 text-primary me-auto">
         <li>
           <RouterLink to="/recommend"
             class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
@@ -197,9 +183,19 @@ watch(() => route.path, () => {
         </li>
       </ul>
       <!-- 搜尋與購物車 -->
-      <div class="flex gap-2">
-        <button class="font-size-6 text-primary hover:( scale-125)" @click="openModal">
-          <div class="i-material-symbols:search"></div>
+      <div class="relative flex gap-2">
+        <form class="absolute left--50 top-1/2 translate-y--1/2" :class="{ 'hidden': !searchIsShow }">
+          <div class="relative w-50">
+            <input type="text" id="search" placeholder="搜尋" v-model.trim="searchText" autocomplete="off"
+              class="customBorder outline-0 rd-3 p-3 pr-9 bg-secondary w-full" @keyup.enter="goSearch">
+            <button type="button" class="absolute right-2 top-1/2 translate-y--1/2 font-size-6 text-primary"
+              @click="goSearch">
+              <div class="i-material-symbols:search"></div>
+            </button>
+          </div>
+        </form>
+        <button class="font-size-6 text-primary hover:( scale-125)" @click="searchIsShow = !searchIsShow">
+          <div :class="searchIsShow ? 'i-material-symbols:close-rounded' : 'i-material-symbols:search'"></div>
         </button>
         <RouterLink to="/cart"
           class="relative flex items-center bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer scale-125)">
@@ -212,27 +208,6 @@ watch(() => route.path, () => {
       </div>
     </div>
   </nav>
-  <!-- 搜尋的Modal -->
-  <dialog ref="searchModal" @click="autoClose" class="m-0 p-0 border-0 w-full max-w-full"
-    :class="{ 'mt-9': lastScrollTop == 0 }" @close="activeRoll">
-    <div class="w-100%  bg-secondary flex justify-center items-center p-5">
-      <form action="">
-        <div class="custom-input-group">
-          <input type=" text" id="search" placeholder="搜尋" v-model.trim="searchText" autocomplete="off"
-            class="customBorder bg-secondary w-75 md:w-100" @keyup.enter="goSearch">
-          <label for="search">搜尋料理</label>
-          <button type="button" class="absolute right-2 top-1/2 translate-y--1/2 font-size-6 text-primary"
-            @click="goSearch">
-            <div class="i-material-symbols:search"></div>
-          </button>
-        </div>
-      </form>
-      <button type="button" class="text-primary font-size-6 md:font-size-8 px-3 hover:(opacity-50)"
-        @click="searchModal.close()">
-        <div class="i-material-symbols:close-rounded"></div>
-      </button>
-    </div>
-  </dialog>
 </template>
 
 <style scoped lang="scss">
