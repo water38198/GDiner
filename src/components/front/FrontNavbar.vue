@@ -201,7 +201,7 @@ watch(() => route.path, () => {
           class="relative flex items-center bg-transparent border-0 outline-0 font-size-6 text-primary hover:(cursor-pointer scale-125)">
           <div class="i-material-symbols:shopping-cart-outline "></div>
           <span
-            class="absolute flex justify-center items-center bg-info font-size-3 text-secondary rd-50% size-4 right-[-6px] bottom-2"
+            class="absolute flex justify-center items-center bg-info p-2 font-size-3 text-secondary rd-50% size-5 right-[-8px] bottom-3"
             v-if="cart.carts?.length">{{ cartNumb }}
           </span>
         </RouterLink>

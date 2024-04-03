@@ -39,19 +39,31 @@ onMounted(() => {
       <div class="mb-8">
         <h2 class="flex justify-center md:justify-start items-center mb-6 font-size-10 md:font-size-12">
           初來乍到
-          <div class="i-iconamoon:question-mark-circle inline-block "></div>
         </h2>
+        <img
+          src="https://images.unsplash.com/photo-1580191947416-62d35a55e71d?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="" class="md:(w-2/3 h-75) customBorder-xl rd-3 mb-4">
         <p class="md:max-w-2/3 font-size-4 md:font-size-4.5">親愛的客人，
           我們非常榮幸能夠歡迎您來到阿橘飯店！在這裡，我們致力於為您提供一個美味、舒適和難忘的美味饗宴，讓您的每一口都成為一段珍貴的回憶。如果您是第一次光臨本店，我們推薦您點餐的內容包含：
         </p>
       </div>
       <div class="mb-6 md:mb-16">
-        <ul class="list-inside list-circle grid gap-4 font-size-5">
-          <li>沙拉：1</li>
-          <li>副食：1 ~ 2</li>
-          <li>主食：1</li>
-          <li>甜點：1</li>
-          <li>飲料：0 ~ 1</li>
+        <ul class="flex flex-wrap gap-6 font-size-6 align-middle">
+          <li class="flex gap-2">
+            <div class="i-emojione:green-salad"></div>沙拉
+          </li>
+          <li class="flex gap-2">
+            <div class="i-noto-v1:stuffed-flatbread"></div>副食
+          </li>
+          <li class="flex gap-2">
+            <div class="i-fluent-emoji:cut-of-meat"></div>主食
+          </li>
+          <li class="flex gap-2">
+            <div class="i-noto-v1:shortcake"></div>甜點
+          </li>
+          <li class="flex gap-2">
+            <div class="i-twemoji:tropical-drink"></div>飲料
+          </li>
         </ul>
       </div>
     </section>

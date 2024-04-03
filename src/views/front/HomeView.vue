@@ -49,13 +49,13 @@ onMounted(() => {
         <div
           class="bg-secondary px-9 py-10  border-(t-3 b-3 primary solid) sm:(max-w-550px customBorder-xl rd-3 text-start) text-primary text-center ">
           <h2 class="font-size-12 text-center mb-3 sm:mb-8 fw-bold">
-            <span class="inline-block sm:(translate-x-[-40%] rotate-3)">美好飯局，</span>
-            <span class="inline-block sm:(translate-x-40% rotate-[-3deg])">盡在阿橘！</span>
+            <span class="inline-block sm:(translate-x-[-40%])">美好飯局，</span>
+            <span class="inline-block sm:(translate-x-40%)">盡在阿橘！</span>
           </h2>
           <p class="mb-5">每道料理都是由我們阿橘大廚精心挑選、用心製作而成，且食材皆採用符合時節與產地直送，請客人放心食用。</p>
           <div>
             <RouterLink to="/recommend"
-              class="inline-block customBorder rd-10 px-7.5 py-3 font-size-4 tracking-widest text-primary hover:(outline-(1 #3D081B solid))">
+              class="inline-block customBorder rd-10 px-7.5 py-3 font-size-4 tracking-widest text-primary hover:(text-secondary bg-primary)">
               開始點菜</RouterLink>
           </div>
         </div>
@@ -153,7 +153,7 @@ onMounted(() => {
             alt="some vegetables on the table" class="block md:h-100%">
         </div>
         <div class="w-100% md:w-50%  bg-secondary border-(t-3 solid primary) md:border-(t-0 l-3) p-6 sm:p-10 md:p-15">
-          <h4 class="font-size-10 sm:font-size-12 font-italic flex items-center gap-2 mb-5">簡單 - 快速 - 享用美味!
+          <h4 class="font-size-10 sm:font-size-12 flex items-center gap-2 mb-5">簡單 - 快速 - 享用美味!
           </h4>
           <p class="lh-loose tracking-wider mb-5">
             當您踏入我們的餐廳時，即刻感受到一股迷人的香氣飄散在空氣中，迎接您的是一場充滿著美食與美好的饗宴。我們的料理風格融合了傳統與創新，每一道菜都是我們烹飪團隊用心打造的藝術品
@@ -190,7 +190,7 @@ onMounted(() => {
       <div class="flex flex-wrap customBorder-xl rd-3 overflow-hidden bg-primary">
         <div
           class="w-100% md:w-50% flex flex-col justify-center bg-secondary border-(b-3 solid primary) md:border-(b-0 r-3) p-6 sm:p-10 md:p-15 ">
-          <h4 class="font-size-10 sm:font-size-12 font-italic tracking-widest mb-5 ">值得信任的阿橘
+          <h4 class="font-size-10 sm:font-size-12 tracking-widest mb-5 ">值得信任的阿橘
           </h4>
           <p class="lh-loose tracking-wider">
             親愛的食客們，阿橘大廚受過法國、日本、韓國等專業訓練，每道料理都是阿橘精心研發、悉心呈現的絕佳組合，帶給您難忘的美食體驗。阿橘專注於每一道菜品的製作，並結合了傳統烹飪技藝和創新的烹飪理念，讓每一道菜都充滿了驚喜和美味。

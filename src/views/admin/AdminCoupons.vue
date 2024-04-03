@@ -120,7 +120,6 @@ function deleteCoupon(coupon) {
         })
     }
   })
-
 }
 function dateColor(date) {
   const now = Date.now() / 1000;
