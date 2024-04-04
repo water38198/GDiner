@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const isLoading = ref(false);
 const productsListRef = ref();
-const sortBy = ref('');
+const sortBy = ref('最新');
 const filterCategories = ref([]);
 const lowPrice = ref();
 const highPrice = ref();
@@ -155,9 +155,8 @@ watchEffect(() => {
     <h2 class="mb-10 py-6 font-size-10 md:(mb-16 font-size-15)">料理</h2>
     <!-- 篩選 -->
     <div class="flex flex-wrap justify-between mb-6">
-      <form action="" class="flex gap-2 sm:gap-4">
-        <h3>篩選：</h3>
-        <details class="relative mb-4">
+      <form action="" class="flex items-center gap-2 sm:gap-4">
+        <details class="relative">
           <summary class="flex list-none text-primary-light cursor-pointer hover:(underline underline-offset-4)">
             <span class="text-primary-light hover:text-primary">分類</span>
             <div class="i-material-symbols:keyboard-arrow-down"></div>
@@ -250,20 +249,17 @@ watchEffect(() => {
           </div>
         </details>
         <div>
-          <label for="sortBy" class="me-4">排序:</label>
           <select name="sortBy" id="sortBy" @change="sortProduct" v-model="sortBy"
-            class="bg-transparent border-0 cursor-pointer" ref="sortRef">
-            <option value="" disabled class="hidden" selected>請選擇</option>
+            class="bg-transparent border-0 cursor-pointer font-size-4" ref="sortRef">
             <option value="最高價格">最高價格</option>
             <option value="最低價格">最低價格</option>
-            <option value="最新">最新</option>
+            <option value="最新" selected>最新</option>
             <option value="最舊">最舊</option>
           </select>
         </div>
       </form>
       <span class="ms-auto">{{ filteredList.length === products.length ? `${filteredList.length} 項料理` :
-    `${filteredList.length}
-        之 ${products.length} 項料理`
+    `${filteredList.length} 項料理`
         }}</span>
     </div>
     <!-- 已選擇的篩選 -->
