@@ -59,7 +59,7 @@ function autoClose(e) {
   }
 }
 function veggieColor(veggie) {
-  return veggie === '全素' ? "text-green-700" : veggie === '蛋奶素' ? "text-yellow-500" : "text-red-700"
+  return veggie === '全素' ? "green-700" : veggie === '蛋奶素' ? "yellow-500" : "red-700"
 }
 
 onMounted(() => {
@@ -93,25 +93,25 @@ watch(() => route.params, () => {
               </div>
             </div>
           </template>
-          <div class="flex flex-wrap gap-2">
-            <span v-for="tag in product.tags" :key="tag"
-              class="border-(2 solid primary-200) px-4 py-2 rd-10 text-primary-2">{{
-          tag }}</span>
-          </div>
         </div>
         <!-- 文字內容 -->
         <div>
           <h2 class="mb-6 font-size-10 font-serif">{{ product.title }}</h2>
-          <div class="flex gap-2">
-            <p class="mb-3 font-size-4 text-info">{{ product.category }}</p>
-            <p class="font-size-4" :class="veggieColor(product.veggie)">{{ product.veggie }}</p>
+          <div class="flex flex-wrap items-center gap-3 mb-4 font-size-3">
+            <p class="border-(2 solid info) px-2 py-1 md:(px-4 py-2) rd-10 text-info">{{ product.category }}</p>
+            <p class="border-(2 solid) px-2 py-1 md:(px-4 py-2) rd-10" :class="`text-${veggieColor(product.veggie)}`">
+              {{
+          product.veggie }}</p>
+            <p v-for="tag in product.tags" :key="tag"
+              class="border-(2 solid primary-200) px-2 py-1 md:(px-4 py-2) rd-10">{{
+          tag }}</p>
           </div>
           <div class="mb-6" v-if="product.origin_price !== product.price">
-            <del class="me-4">NT${{ product.origin_price }}</del>
-            <span class="text-red font-size-6">NT${{ product.price }}</span>
+            <span class="text-red font-size-7 me-4">NT$ {{ product.price }}</span>
+            <del class="text-gray-400">NT$ {{ product.origin_price }}</del>
           </div>
           <div v-else class="mb-6">
-            <span class="font-size-6"> NT${{ product.price }}</span>
+            <span class="font-size-7"> NT$ {{ product.price }}</span>
           </div>
           <div class="mb-6">
             <label class="block mb-3 font-size-3 text-primary-light" for="quantity">數量</label>
@@ -129,13 +129,13 @@ watch(() => route.params, () => {
               </button>
             </div>
           </div>
-          <div class="md:max-w-100 w-100% mb-6">
+          <div class="flex flex-col sm:flex-row gap-4 md:max-w-100 w-100% mb-6">
             <button
-              class="block w-100% mb-4 py-3 customBorder rd-10 bg-transparent cursor-pointer hover:outline-(1px solid primary)"
+              class="block w-100%  py-3 customBorder rd-10 bg-transparent cursor-pointer font-size-4 hover:(bg-primary text-secondary)"
               @click="addCart(product.id, quantity)" :class="{ 'pointer-events-none opacity-75': isLoading }"
               type="button">加入購物車</button>
             <RouterLink to="/cart" @click="addCart(product.id, quantity, true)"
-              class="block w-100% py-3 rd-10 bg-info text-secondary text-center shadow-[0_2px_0_0_#3D081B] hover:shadow-[0_2px_2px_0_#3D081B]">
+              class="flex justify-center items-center w-100% px-2 py-4 rd-10 bg-info text-secondary hover:(bg-info-dark)">
               立即購買</RouterLink>
           </div>
           <div class="mb-6">

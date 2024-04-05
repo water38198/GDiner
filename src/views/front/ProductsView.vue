@@ -154,7 +154,7 @@ watchEffect(() => {
   <div class="container px-4 lg:px-12.5">
     <h2 class="mb-10 py-6 font-size-10 md:(mb-16 font-size-15)">料理</h2>
     <!-- 篩選 -->
-    <div class="flex flex-wrap justify-between mb-6">
+    <div class="flex flex-wrap items-center justify-between mb-6">
       <form action="" class="flex items-center gap-2 sm:gap-4">
         <details class="relative">
           <summary class="flex list-none text-primary-light cursor-pointer hover:(underline underline-offset-4)">

@@ -25,7 +25,10 @@ export default defineConfig({
                 DEFAULT: '#F2EFDD',
                 'light': 'rgba(242,239,221,.03)'
             },
-            'info':'#910F3F'
+            'info': {
+                DEFAULT: '#910F3F',
+                'dark': 'hsl(338, 81%, 20%)'
+            }
         },
         container: {
             center: true,
