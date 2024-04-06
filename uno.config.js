@@ -27,7 +27,7 @@ export default defineConfig({
             },
             'info': {
                 DEFAULT: '#910F3F',
-                'dark': 'hsl(338, 81%, 20%)'
+                'dark': 'hsl(338, 81%, 25%)'
             }
         },
         container: {

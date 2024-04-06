@@ -51,7 +51,7 @@ export const useCartStore = defineStore('cart', () => {
       }
     }
     const orderId = product.id;
-    const {product_id} = product;
+    const { product_id } = product;
     const qty = product.qty;
     isLoading.value = true;
     axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${orderId}`, {
@@ -73,26 +73,37 @@ export const useCartStore = defineStore('cart', () => {
       })
   })
   function deleteCart(id) {
-    axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${id}`)
-      .then(() => {
-        getCart();
-        Swal.fire({
-          title: '刪除成功',
-          icon: 'success',
-          toast: true,
-          position: 'bottom-right',
-          showConfirmButton: false,
-          timer: 1500
-        })
-      })
-      .catch(() => {
-        Swal.fire({
-          title: '錯誤發生',
-          icon: 'error',
-          text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
-          confirmButtonColor: '#3D081B',
-        })
-      })
+    Swal.fire({
+      title: '您確定要刪除嗎?',
+      showCancelButton: true,
+      confirmButtonText: '確定',
+      confirmButtonColor: '#3D081B',
+      cancelButtonText: '取消'
+    }).then(result => {
+      if (result.isConfirmed) {
+        axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${id}`)
+          .then(() => {
+            getCart();
+            Swal.fire({
+              title: '刪除成功',
+              icon: 'success',
+              toast: true,
+              position: 'bottom-right',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          })
+          .catch(() => {
+            Swal.fire({
+              title: '錯誤發生',
+              icon: 'error',
+              text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
+              confirmButtonColor: '#3D081B',
+            })
+          })
+      }
+    })
+
   }
   function deleteCartAll() {
     Swal.fire({

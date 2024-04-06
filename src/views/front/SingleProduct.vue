@@ -135,7 +135,7 @@ watch(() => route.params, () => {
               @click="addCart(product.id, quantity)" :class="{ 'pointer-events-none opacity-75': isLoading }"
               type="button">加入購物車</button>
             <RouterLink to="/cart" @click="addCart(product.id, quantity, true)"
-              class="flex justify-center items-center w-100% px-2 py-4 rd-10 bg-info text-secondary hover:(bg-info-dark)">
+              class="flex justify-center items-center w-100% px-2 py-3.5 rd-10 bg-info shadow-[0_2px_0_0_#3D081B] text-secondary hover:(bg-info-dark)">
               立即購買</RouterLink>
           </div>
           <div class="mb-6">
