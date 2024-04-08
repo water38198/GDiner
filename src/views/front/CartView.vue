@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCartStore } from '@/stores/cartStore'
+import { useRouter } from 'vue-router'
 import Loading from 'vue-loading-overlay'
 import Swal from 'sweetalert2'
 import axios from 'axios'
@@ -10,6 +11,7 @@ import RandomProduct from '@/components/front/RandomProduct.vue';
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const store = useCartStore();
 const { cart, isLoading } = storeToRefs(store);
+const router = useRouter();
 const excludeList = computed(() => {
   const list = [];
   if (cart.value.carts) {
@@ -44,10 +46,13 @@ function submitOrder() {
       Swal.fire({
         title: res.data.message,
         icon: "success",
-        text: `訂單號碼：${res.data.orderId}`,
-        didClose: () => {
-          getCart();
+        confirmButtonColor: '#3D081B',
+        confirmButtonText: "複製",
+      }).then(result => {
+        if (result.isConfirmed) {
+          navigator.clipboard.writeText(`${res.data.orderId}`);
         }
+        router.push(`order?id=${res.data.orderId}`);
       })
     })
     .catch(err => {

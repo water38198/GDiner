@@ -129,6 +129,10 @@ watch(() => route.path, () => {
                   <RouterLink to="/contact" class="block px-8 py-3 font-size-6 text-primary">聯絡我們
                   </RouterLink>
                 </li>
+                <li>
+                  <RouterLink to="/order" class="block px-8 py-3 font-size-6 text-primary">訂單查詢
+                  </RouterLink>
+                </li>
               </ul>
               <!-- 其他網站 -->
               <ul class="flex justify-center bg-primary-veryLight py-4 sticky bottom-0">
@@ -180,6 +184,11 @@ watch(() => route.path, () => {
           <RouterLink to="/contact"
             class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
             聯絡我們</RouterLink>
+        </li>
+        <li>
+          <RouterLink to="/order"
+            class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
+            訂單查詢</RouterLink>
         </li>
       </ul>
       <!-- 搜尋與購物車 -->
