@@ -25,7 +25,6 @@ function getOrder(id) {
         })
       } else {
         order.value = res.data.order;
-        console.log(order.value)
       }
     })
     .catch(err => {

@@ -17,9 +17,11 @@ watch(() => props.tempCoupon, () => {
   // 時間戳記轉換成日期
   if (tempCoupon.value.due_date) {
     dateTime.value = moment(tempCoupon.value.due_date * 1000).format('YYYY-MM-DD')
+  } else {
+    dateTime.value = '';
   };
   if (!tempCoupon.value.is_enabled) {
-    tempCoupon.value.is_enabled = 0
+    tempCoupon.value.is_enabled = 0;
   }
 })
 watch(() => dateTime.value, () => {
@@ -58,7 +60,6 @@ defineExpose({
             :class="{ 'invalid': errors['到期日'] }" v-model="dateTime" :min="moment().format('YYYY-MM-DD')" />
           <ErrorMessage name="到期日" class="block ps-3 pt-2 text-red-500 font-size-3"></ErrorMessage>
         </div>
-
         <div class="input-group mb-4">
           <label for="percent">優惠比例：</label>
           <VField type="number" id="percent" placeholder="請輸入折扣百分比" name="優惠比例"
