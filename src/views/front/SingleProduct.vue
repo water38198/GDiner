@@ -1,11 +1,11 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router'
-import axios from 'axios'
-import Swal from 'sweetalert2'
-import Loading from 'vue-loading-overlay'
-import { useCartStore } from '@/stores/cartStore'
-import { storeToRefs } from 'pinia'
+import { useRoute } from 'vue-router';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import Loading from 'vue-loading-overlay';
+import { useCartStore } from '@/stores/cartStore';
+import { storeToRefs } from 'pinia';
 import RandomProduct from '@/components/front/RandomProduct.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -77,7 +77,7 @@ watch(() => route.params, () => {
   <main class="py-10">
     <div class="container px-4 md:px-12.5 ">
       <div class="grid md:grid-cols-[40%_60%] gap-10 mb-16">
-        <Loading :active="LoadingItems.includes('product')"></Loading>
+        <Loading :active="LoadingItems.includes('product')" />
         <!-- 商品圖片 -->
         <div>
           <div class="mb-8">

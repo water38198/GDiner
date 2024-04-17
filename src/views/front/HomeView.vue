@@ -1,11 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios'
-import Loading from 'vue-loading-overlay'
+import axios from 'axios';
+import Loading from 'vue-loading-overlay';
 import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-const hotProductsRef = ref();
 const products = ref([]);
 const isLoading = ref(false);
 const email = ref('');
@@ -64,7 +63,7 @@ onMounted(() => {
   </header>
   <main class="py-6 md:py-10 px-4 md:(container px-12.5)">
     <!-- 火熱商品 -->
-    <section class="relative mb-16" ref="hotProductsRef">
+    <section class="relative mb-16" >
       <h2 class="font-size-7 tracking-widest mb-7.5 flex">火熱商品 <div class="i-twemoji:fire inline-block">
         </div>
       </h2>
@@ -203,7 +202,6 @@ onMounted(() => {
         </div>
       </div>
     </section>
-
     <section class="mb-16">
       <div class="grid md:grid-cols-3 gap-6 md:gap-3">
         <div class="customBorder-xl rd-3 pt-6 text-center" data-aos="fade-up" data-aos-delay="100">

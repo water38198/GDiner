@@ -1,24 +1,17 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useCartStore } from '@/stores/cartStore'
-import { useRouter } from 'vue-router'
-import Loading from 'vue-loading-overlay'
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import { ref, computed } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useCartStore } from '@/stores/cartStore';
+import { useRouter } from 'vue-router';
+import Loading from 'vue-loading-overlay';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 import RandomProduct from '@/components/front/RandomProduct.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const store = useCartStore();
 const { cart, isLoading } = storeToRefs(store);
 const router = useRouter();
-const excludeList = computed(() => {
-  const list = [];
-  if (cart.value.carts) {
-    cart.value.carts.forEach(product => list.push(product.product.id))
-  }
-  return list
-})
 const { getCart, updateCart, deleteCart, deleteCartAll } = store;
 const loadingItems = ref([]);
 const userForm = ref({
@@ -108,6 +101,14 @@ function isPhone(value) {
   const phoneNumber = /^(09)[0-9]{8}$/;
   return phoneNumber.test(value) ? true : "請輸入正確的電話號碼"
 }
+
+const excludeList = computed(() => {
+  const list = [];
+  if (cart.value.carts) {
+    cart.value.carts.forEach(product => list.push(product.product.id))
+  }
+  return list
+})
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios'
-import Loading from 'vue-loading-overlay'
+import axios from 'axios';
+import Loading from 'vue-loading-overlay';
 import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Loading :active="isLoading"></Loading>
+  <Loading :active="isLoading" />
   <div class="container px-4 md:px-12.5 pb-16">
     <section class="pt-6">
       <div class="mb-8">

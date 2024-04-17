@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import Swal from 'sweetalert2'
-import { useRouter, RouterView } from 'vue-router'
-import Loading from 'vue-loading-overlay'
+import Swal from 'sweetalert2';
+import { useRouter, RouterView } from 'vue-router';
+import Loading from 'vue-loading-overlay';
 import AdminNavbar from '@/components/admin/AdminNavbar.vue';
 
 const { VITE_URL } = import.meta.env;

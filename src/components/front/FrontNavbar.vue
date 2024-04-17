@@ -7,15 +7,6 @@ import { useCartStore } from '@/stores/cartStore'
 // 取得購物車資料
 const store = useCartStore();
 const { cart } = storeToRefs(store);
-const route = useRoute();
-const router = useRouter();
-const searchIsShow = ref(false); //搜尋欄的ref
-const searchText = ref('')// 搜尋的文字
-const lastScrollTop = ref(0);// 滾動前，距離頂端的距離
-const isShow = ref(true);// 滾動後是否顯示 Navbar
-const details = ref();//側邊選單ref
-const detailsIsOpen = ref(false);
-
 const cartNumb = computed(() => {
   let num = 0;
   cart.value.carts.forEach(product => {
@@ -24,6 +15,12 @@ const cartNumb = computed(() => {
   return num
 })
 
+const searchIsShow = ref(false); //搜尋欄的ref
+const searchText = ref('')// 搜尋的文字
+const lastScrollTop = ref(0);// 滾動前，距離頂端的距離
+const isShow = ref(true);// 滾動後是否顯示 Navbar
+const details = ref();//側邊選單ref
+const detailsIsOpen = ref(false);
 function scrolling() {
   let scrollTop = window.scrollY || window.pageYOffset;// 滾動到目前與頂端的距離
   // 如果新的比較大表示往下滾動，則不要顯示 Navbar
@@ -66,6 +63,9 @@ function animating(e) {
     details.value.classList.remove('opening')
   }
 }
+
+const route = useRoute();
+const router = useRouter();
 function goSearch() {
   if (!searchText.value) return;
   router.push(`/products?search=${searchText.value}`);

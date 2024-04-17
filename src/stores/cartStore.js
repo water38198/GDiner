@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import Swal from 'sweetalert2'
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export const useCartStore = defineStore('cart', () => {
   const cart = ref({});
@@ -37,7 +37,6 @@ export const useCartStore = defineStore('cart', () => {
   }
   const updateCart = debounce((product, event) => {
     // 直接修改 input 數量時 輸入小於 1 的數量 或是 輸入非數字都會跳錯並修正為原本的數字
-    console.log(product)
     if (event) {
       if (event.target.value <= 0 || typeof (+event.target.value) !== 'number') {
         Swal.fire({

@@ -2,15 +2,15 @@
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
-import moment from 'moment'
-import Swal from 'sweetalert2'
-import Loading from 'vue-loading-overlay'
+import moment from 'moment';
+import Swal from 'sweetalert2';
+import Loading from 'vue-loading-overlay';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const route = useRoute();
 const orderId = ref('');
 const order = ref(null);
-const isLoading = ref(false)
+const isLoading = ref(false);
 
 function getOrder(id) {
   isLoading.value = true;

@@ -1,7 +1,7 @@
 <script setup>
-import axios from 'axios'
+import axios from 'axios';
 import { ref, onMounted, computed } from 'vue';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const products = ref([]);

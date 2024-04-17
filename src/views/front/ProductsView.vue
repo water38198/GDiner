@@ -1,9 +1,9 @@
 <script setup>
-import { ref, onMounted, watch, watchEffect, computed } from 'vue'
-import axios from 'axios'
-import Loading from 'vue-loading-overlay'
-import { useRoute, useRouter } from 'vue-router'
-import Swal from 'sweetalert2'
+import { ref, onMounted, watch, watchEffect, computed } from 'vue';
+import axios from 'axios';
+import Loading from 'vue-loading-overlay';
+import { useRoute, useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 const isLoading = ref(false);

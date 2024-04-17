@@ -1,14 +1,13 @@
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed } from 'vue';
 
 const props = defineProps(['tempOrder'])
 const tempOrder = ref(props.tempOrder);
-const dialog = ref();
 // 檢查訂單資料有無更動，
 const isChanged = computed(() => {
   return JSON.stringify(props.tempOrder) == JSON.stringify(tempOrder.value);
 })
-
+const dialog = ref();
 function autoClose(e) {
   if (e.target.nodeName === "DIALOG") {
     dialog.value.close()

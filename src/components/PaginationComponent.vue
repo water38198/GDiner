@@ -5,6 +5,7 @@ function changePage(page) {
   emit('changePage', page);
 }
 </script>
+
 <template>
   <div class="container mx-a py-6">
     <nav class="flex justify-center">
@@ -33,6 +34,7 @@ function changePage(page) {
     </nav>
   </div>
 </template>
+
 <style scoped lang="scss">
 li {
   &.disabled {

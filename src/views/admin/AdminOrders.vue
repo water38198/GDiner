@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import moment from 'moment'
+import moment from 'moment';
 import Loading from 'vue-loading-overlay';
 import OrderModal from '@/components/admin/OrderModal.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
@@ -184,6 +184,7 @@ onMounted(() => {
   </div>
   <OrderModal :temp-order="tempOrder" ref="orderModalRef" @confirm-order="confirmOrder" />
 </template>
+
 <style lang="postcss">
 td,
 th {

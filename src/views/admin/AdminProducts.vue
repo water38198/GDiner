@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import axios from 'axios';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
@@ -194,6 +194,7 @@ onMounted(() => {
     <PaginationComponent :pages="pagination" @change-page="getProducts" />
   </template>
 </template>
+
 <style lang="postcss">
 td,
 th {

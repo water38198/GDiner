@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import Swal from 'sweetalert2'
-import moment from 'moment'
+import Swal from 'sweetalert2';
+import moment from 'moment';
 import Loading from 'vue-loading-overlay';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import CouponModal from '@/components/admin/CouponModal.vue';
@@ -11,10 +11,6 @@ const { VITE_URL, VITE_PATH } = import.meta.env;
 const coupons = ref([]);
 const isLoading = ref(false);
 const pagination = ref({});
-const tempCoupon = ref({});
-const couponModalRef = ref();
-const isNew = ref(false);
-
 function getCoupons(page = 1) {
   isLoading.value = true;
   axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupons?page=${page}`)
@@ -33,6 +29,10 @@ function getCoupons(page = 1) {
       isLoading.value = false;
     })
 }
+
+const tempCoupon = ref({});
+const couponModalRef = ref();
+const isNew = ref(false);
 function addCoupon() {
   isNew.value = true;
   tempCoupon.value = {};
@@ -143,7 +143,7 @@ onMounted(() => {
   <div class="p-10 flex flex-col h-100%">
     <h2 class="font-size-12">優惠券</h2>
     <div class="relative min-h-100">
-      <Loading :active="isLoading" :is-full-page="false"></Loading>
+      <Loading :active="isLoading" :is-full-page="false" />
       <div class="text-end mt-6">
         <!-- 新增按鈕 -->
         <button type="button"
@@ -214,11 +214,11 @@ onMounted(() => {
   </div>
 
   <!-- Modal -->
-  <CouponModal :temp-coupon="tempCoupon" ref="couponModalRef" :is-new="isNew" @confirm-coupon="confirmCoupon">
-  </CouponModal>
+  <CouponModal :temp-coupon="tempCoupon" ref="couponModalRef" :is-new="isNew" @confirm-coupon="confirmCoupon" />
   <!--分頁  -->
 
 </template>
+
 <style lang="postcss">
 td,
 th {

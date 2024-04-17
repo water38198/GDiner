@@ -1,11 +1,10 @@
 <script setup>
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router';
 import axios from 'axios';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const { VITE_URL } = import.meta.env;
 const router = useRouter();
-
 function logOut() {
   axios.post(`${VITE_URL}/v2/logOut`)
     .then(() => {
