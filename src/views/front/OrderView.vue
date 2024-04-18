@@ -143,7 +143,7 @@ onMounted(() => {
       </div>
     </div>
     <RouterLink to="/"
-      class="mx-auto mb-10 flex justify-center items-center max-w-50% w-100% h-12 p-(x-7.5 y-1.5) bg-info  shadow-[0_2px_0_0_#3D081B] text-secondary border-0 rd-10  hover:(shadow-none bg-info-dark)">
+      class="mb-10 flex justify-center items-center max-w-[max(25%,250px)] w-100% h-12 p-(x-7.5 y-1.5) bg-info  shadow-[0_2px_0_0_#3D081B] text-secondary border-0 rd-10  hover:(shadow-none bg-info-dark)">
       回首頁</RouterLink>
   </div>
 </template>

@@ -39,20 +39,9 @@ function submitOrder() {
       Swal.fire({
         title: res.data.message,
         icon: "success",
-        confirmButtonColor: '#3D081B',
-        confirmButtonText: "複製",
-      }).then(result => {
-        if (result.isConfirmed) {
-          navigator.clipboard.writeText(`${res.data.orderId}`);
-          Swal.fire({
-            icon: 'success',
-            title: '已複製到剪貼簿',
-            toast: true,
-            position: 'bottom-end',
-            timer: 1500,
-            showConfirmButton: false
-          })
-        };
+        timer:1500,
+        showConfirmButton:false,
+      }).then(() => {
         getCart();
         router.push(`order?id=${res.data.orderId}`);
       })
