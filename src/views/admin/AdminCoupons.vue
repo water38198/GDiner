@@ -47,7 +47,7 @@ function editCoupon(coupon) {
   couponModalRef.value.dialog.showModal()
 }
 function confirmCoupon(coupon) {
-  coupon.due_date = coupon.due_date / 1000;
+  console.log(coupon)
   if (isNew.value) {
     axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon`, {
       data: coupon

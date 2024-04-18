@@ -16,16 +16,16 @@ watch(() => props.tempCoupon, () => {
   tempCoupon.value = { ...props.tempCoupon };
   // 時間戳記轉換成日期
   if (tempCoupon.value.due_date) {
-    dateTime.value = moment(tempCoupon.value.due_date * 1000).format('YYYY-MM-DD')
+    dateTime.value = moment(tempCoupon.value.due_date * 1000).format('YYYY-MM-DD');
   } else {
-    dateTime.value = '';
+    dateTime.value = moment(new Date().getTime()).format('YYYY-MM-DD');
   };
   if (!tempCoupon.value.is_enabled) {
     tempCoupon.value.is_enabled = 0;
   }
 })
 watch(() => dateTime.value, () => {
-  tempCoupon.value.due_date = new Date(dateTime.value).getTime();
+  tempCoupon.value.due_date = new Date(dateTime.value).getTime() / 1000;
 })
 defineExpose({
   dialog

@@ -9,8 +9,9 @@ import AdminNavbar from '@/components/admin/AdminNavbar.vue';
 const { VITE_URL } = import.meta.env;
 const router = useRouter();
 const isChecked = ref(false);
-
+const isLoading = ref(false);
 function checkAdmin() {
+  isLoading.value = true;
   // 取出 token
   const token = document.cookie
     .split("; ")
@@ -22,14 +23,16 @@ function checkAdmin() {
     .then(() => {
       isChecked.value = true;
     }).catch(() => {
-      isChecked.value = true;
+      isChecked.value = false;
       Swal.fire({
         title: "請重新登入",
         icon: "error",
         didClose: () => {
-          router.push("/login")
+          router.push("/login");
         }
       })
+    }).finally(() => {
+      isLoading.value = false;
     })
 }
 
@@ -39,7 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Loading :active="!isChecked" :full-page="true" />
+  <Loading :active="isLoading" :full-page="true" />
   <div class="grid grid-cols-[20rem_1fr] gap-2 h-screen">
     <AdminNavbar />
     <div v-if="isChecked">
