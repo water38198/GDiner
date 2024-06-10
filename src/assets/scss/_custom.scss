@@ -1,3 +1,20 @@
+// 破圖處理
+img {
+  position: relative;
+
+  &:after {
+    content: attr(alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background-color: #3D081B;
+    inset: 0;
+    color: white;
+  }
+}
+
+
 .font-serif {
   font-family: 'Noto Serif TC', serif, sans-serif;
 }
