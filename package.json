@@ -16,15 +16,17 @@
     "@vee-validate/i18n": "^4.12.6",
     "@vee-validate/rules": "^4.12.6",
     "aos": "^2.3.4",
-    "axios": "^1.6.7",
+    "axios": "^1.7.2",
     "moment": "^2.30.1",
     "pinia": "^2.1.7",
     "sweetalert2": "^11.10.5",
     "swiper": "^11.0.7",
     "vee-validate": "^4.12.6",
     "vue": "^3.4.15",
+    "vue-axios": "^3.5.2",
     "vue-loading-overlay": "6.0",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-sweetalert2": "^5.0.11"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.188",
