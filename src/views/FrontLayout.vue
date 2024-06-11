@@ -1,7 +1,9 @@
-<script setup>
-import { RouterView } from 'vue-router';
+<script>
 import FrontNavbar from '@/components/front/FrontNavbar.vue';
 import FrontFooter from '@/components/front/FrontFooter.vue';
+export default {
+  components:{FrontNavbar, FrontFooter}
+}
 </script>
 
 <template>

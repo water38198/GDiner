@@ -1,10 +1,12 @@
 // 破圖處理
 img {
   position: relative;
+  display: block;
 
   &:after {
     content: attr(alt);
     display: flex;
+    font-size: 16px;
     align-items: center;
     justify-content: center;
     position: absolute;

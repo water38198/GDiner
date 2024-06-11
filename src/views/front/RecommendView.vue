@@ -1,39 +1,38 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import Loading from 'vue-loading-overlay';
-import Swal from 'sweetalert2';
-
+<script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
-const products = ref([]);
-const isLoading = ref(false);
 
-function getProducts() {
-  isLoading.value = true;
-  axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products/all`)
-    .then(res => {
-      products.value = res.data.products.reverse();
-    })
-    .catch(() => {
-      Swal.fire({
-        title: '錯誤發生',
-        icon: 'error',
-        text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
-        confirmButtonColor: '#3D081B',
-      })
-    })
-    .finally(() => {
-      isLoading.value = false;
-    })
+export default {
+  data() {
+    return {
+      products: [],
+      isLoading:false,
+    }
+  },
+  methods: {
+    async getProducts() {
+      this.isLoading = true;
+      try {
+        const res = await this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/products/all`);
+        this.products = res.data.products.reverse();
+      } catch (err) {
+        this.$swal({
+          title: '錯誤發生',
+          icon: 'error',
+          text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
+        })
+      } finally {
+        this.isLoading = false;
+      }
+    }
+  },
+  mounted() {
+    this.getProducts();
+  }
 }
-
-onMounted(() => {
-  getProducts();
-})
 </script>
 
 <template>
-  <Loading :active="isLoading" />
+  <VLoading :active="isLoading" />
   <div class="container px-4 md:px-12.5 pb-16">
     <section class="pt-6">
       <div class="mb-8">
@@ -135,7 +134,7 @@ onMounted(() => {
             <div class="card-image">
               <img
                 src="https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711208607404.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=R%2BibykpH3TVLUt1W68Z8h7bSXbzhjB0KJE53cpm6myt%2BRRHW1XDK75piSd6u8oJZ9SoFmiLT6oJyTURbEuXwQjedXC7xVqw7qkFYKhju00oKF6Eg38%2FfVICi7l36Z%2BmjkyupSu9i8DkMnfpuiUzRKSTpJZXFzjONKajAgS2GDJZltflhcACUj%2BvGS4iEK%2BWPI1GML4hoKn4NLCGGBDZAPbG4Uh1pg%2BdokE9o1BfHKF7xGGAfmTNjNH%2FdOM1gWYdWvw1a0%2BPXrAoOf4G1yVSac8YEXcWX5HTi6G3lQa%2Bg9Rt8xCX8fb4qRisZeLkbGI7S9LfZeES0RpwtCTzv3zVuFA%3D%3D"
-                alt="" class="block h-150px w-100% md:h-250px">
+                alt="" class="h-150px w-100% md:h-250px">
             </div>
             <h4 class="mb-4 font-size-4.5 tracking-wider flex">其他料理<div
                 class="i-material-symbols:arrow-right-alt inline-block">

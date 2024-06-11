@@ -1,165 +1,154 @@
-<script setup>
-import { ref, onMounted, watch, watchEffect, computed } from 'vue'
-import axios from 'axios'
-import Loading from 'vue-loading-overlay'
-import { useRoute, useRouter } from 'vue-router'
-import Swal from 'sweetalert2'
-
+<script>
 const { VITE_URL, VITE_PATH } = import.meta.env
-const isLoading = ref(false)
-const productsListRef = ref()
-const sortBy = ref('最新')
-const filterCategories = ref([])
-const lowPrice = ref()
-const highPrice = ref()
-const priceRangeText = ref('')
-const searchText = ref('')
 
-const route = useRoute()
-const router = useRouter()
-// 頁數
-const pages = ref({
-  current: 1,
-  total: 0
-})
-const products = ref([])
-
-const filteredList = computed(() => {
-  let newList = []
-  // 分類：主食、甜點、湯品
-  if (filterCategories.value.length > 0) {
-    newList = products.value.filter((product) => filterCategories.value.includes(product.category))
-  } else {
-    newList = products.value
-  }
-  // 價格
-  if (lowPrice.value > 0) {
-    newList = newList.filter((product) => product.price >= lowPrice.value)
-  }
-  if (highPrice.value > 0) {
-    newList = newList.filter((product) => product.price <= highPrice.value)
-  }
-  // 排序
-  if (sortBy.value === '最新') newList = newList.sort((a, b) => b.created - a.created)
-  if (sortBy.value === '最舊') newList = newList.sort((a, b) => a.created - b.created)
-  if (sortBy.value === '最高價格') newList = newList.sort((a, b) => b.price - a.price)
-  if (sortBy.value === '最低價格') newList = newList.sort((a, b) => a.price - b.price)
-  // 搜尋
-  if (searchText.value) {
-    newList = newList.filter((product) => product.title.includes(searchText.value))
-  }
-  return newList
-})
-
-function getProducts() {
-  isLoading.value = true
-  axios
-    .get(`${VITE_URL}/v2/api/${VITE_PATH}/products/all`)
-    .then((res) => {
-      products.value = res.data.products
-    })
-    .catch((err) => {
-      Swal.fire({
-        title: '錯誤發生',
-        icon: 'error',
-        text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-        confirmButtonColor: '#3D081B'
-      })
-    })
-    .finally(() => {
-      isLoading.value = false
-    })
-}
-function deleteCategory(category) {
-  const index = filterCategories.value.indexOf(category)
-  filterCategories.value.splice(index, 1)
-}
-function resetCategory() {
-  filterCategories.value = []
-}
-function resetPriceRange() {
-  lowPrice.value = null
-  highPrice.value = null
-  priceRangeText.value = ''
-}
-function resetSearch() {
-  searchText.value = ''
-  router.push('/products') //Url整理乾淨
-}
-function resetFilter() {
-  resetCategory()
-  resetPriceRange()
-  resetSearch()
-}
-
-// 換頁
-function changePage(action) {
-  if (typeof action === 'number') {
-    pages.value.current = action
-  } else if (action === '+') {
-    pages.value.current++
-  } else {
-    pages.value--
-  }
-  window.scrollTo({
-    top: 0
-  })
-}
-
-onMounted(() => {
-  // 抓取任何的篩選、分類、搜尋
-  if (route.query.category) {
-    filterCategories.value.push(route.query.category)
-  }
-  if (route.query.sort) {
-    sortBy.value = route.query.sort
-  }
-  if (route.query.search) {
-    searchText.value = route.query.search
-  }
-  getProducts()
-})
-
-watch(
-  () => route.query,
-  () => {
-    if (route.query.search) {
-      searchText.value = route.query.search
+export default {
+  data() {
+    return {
+      isLoading: false,
+      products:[],
+      sortBy: '最新',
+      filterCategories: [],
+      lowPrice: null,
+      highPrice: null,
+      priceRangeText: '',
+      searchText: '',
+      pages: {
+        current: 1,
+        total:0
+      }
     }
-  }
-)
-
-watchEffect(() => {
-  // 計算價格範圍
-  let lowText = lowPrice.value
-  let highText = highPrice.value
-  if (lowPrice.value == undefined || lowPrice.value == null) {
-    lowText = ''
-  }
-  if (highPrice.value == undefined || highPrice.value == null) {
-    highText = ''
-  }
-  if (lowText == '' && highText == '') {
-    priceRangeText.value = ''
-  } else {
-    priceRangeText.value = `${lowText} ~ ${highText}`
-  }
-})
-watch(
-  () => filteredList.value,
-  () => {
-    console.log(filteredList.value.length)
-    pages.value.total = Math.ceil(filteredList.value.length / 12)
-    pages.value.current = 1
   },
-  { deep: true }
-)
+  computed: {
+    filteredList() {
+      let newList = []
+      // 分類：主食、甜點、湯品
+      if (this.filterCategories.length > 0) {
+        newList = this.products.filter((product) => this.filterCategories.includes(product.category))
+      } else {
+        newList = this.products;
+      }
+      // 價格
+      if (this.lowPrice > 0) {
+        newList = newList.filter((product) => product.price >= this.lowPrice);
+      };
+      if (this.highPrice > 0) {
+        newList = newList.filter((product) => product.price <= this.highPrice);
+      };
+    // 排序
+      if (this.sortBy === '最新') newList = newList.sort((a, b) => b.created - a.created)
+      if (this.sortBy === '最舊') newList = newList.sort((a, b) => a.created - b.created)
+      if (this.sortBy === '最高價格') newList = newList.sort((a, b) => b.price - a.price)
+      if (this.sortBy === '最低價格') newList = newList.sort((a, b) => a.price - b.price)
+      // 搜尋
+      if (this.searchText) {
+        newList = newList.filter((product) => product.title.includes(this.searchText))
+      }
+      return newList
+        }
+  },
+  methods: {
+    async getProducts() {
+      this.isLoading = true;
+      try {
+        const res = await this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/products/all`);
+        this.products = res.data.products;
+      } catch (err) {
+        this.$swal({
+          title: '錯誤發生',
+          icon: 'error',
+          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+        })
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    deleteCategory(category) {
+      this.filterCategories = this.filterCategories.filter(item => item !== category);
+    },
+    resetCategory() {
+      this.filterCategories = [];
+    },
+    resetPriceRange() {
+      this.lowPrice = null;
+      this.highPrice = null;
+      this.priceRangeText = '';
+    },
+    resetSearch() {
+      this.searchText.value = '';
+      this.$router.push('/products');
+    },
+    resetFilter() {
+      this.resetCategory();
+      this.resetPriceRange();
+      this.resetSearch();
+    },
+    changePage(action) {
+      if (typeof action === 'number') {
+        this.pages.current = action
+      } else if (action === '+') {
+        this.pages.current++
+      } else {
+        this.pages.current--
+      }
+      window.scrollTo({
+        top: 0
+      })
+    },
+    getPriceText() {
+      // 計算價格範圍
+      let lowText = this.lowPrice;
+      let highText = this.highPrice;
+      if (lowText == undefined || lowText == null) {
+        lowText = '';
+      }
+      if (highText == undefined || highText == null) {
+        highText = '';
+      }
+      if (lowText == '' && highText == '') {
+        this.priceRangeText = '';
+      } else {
+        this.priceRangeText = `${lowText} ~ ${highText}`
+      }
+    }
+  },
+  watch: {
+    $router() {
+      if (this.$route.query.search) {
+        this.searchText.value = this.$route.query.search;
+      }
+    },
+    filteredList() {
+      this.pages.total = Math.ceil(this.filteredList.length / 12);
+      this.pages.current = 1;
+    },
+    lowPrice() {
+      this.getPriceText();
+    },
+    highPrice() {
+      this.getPriceText();
+    }
+  },
+  mounted() {
+  // 抓取任何的篩選、分類、搜尋
+  if (this.$route.query.category) {
+    this.filterCategories.push(this.$route.query.category)
+  }
+  if (this.$route.query.sort) {
+    this.sortBy = this.$route.query.sort;
+  }
+  if (this.$route.query.search) {
+    this.searchText = this.$route.query.search;
+  }
+    this.getProducts();
+  }
+}
+
 </script>
 
 <template>
-  <Loading :active="isLoading" />
+  <VLoading :active="isLoading" />
   <div class="container px-4 lg:px-12.5">
-    <h2 class="mb-10 py-6 font-size-10 md:(mb-16 font-size-15)">料理</h2>
+    <h2 class="py-6 font-size-10 md:(font-size-15)">料理</h2>
     <!-- 篩選 -->
     <div class="flex flex-wrap items-center justify-between mb-6">
       <form action="" class="flex items-center gap-2 sm:gap-4">

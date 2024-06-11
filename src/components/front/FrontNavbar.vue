@@ -118,7 +118,7 @@ watch(() => route.path, () => {
                   </RouterLink>
                 </li>
                 <li>
-                  <RouterLink to="/products" class="block px-8 py-3 font-size-6 text-primary">所有料理
+                  <RouterLink to="/products" class="block px-8 py-3 font-size-6 text-primary">料理
                   </RouterLink>
                 </li>
                 <li>
@@ -173,7 +173,7 @@ watch(() => route.path, () => {
         <li>
           <RouterLink to="/products"
             class="block py-3 text-primary font-size-4.5 opacity-75 hover:(opacity-100 underline underline-offset-6)">
-            所有料理</RouterLink>
+            料理</RouterLink>
         </li>
         <li>
           <RouterLink to="/about"
