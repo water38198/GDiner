@@ -1,16 +1,16 @@
-<script setup>
-import { ref } from 'vue';
-import Swal from 'sweetalert2';
+<script>
 
-const formRef = ref();
-
-function sendForm() {
-  Swal.fire({
-    title: '感謝您的回饋',
-    icon: 'success',
-    text: '已收到您的留言，感謝您的建議與指教，我們會盡快回覆。'
-  })
-  formRef.value.resetForm();
+export default {
+  methods: {
+    sendForm() {
+      this.$swal({
+        title: '感謝您的回饋',
+        icon: 'success',
+        text: '已收到您的留言，感謝您的建議與指教，我們會盡快回覆。'
+      });
+      this.$refs.formRef.resetForm();
+    }
+  }
 }
 </script>
 

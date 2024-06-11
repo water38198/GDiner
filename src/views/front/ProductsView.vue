@@ -20,10 +20,10 @@ export default {
   },
   computed: {
     filteredList() {
-      let newList = []
+      let newList = [];
       // 分類：主食、甜點、湯品
       if (this.filterCategories.length > 0) {
-        newList = this.products.filter((product) => this.filterCategories.includes(product.category))
+        newList = this.products.filter((product) => this.filterCategories.includes(product.category));
       } else {
         newList = this.products;
       }
@@ -34,7 +34,7 @@ export default {
       if (this.highPrice > 0) {
         newList = newList.filter((product) => product.price <= this.highPrice);
       };
-    // 排序
+      // 排序
       if (this.sortBy === '最新') newList = newList.sort((a, b) => b.created - a.created)
       if (this.sortBy === '最舊') newList = newList.sort((a, b) => a.created - b.created)
       if (this.sortBy === '最高價格') newList = newList.sort((a, b) => b.price - a.price)
@@ -43,8 +43,8 @@ export default {
       if (this.searchText) {
         newList = newList.filter((product) => product.title.includes(this.searchText))
       }
-      return newList
-        }
+      return newList;
+    }
   },
   methods: {
     async getProducts() {
