@@ -1,59 +1,60 @@
-<script setup>
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import axios from 'axios';
+<script>
 import moment from 'moment';
-import Swal from 'sweetalert2';
-import Loading from 'vue-loading-overlay';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-const route = useRoute();
-const orderId = ref('');
-const order = ref(null);
-const isLoading = ref(false);
 
-function getOrder(id) {
-  isLoading.value = true;
-  axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/order/${id}`)
-    .then(res => {
-      if (res.data.order === null) {
-        Swal.fire({
-          title: '號碼錯誤',
+export default {
+  data() {
+    return {
+      isLoading: false,
+      orderId: '',
+      order:null,
+    }
+  },
+  methods: {
+    async getOrder(id) {
+      this.isLoading = true;
+      try {
+        const res = await this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/order/${id}`);
+        if (res.data.order === null) {
+          this.$swal({
+            title: '號碼錯誤',
+            icon: 'error',
+            text: `您的訂單號碼可能輸入錯誤，請嘗試重新輸入`,
+          });
+        } else {
+          this.order = res.data.order;
+        }
+      } catch (err) {
+        this.$swal({
+          title: '錯誤發生',
           icon: 'error',
-          text: `您的訂單號碼可能輸入錯誤，請嘗試重新輸入`,
-          confirmButtonColor: '#3D081B',
+          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
         })
-      } else {
-        order.value = res.data.order;
+      } finally {
+        this.isLoading = false;
       }
-    })
-    .catch(err => {
-      Swal.fire({
-        title: '錯誤發生',
-        icon: 'error',
-        text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-        confirmButtonColor: '#3D081B',
-      })
-    })
-    .finally(() => {
-      isLoading.value = false;
-    })
+    },
+    getTime(stamp) {
+      return moment(stamp).format('YYYY-MM-DD')
+    }
+  },
+  mounted() {
+    if (this.$route.query.id) {
+      this.orderId = this.route.query.id;
+      this.getOrder(this.orderId);
+    }
+  }
 }
 
-onMounted(() => {
-  if (route.query.id) {
-    orderId.value = route.query.id;
-    getOrder(orderId.value);
-  };
-})
 </script>
 
 <template>
-  <Loading :active="isLoading" />
+  <VLoading :active="isLoading" />
   <div class="container px-4 md:px-12.5">
-    <h2 class="font-size-12 mb-10">訂單查詢</h2>
-    <div class="mb-10 md:w-50%">
-      <div class="custom-input-group">
+    <h2 class="text-center font-size-12 mb-10">訂單查詢</h2>
+    <div class="mb-10">
+      <div class="custom-input-group w-50% mx-a">
         <input type="text" id="orderId" placeholder="請輸入訂單ID" v-model.trim="orderId">
         <label for="orderId">訂單號碼</label>
         <button
@@ -71,7 +72,7 @@ onMounted(() => {
           </li>
           <li>
             <span class="inline-block w-25">下單時間：</span>
-            <span>{{ moment(order.create_at * 1000).format('YYYY-MM-DD') }}</span>
+            <span>{{ getTime(order.create_at * 1000) }}</span>
           </li>
           <li>
             <span class="inline-block w-25">留言：</span>
@@ -120,31 +121,20 @@ onMounted(() => {
                       class="block max-w-25 w-100% h-100% border-(2 solid primary) rd-2.5">
                   </div>
                 </td>
-                <td>
-                  {{ product.product.title }}
-                </td>
-                <td>
-                  {{ product.qty }}
-                </td>
-                <td class="text-right">
-                  {{ Math.floor(product.final_total) }}
-                </td>
+                <td>{{ product.product.title }}</td>
+                <td>{{ product.qty }} </td>
+                <td class="text-right">{{ Math.floor(product.final_total) }}</td>
               </tr>
             </template>
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="4" class="text-right font-size-6">
-                總計：{{ Math.floor(order.total) }}
-              </td>
+              <td colspan="4" class="text-right font-size-6"> 總計：{{ Math.floor(order.total) }} </td>
             </tr>
           </tfoot>
         </table>
       </div>
     </div>
-    <RouterLink to="/"
-      class="mb-10 flex justify-center items-center max-w-[max(25%,250px)] w-100% h-12 p-(x-7.5 y-1.5) bg-info  shadow-[0_2px_0_0_#3D081B] text-secondary border-0 rd-10  hover:(shadow-none bg-info-dark)">
-      回首頁</RouterLink>
   </div>
 </template>
 
