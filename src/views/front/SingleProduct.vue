@@ -1,83 +1,81 @@
-<script setup>
-import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import Loading from 'vue-loading-overlay';
+<script>
+import { mapActions,mapState } from 'pinia';
 import { useCartStore } from '@/stores/cartStore';
-import { storeToRefs } from 'pinia';
 import RandomProduct from '@/components/front/RandomProduct.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-const store = useCartStore();
-const { isLoading } = storeToRefs(store);
-const { addCart } = store;
-const route = useRoute();
-const product = ref({});
-const quantity = ref(1);
-const LoadingItems = ref([]);
-const imgDialogRef = ref();
-const currentImg = ref('');
 
-function getProduct() {
-  LoadingItems.value.push('product');
-  axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${route.params.id}`)
-    .then(res => {
-      product.value = res.data.product;
-    })
-    .catch(err => {
-      Swal.fire({
-        title: '錯誤發生',
-        icon: 'error',
-        text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-        confirmButtonColor: '#3D081B',
-      })
-    })
-    .finally(() => {
-      LoadingItems.value.splice(LoadingItems.value.indexOf('product'), 1);
-    })
-}
-function changeQuantity(event) {
-  if (event.target.value < 1 || typeof (+event.target.value) !== 'number') {
-    Swal.fire({
-      title: '數量錯誤請重新輸入',
-      icon: 'error',
-      timer: 3000
-    })
-    event.target.value = quantity.value;
-  } else {
-    quantity.value = event.target.value;
+export default {
+  components:{ RandomProduct },
+  data() {
+    return {
+      product: {},
+      quantity: 1,
+      isLoading: false,
+      currentImg: '',
+    }
+  },
+  computed: {
+    ...mapState(useCartStore,['cartLoading'])
+  },
+  methods: {
+    ...mapActions(useCartStore, ['addCart']),
+    async getProduct() {
+      this.isLoading = true;
+      try {
+        const res = await this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/product/${this.$route.params.id}`);
+        this.product = res.data.product;
+      } catch (err) {
+        this.$swal({
+          title: '錯誤發生',
+          icon: 'error',
+          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+        })
+      } finally {
+        this.isLoading = false;
+      };
+    },
+    changeQuantity(event) {
+      if (event.target.value < 1 || typeof (+event.target.value) !== 'number') {
+        this.$swal({
+          title: '數量錯誤請重新輸入',
+          icon: 'error',
+          timer: 3000
+        });
+      event.target.value = this.quantity;
+      } else {
+        this.quantity = event.target.value;
+        };
+    },
+    showBigImg(img = this.product.imageUrl) {
+      this.currentImg = img;
+      this.$refs.imgDialogRef.showModal();
+    },
+    autoClose(event) {
+      if (event.target.nodeName === 'DIALOG') {
+        this.$refs.imgDialogRef.close();
+      }
+    },
+    veggieColor(veggie) {
+      return veggie === '全素' ? "green-700" : veggie === '蛋奶素' ? "yellow-500" : "red-700"
+    }
+  },
+  watch: {
+    '$route.params'() {
+      this.quantity = 1;
+      this.getProduct();
+    }
+  },
+  mounted() {
+    this.getProduct();
   }
 }
-function showBigImg(img = product.value.imageUrl) {
-  currentImg.value = img;
-  imgDialogRef.value.showModal();
-}
-function autoClose(e) {
-  if (e.target.nodeName === "DIALOG") {
-    imgDialogRef.value.close();
-  }
-}
-function veggieColor(veggie) {
-  return veggie === '全素' ? "green-700" : veggie === '蛋奶素' ? "yellow-500" : "red-700"
-}
-
-onMounted(() => {
-  getProduct();
-})
-
-// url的產品id變動時重新抓API
-watch(() => route.params, () => {
-  quantity.value = 1;
-  getProduct();
-})
 </script>
-
 <template>
   <main class="py-10">
     <div class="container px-4 md:px-12.5 ">
       <div class="grid md:grid-cols-[40%_60%] gap-10 mb-16">
-        <Loading :active="LoadingItems.includes('product')" />
+        <VLoading :active="isLoading" />
         <!-- 商品圖片 -->
         <div>
           <div class="mb-8">
@@ -132,7 +130,7 @@ watch(() => route.params, () => {
           <div class="flex flex-col sm:flex-row gap-4 md:max-w-100 w-100% mb-6">
             <button
               class="block w-100%  py-3 customBorder rd-10 bg-transparent cursor-pointer font-size-4 hover:(bg-primary text-secondary)"
-              @click="addCart(product.id, quantity)" :class="{ 'pointer-events-none opacity-75': isLoading }"
+              @click="addCart(product.id, quantity)" :class="{ 'pointer-events-none opacity-75': cartLoading }"
               type="button">加入購物車</button>
             <RouterLink to="/cart" @click="addCart(product.id, quantity, true)"
               class="flex justify-center items-center w-100% px-2 py-3.5 rd-10 bg-info shadow-[0_2px_0_0_#3D081B] text-secondary hover:(bg-info-dark)">
