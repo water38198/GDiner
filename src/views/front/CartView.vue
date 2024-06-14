@@ -1,107 +1,104 @@
-<script setup>
-import { ref, computed } from 'vue';
-import { storeToRefs } from 'pinia';
+<script>
+import { mapActions,mapState } from 'pinia';
 import { useCartStore } from '@/stores/cartStore';
-import { useRouter } from 'vue-router';
-import Loading from 'vue-loading-overlay';
-import Swal from 'sweetalert2';
-import axios from 'axios';
 import RandomProduct from '@/components/front/RandomProduct.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-const store = useCartStore();
-const { cart, isLoading } = storeToRefs(store);
-const router = useRouter();
-const { getCart, updateCart, deleteCart, deleteCartAll } = store;
-const loadingItems = ref([]);
-const userForm = ref({
-  user: {
-    email: "",
-    name: "",
-    tel: "",
-    address: "",
-  },
-  message: ""
-});
-const coupon = ref('');
 
-function submitOrder() {
-  if (cart.value.carts.length === 0) {
-    Swal.fire({
-      icon: "error",
-      title: "目前沒有東西在購物車喔~"
-    })
-    return
-  }
-  loadingItems.value.push("userForm");
-  axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/order`, { data: userForm.value })
-    .then(res => {
-      Swal.fire({
-        title: res.data.message,
-        icon: "success",
-        timer:1500,
-        showConfirmButton:false,
-      }).then(() => {
-        getCart();
-        router.push(`order?id=${res.data.orderId}`);
-      })
-    })
-    .catch(err => {
-      Swal.fire({
-        title: '錯誤發生',
-        icon: 'error',
-        text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-        confirmButtonColor: '#3D081B',
-      })
-    })
-    .finally(() => {
-      loadingItems.value.splice(loadingItems.value.indexOf("userForm"), 1)
-    })
-}
-function useCoupon() {
-  if (coupon.value) {
-    axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/coupon`, {
-      data: {
-        'code': coupon.value
+export default {
+  components: { RandomProduct },
+  data(){
+    return {
+      isLoading: false,
+      userForm: {
+        user: {
+          email: '',
+          name: '',
+          tel: '',
+          address: '',
+        },
+        message: '',
+      },
+      coupon: '',
+    }
+  },
+  computed: {
+    ...mapState(useCartStore, ['cart', 'cartLoading']),
+    excludeList() {
+      const list = [];
+      if (this.cart.carts) {
+        this.cart.carts.forEach(product => list.push(product.product.id));
       }
-    })
-      .then(res => {
-        Swal.fire({
-          icon: 'success',
-          title: `${res.data.message}`,
-          toast: true,
-          position: 'bottom-end',
-          timer: 1500,
-          showConfirmButton: false
+      return list;
+    },
+  },
+  methods: {
+    ...mapActions(useCartStore,['getCart', 'updateCart', 'deleteCart' ,'deleteCartAll']),
+    async submitOrder() {
+      if (this.cart.carts.length === 0) {
+        this.$swal({
+          icon: "error",
+          title: "目前沒有東西在購物車喔~",
+        });
+        return;
+      }
+      try {
+        this.isLoading = true;
+        const res = await this.$http.post(`${VITE_URL}/v2/api/${VITE_PATH}/order`, { data: this.userForm });
+        this.$swal({
+          title: res.data.message,
+          icon: "success",
+          timer:3000,
+          showConfirmButton:false,
+        }).then(() => {
+          this.getCart();
+          this.$router.push(`order?id=${res.data.orderId}`);
         })
-        coupon.value = '';
-        getCart();
-      })
-      .catch(err => {
-        Swal.fire({
+      } catch (err) {
+        this.$swal({
+          title: '錯誤發生',
+          icon: 'error',
+          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          confirmButtonColor: '#3D081B',
+        })
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async useCoupon() {
+      if (this.coupon) {
+        try {
+          const res = await this.$http.post(`${VITE_URL}/v2/api/${VITE_PATH}/coupon`, {
+            data: {
+              'code': this.coupon,
+            }
+          });
+          this.$swal({
+            icon: 'success',
+            title: `${res.data.message}`,
+            toast: true,
+            position: 'bottom-end',
+            timer: 1500,
+            showConfirmButton: false,
+          });
+          this.coupon = '';
+          this.getCart();
+        } catch (err) {
+        this.$swal({
           icon: 'error',
           title: `${err.response.data.message}`
         })
-      })
+      }
+      } 
+    },
+    isPhone(value) {
+      const phoneNumber = /^(09)[0-9]{8}$/;
+      return phoneNumber.test(value) ? true : "請輸入正確的電話號碼"
+    }
   }
 }
-// VeeValidation 手機驗證
-function isPhone(value) {
-  const phoneNumber = /^(09)[0-9]{8}$/;
-  return phoneNumber.test(value) ? true : "請輸入正確的電話號碼"
-}
-
-const excludeList = computed(() => {
-  const list = [];
-  if (cart.value.carts) {
-    cart.value.carts.forEach(product => list.push(product.product.id))
-  }
-  return list
-})
 </script>
-
 <template>
-  <Loading :active="isLoading" />
   <div class="container px-2 md:px-12 py-10">
     <div class="mb-10">
       <!-- 購物車有東西 -->
@@ -222,7 +219,7 @@ const excludeList = computed(() => {
           </table>
         </div>
         <div>
-          <Loading :active="loadingItems.includes('userForm')" />
+          <VLoading :active="isLoading" />
           <VForm class="md:w-75% mx-auto" v-slot="{ errors }" @submit="submitOrder" autocomplete="off">
             <div class="grid grid-cols-2 gap-4">
               <h2 class="col-span-2 mb-10 font-size-10">顧客資訊</h2>

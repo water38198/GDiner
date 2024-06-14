@@ -41,7 +41,7 @@ export default {
   },
   mounted() {
     if (this.$route.query.id) {
-      this.orderId = this.route.query.id;
+      this.orderId = this.$route.query.id;
       this.getOrder(this.orderId);
     }
   }
