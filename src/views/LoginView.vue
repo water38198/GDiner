@@ -1,56 +1,55 @@
-<script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
-
+<script>
 const { VITE_URL } = import.meta.env;
-const router = useRouter();
-const user = ref({
-  username: "",
-  password: ""
-});
-const isLoading = ref(false);
 
-function login() {
-  // 未正確填寫則跳出警示
-  if (user.value.username === "" || user.value.password === "") {
-    Swal.fire({
-      icon: "warning",
-      title: "請正確填寫資訊"
-    })
-    return
+export default {
+  data() {
+    return {
+      user: {
+        username: '',
+        password: '',
+      },
+      isLoading: false,
+    }
+  },
+  methods: {
+    async login() {
+      if (this.user.username === '' || this.user.password === '') {
+        this.$swal({
+          icon: 'warning',
+          title: '請正確填寫資訊',
+        });
+        return;
+      }
+      this.isLoading = true;
+      try {
+        const res = await this.$http.post(`${VITE_URL}/v2/admin/signin`, this.user);
+        const { expired, token } = res.data;
+        document.cookie = `myToken = ${token}; expires = ${new Date(expired)} `;
+        this.$swal({
+          showConfirmButton: false,
+          icon: "success",
+          title: "登入成功",
+          timer: 1000,
+          didClose: () => {
+            this.$router.replace('/admin/products');
+          }
+        })
+      } catch (err) {
+        this.$swal({
+          title: "登入失敗",
+          icon: "error",
+          text: `${err?.response.data.error.message || ""}`
+        })
+      } finally {
+        this.isLoading = false;
+      }
+    }
   }
-  isLoading.value = true;
-  axios.post(`${VITE_URL}/v2/admin/signin`, user.value)
-    .then(res => {
-      const { expired, token } = res.data;
-      document.cookie = `myToken = ${token}; expires = ${new Date(expired)} `;
-      Swal.fire({
-        showConfirmButton: false,
-        icon: "success",
-        title: "登入成功",
-        timer: 1000,
-        didClose: () => {
-          router.replace("/admin/products")
-        }
-      })
-    }).catch(err => {
-      Swal.fire({
-        title: "登入失敗",
-        icon: "error",
-        text: `${err?.response.data.error.message || ""}`
-      })
-    }).finally(() => {
-      isLoading.value = false;
-    })
 }
 </script>
 
 <template>
-  <Loading :active="isLoading" :full-page="true" />
+  <VLoading :active="isLoading" :full-page="true" />
   <main>
     <div class="container">
       <form action="" ref="loginForm" class="max-w-100 mx-auto pt-20">
