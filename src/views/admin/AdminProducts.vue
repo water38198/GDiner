@@ -1,159 +1,122 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-
-import Swal from 'sweetalert2';
-import axios from 'axios';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
+<script>
 import ProductModal from '@/components/admin/ProductModal.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-const products = ref([]);
-const dialog = ref();
-const tempProduct = ref({});
-const isNew = ref(true);
-const pagination = ref({});
-const isLoading = ref(false);
 
-function getProducts(page = 1) {
-  isLoading.value = true;
-  axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/products?page=${page}`)
-    .then(res => {
-      products.value = res.data.products;
-      pagination.value = res.data.pagination;
-    })
-    .catch(err => {
-      Swal.fire({
-        icon: 'error',
-        title: '錯誤發生',
-        text: err.response.data.message,
-      })
-    })
-    .finally(() => {
-      isLoading.value = false;
-    })
-}
-function addNewProduct() {
-  dialog.value.dialog.showModal();
-  tempProduct.value = {};
-  isNew.value = true
-}
-function editProduct(product) {
-  tempProduct.value = JSON.parse(JSON.stringify(product));
-  isNew.value = false
-  dialog.value.dialog.showModal();
-}
-function confirmProduct(product) {
-  // 新增用 post ，修改用 put
-  if (isNew.value) {
-    product.created = Date.now();
-    axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/product`, {
-      data: product
-    }).then(res => {
-      Swal.fire({
-        title: `${res.data.message}`,
-        icon: "success",
-        didClose: () => {
-          getProducts(pagination.value.current_page || 1);
-        }
-      })
-      dialog.value.dialog.close();
-      tempProduct.value = {};
-    }).catch(err => {
-      Swal.fire({
-        icon: "error",
-        title: "錯誤發生",
-        text: `${err.response.data.message}`
-      })
-    })
-  } else {
-    const { id } = product;
-    axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/product/${id}`, {
-      data: product
-    })
-      .then(res => {
-        Swal.fire({
+export default {
+  components: { ProductModal, PaginationComponent },
+  data() {
+    return {
+      products: [],
+      tempProduct: {},
+      isNew: true,
+      pagination: {},
+      isLoading:false,
+    }
+  },
+  methods: {
+    async getProducts(page = 1) {
+      this.isLoading = true;
+      try {
+        const res = await this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/products?page=${page}`);
+        this.products = res.data.products;
+        this.pagination = res.data.pagination;
+      } catch (err) {
+        this.$swal({
+          icon: 'error',
+          title: '錯誤發生',
+          text: err.response.data.message,
+        })
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    addNewProduct() {
+      this.isNew = true;
+      this.tempProduct = {};
+      this.$refs.dialog.dialog.showModal();
+    },
+    editProduct(product) {
+      this.tempProduct = JSON.parse(JSON.stringify(product));
+      this.isNew = false;
+      this.$refs.dialog.dialog.showModal();
+    },
+    async confirmProduct(product) {
+      const method = this.isNew ? 'post' : 'put';
+      const url = this.isNew ? `${VITE_URL}/v2/api/${VITE_PATH}/admin/product` : `${VITE_URL}/v2/api/${VITE_PATH}/admin/product/${product.id}`;
+      if (this.isNew) product.created = Date.now();
+      try {
+        const res = await this.$http[method](url, { data: product });
+        this.$swal({
           title: `${res.data.message}`,
           icon: "success",
           didClose: () => {
-            getProducts(pagination.value.current_page || 1);
+            this.getProducts(this.pagination.current_page || 1);
           }
+        });
+        this.$refs.dialog.dialog.close();
+      } catch (err) {
+        this.$swal({
+        icon: "error",
+        title: "錯誤發生",
+        text: `${err.response.data.message}`
         })
-        dialog.value.dialog.close();
-        tempProduct.value = {};
-      }).catch(err => {
-        Swal.fire({
-          icon: "error",
-          title: "錯誤發生",
-          text: `${err.response.data.message}`
-        })
-      })
-  }
-}
-function deleteProduct(product) {
-  Swal.fire({
-    title: `你確定要刪除 ${product.title} 嗎?`,
-    showCancelButton: true,
-    confirmButtonText: "確定",
-    cancelButtonText: "取消"
-  }).then(result => {
-    if (result.isConfirmed) {
-      axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/product/${product.id}`).then(res => {
-        Swal.fire({
-          icon: "success",
-          text: res.data.message,
-          didClose: () => {
-            getProducts(pagination.value.current_page || 1);
+      }
+    },
+    deleteProduct(product) {
+      this.$swal({
+        title: `你確定要刪除 ${product.title} 嗎?`,
+        showCancelButton: true,
+        confirmButtonText: "確定",
+        cancelButtonText: "取消",
+      }).then( async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const res = await this.$http.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/product/${product.id}`);
+            this.$swal({
+              icon: "success",
+              text: res.data.message,
+              didClose: () => {
+                this.getProducts(this.pagination.current_page || 1);
+              }
+            })
+          } catch(err) {
+            this.$swal({
+              icon: "error",
+              text: err.response.data.message,
+            })
           }
-        })
-      }).catch(err => {
-        Swal.fire({
-          icon: "error",
-          text: err.response.data.message
-        })
+        }
       })
     }
-  })
+  },
+  mounted() {
+    this.getProducts();
+  }
 }
-onMounted(() => {
-  getProducts();
-})
 </script>
-
 <template>
   <div class="p-10">
     <h2 class="font-size-12">產品</h2>
     <div class="text-end mt-6">
       <button type="button"
         class="bg-primary border-0 text-white cursor-pointer inline-block px-3 py-1.5 rd font-size-4 hover:bg-primary-light"
-        @click="addNewProduct()">建立新的產品</button>
+        @click="addNewProduct">建立新的產品</button>
     </div>
     <!-- 產品列表 -->
     <div class="relative min-h-100">
-      <Loading :active="isLoading" :is-full-page="false" />
+      <VLoading :active="isLoading" :is-full-page="false" />
       <table class="w-100% mt-6">
         <thead class="border-b-1 border-black border-solid fw-bold text-left">
           <tr>
-            <th width="120">
-              縮圖
-            </th>
-            <th width="120">
-              分類
-            </th>
+            <th width="120">縮圖</th>
+            <th width="120">分類</th>
             <th>產品名稱</th>
-            <th width="120" class="text-end">
-              原價
-            </th>
-            <th width="120" class="text-end">
-              售價
-            </th>
-            <th width="100" class="text-center">
-              是否啟用
-            </th>
-            <th width="120">
-              編輯
-            </th>
+            <th width="120" class="text-end">原價</th>
+            <th width="120" class="text-end">售價</th>
+            <th width="100" class="text-center">是否啟用</th>
+            <th width="120">編輯</th>
           </tr>
         </thead>
         <tbody>
