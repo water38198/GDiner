@@ -1,149 +1,128 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import Swal from 'sweetalert2';
+<script>
 import moment from 'moment';
-import Loading from 'vue-loading-overlay';
-import PaginationComponent from '@/components/PaginationComponent.vue';
 import CouponModal from '@/components/admin/CouponModal.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-const coupons = ref([]);
-const isLoading = ref(false);
-const pagination = ref({});
-function getCoupons(page = 1) {
-  isLoading.value = true;
-  axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupons?page=${page}`)
-    .then(res => {
-      coupons.value = res.data.coupons;
-      pagination.value = res.data.pagination;
-    })
-    .catch(err => {
-      Swal.fire({
-        icon: 'error',
-        title: '錯誤發生',
-        text: err.response.data.message,
-      })
-    })
-    .finally(() => {
-      isLoading.value = false;
-    })
-}
 
-const tempCoupon = ref({});
-const couponModalRef = ref();
-const isNew = ref(false);
-function addCoupon() {
-  isNew.value = true;
-  tempCoupon.value = {};
-  couponModalRef.value.dialog.showModal();
-}
-function getMoment(data) {
-  return moment(data).format('YYYY-MM-DD')
-}
-function editCoupon(coupon) {
-  tempCoupon.value = coupon;
-  isNew.value = false;
-  couponModalRef.value.dialog.showModal()
-}
-function confirmCoupon(coupon) {
-  console.log(coupon)
-  if (isNew.value) {
-    axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon`, {
-      data: coupon
-    }).then(res => {
-      Swal.fire({
-        title: `${res.data.message}`,
-        icon: 'success',
-        didClose: () => {
-          getCoupons();
-        }
-      })
-      couponModalRef.value.dialog.close();
-    }).catch(err => {
-      Swal.fire({
-        title: '錯誤發生',
-        text: `${err.response.data.message}`,
-        icon: 'error',
-        target: 'dialog'
-      })
-    })
-  } else {
-    axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon/${coupon.id}`, {
-      data: coupon
-    }).then(res => {
-      Swal.fire({
-        title: `${res.data.message}`,
-        icon: 'success',
-        didClose: () => {
-          getCoupons();
-        }
-      })
-      couponModalRef.value.dialog.close();
-    }).catch(err => {
-      Swal.fire({
-        title: '錯誤發生',
-        text: `${err.response.data.message}`,
-        icon: 'error',
-        target: 'dialog'
-      })
-    })
-  }
-}
-function deleteCoupon(coupon) {
-  const { id } = coupon;
-  Swal.fire({
-    title: `你確定要刪除優惠券${coupon.title}`,
-    icon: 'question',
-    showCancelButton: true,
-    cancelButtonText: '取消',
-    confirmButtonText: '確定'
-  }).then(result => {
-    if (result.isConfirmed) {
-      axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon/${id}`)
-        .then(res => {
-          Swal.fire({
-            title: `${res.data.message}`,
-            icon: 'success',
-            didClose: () => {
-              getCoupons();
-            }
-          })
-          couponModalRef.value.dialog.close();
-        }).catch(err => {
-          Swal.fire({
-            title: '錯誤發生',
-            text: `${err.response.data.message}`,
-            icon: 'error',
-            target: 'dialog'
-          })
-        })
+export default {
+  components: { CouponModal, PaginationComponent },
+  data() {
+    return {
+      coupons: [],
+      pagination: {},
+      tempCoupon: {},
+      isNew: false,
+      isLoading: false
     }
-  })
-}
-function dateColor(date) {
-  const now = Date.now() / 1000;
-  if (date - now < 0) {
-    return 'text-red'
-  } else if (date - now < 3 * 24 * 60 * 60) {
-    return 'text-orange'
-  } else if (date - now < 7 * 24 * 60 * 60 && date - now > 3 * 24 * 60 * 60) {
-    return 'text-yellow'
-  } else {
-    return 'text-green-700'
+  },
+  methods: {
+    async getCoupons(page = 1) {
+      this.isLoading = true;
+      try {
+        const res = await this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupons?page=${page}`);
+        this.coupons = res.data.coupons;
+        this.pagination = res.data.pagination;
+      } catch (err) {
+        this.$swal({
+          icon: 'error',
+          title: '錯誤發生',
+          text: err.response.data.message,
+        })
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    getMoment(data) {
+      return moment(data).format('YYYY-MM-DD');
+    },
+    addCoupon() {
+      this.isNew = true;
+      this.tempCoupon = {};
+      this.$refs.couponModalRef.dialog.showModal();
+    },
+    editCoupon(coupon) {
+      this.tempCoupon = coupon;
+      this.isNew = false;
+      this.$refs.couponModalRef.dialog.showModal();
+    },
+    async confirmCoupon(coupon) {
+      const method = this.isNew ? 'post' : 'put';
+      const url = this.isNew ? `${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon` : `${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon/${coupon.id}`;
+      try {
+        const res = await this.$http[method](url, { data: coupon });
+        this.$swal({
+          title: `${res.data.message}`,
+          icon: 'success',
+          didClose: () => {
+            this.getCoupons();
+          }
+        });
+        this.$refs.couponModalRef.dialog.close();
+      } catch (err) {
+        this.$swal({
+          title: '錯誤發生',
+          text: `${err.response.data.message}`,
+          icon: 'error',
+          target: 'dialog'
+        })
+      }
+    },
+    deleteCoupon(coupon) {
+      const { id } = coupon;
+      this.$swal({
+        title: `你確定要刪除優惠券${coupon.title}`,
+        icon: 'question',
+        showCancelButton: true,
+        cancelButtonText: '取消',
+        confirmButtonText: '確定'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const res = await this.$http.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon/${id}`);
+            this.$swal({
+              title: `${res.data.message}`,
+              icon: 'success',
+              didClose: () => {
+                this.getCoupons();
+              }
+            });
+            this.$refs.couponModalRef.dialog.close();
+          } catch (err) {
+            console.log(err)
+            this.$swal({
+              title: '錯誤發生',
+              text: `${err.response.data.message}`,
+              icon: 'error',
+              target: 'dialog'
+            })
+          }
+        }
+      })
+    },
+    dateColor(date) {
+      const now = Date.now() / 1000;
+      if (date - now < 0) {
+        return 'text-red'
+      } else if (date - now < 3 * 24 * 60 * 60) {
+        return 'text-orange'
+      } else if (date - now < 7 * 24 * 60 * 60 && date - now > 3 * 24 * 60 * 60) {
+        return 'text-yellow'
+      } else {
+        return 'text-green-700'
+      }
+    }
+  },
+  mounted() {
+    this.getCoupons();
   }
-
 }
-onMounted(() => {
-  getCoupons();
-})
 </script>
-
 <template>
   <div class="p-10 flex flex-col h-100%">
     <h2 class="font-size-12">優惠券</h2>
     <div class="relative min-h-100">
-      <Loading :active="isLoading" :is-full-page="false" />
+      <VLoading :active="isLoading" :is-full-page="false" />
       <div class="text-end mt-6">
         <!-- 新增按鈕 -->
         <button type="button"
