@@ -1,135 +1,124 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import Swal from 'sweetalert2';
+<script>
 import moment from 'moment';
-import Loading from 'vue-loading-overlay';
 import OrderModal from '@/components/admin/OrderModal.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
-const orders = ref([]);
-const pagination = ref({});
-const tempOrder = ref({})
-const orderModalRef = ref();
-const isLoading = ref(false);
 
-function getOrders(page = 1) {
-  isLoading.value = true;
-  axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/orders?page=${page}`)
-    .then(res => {
-      orders.value = res.data.orders;
-      pagination.value = res.data.pagination;
-    })
-    .catch(err => {
-      Swal.fire({
-        icon: 'error',
-        title: '錯誤發生',
-        text: err.response.data.message,
-      })
-    })
-    .finally(() => {
-      isLoading.value = false;
-    })
-}
-function openOrderModal(order) {
-  tempOrder.value = order;
-  orderModalRef.value.dialog.showModal();
-}
-function deleteOrder(id) {
-  Swal.fire({
-    icon: 'warning',
-    title: '刪除訂單',
-    text: `你確定要刪除 ${id} 這筆訂單嗎?`,
-    showCancelButton: true,
-    cancelButtonText: '取消',
-    confirmButtonText: '確定'
-  }).then((res) => {
-    if (res.isConfirmed) {
-      axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${id}`)
-        .then((res) => {
-          Swal.fire({
-            icon: 'success',
-            title: `${res.data.message}`,
-            didClose: () => {
-              getOrders();
-            }
-          })
-        }).catch(() => {
-          Swal.fire('錯誤發生', '', 'error')
-        })
+export default {
+  components:{ OrderModal, PaginationComponent },
+  data() {
+    return {
+      orders: [],
+      pagination: {},
+      tempOrder: {},
+      isLoading: false,
     }
-  })
-}
-function confirmOrder(order) {
-  const data = order;
-  // 重新加總總價格 data.total 
-  let total = 0;
-  total = Object.keys(data.products).reduce((a, b) => {
-    const coupon = data.products[b].coupon ? data.products[b].coupon.percent / 100 : 1 //如果有使用coupon
-    return a + data.products[b].final_total * coupon
-  }, 0)
-  data.total = total;
-  axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${order.id}`, {
-    data
-  }).then((res) => {
-    orderModalRef.value.dialog.close();
-    Swal.fire({
-      icon: 'success',
-      title: `${res.data.message}`,
-      didClose: () => {
-        getOrders();
+  },
+  methods: {
+    async getOrders( page = 1) {
+      this.isLoading = true;
+      try {
+        const res = await this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/orders?page=${page}`);
+        this.orders = res.data.orders;
+        this.pagination = res.data.pagination;
+      } catch (err) {
+        this.$swal({
+          icon: 'error',
+          title: '錯誤發生',
+          text: err.response.data.message,
+        })
+      } finally {
+        this.isLoading = false;
       }
-    })
-  }).catch(err => {
-    Swal.fire({
-      title: '錯誤發生',
-      icon: 'error',
-      text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-      confirmButtonColor: '#3D081B',
-    })
-  })
+    },
+    openOrderModal(order) {
+      this.tempOrder = order;
+      this.$refs.orderModalRef.dialog.showModal();
+    },
+    deleteOrder(id) {
+      this.$swal({
+        icon: 'warning',
+        title: '刪除訂單',
+        text: `你確定要刪除 ${id} 這筆訂單嗎?`,
+        showCancelButton: true,
+        cancelButtonText: '取消',
+        confirmButtonText: '確定'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const res = await this.$http.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${id}`);
+            this.$swal({
+              icon: 'success',
+              title: `${res.data.message}`,
+              didClose: () => {
+                this.getOrders();
+              }
+            });
+          } catch (err) {
+            this.$swal({
+              icon: 'error',
+              title: '錯誤發生',
+              text: err.response.data.message,
+            });
+          }
+        }
+      })
+    },
+    async confirmOrder(order) {
+      const data = order;
+      let total = 0;
+      total = Object.keys(data.products).reduce((a, b) => {
+        const coupon = data.products[b].coupon ? data.products[b].coupon.percent / 100 : 1 //如果有使用coupon
+        return a + data.products[b].final_total * coupon
+      }
+        , 0);
+      data.total = total; 
+      try {
+        const res = await this.$http.put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${order.id}`, { data });
+        this.$refs.orderModalRef.dialog.close();
+        this.$swal({
+          icon: 'success',
+          title: `${res.data.message}`,
+          didClose: () => {
+            this.getOrders();
+          }
+        })
+      } catch (err) {
+        this.$swal({
+          title: '錯誤發生',
+          icon: 'error',
+          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          confirmButtonColor: '#3D081B',
+        })
+      }
+    },
+    getMoment(data) {
+      return moment(data).format('YYYY-MM-DD')
+    }
+  },
+  mounted() {
+    this.getOrders();
+  }
 }
-function getMoment(data) {
-  return moment(data).format('YYYY-MM-DD')
-}
-
-onMounted(() => {
-  getOrders();
-})
 </script>
-
 <template>
   <div class="p-10">
     <h2 class="font-size-12">訂單</h2>
     <div class="relative min-h-100">
-      <Loading :active="isLoading" :is-full-page="false" />
+      <VLoading :active="isLoading" :is-full-page="false" />
       <!-- 訂單列表 -->
       <table class="w-100% mt-6">
         <thead class="border-b-1 border-black border-solid fw-bold text-left">
           <tr>
-            <th width="120">
-              下單時間
-            </th>
+            <th width="120">下單時間</th>
             <th>ID</th>
-            <th>
-              購買品項
-            </th>
-            <th>
-              使用者資訊
-            </th>
-            <th>
-              留言
-            </th>
-            <th class="text-center">
-              訂單總額
-            </th>
-            <th width="100" class="text-center">
-              是否付款
-            </th>
-            <th width="120">
-              編輯
-            </th>
+            <th>購買品項</th>
+            <th>使用者資訊</th>
+            <th>留言</th>
+            <th class="text-center">訂單總額</th>
+            <th width="100" class="text-center">是否付款</th>
+            <th width="120">編輯</th>
           </tr>
         </thead>
         <tbody>
