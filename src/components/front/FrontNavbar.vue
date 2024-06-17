@@ -1,96 +1,86 @@
-<script setup>
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useCartStore } from '@/stores/cartStore'
+<script>
+import { mapState,mapActions } from 'pinia';
+import { useCartStore } from '@/stores/cartStore';
 
-// 取得購物車資料
-const store = useCartStore();
-const { cart } = storeToRefs(store);
-const cartNumb = computed(() => {
-  let num = 0;
-  cart.value.carts.forEach(product => {
-    num += product.qty
-  })
-  return num
-})
-
-const searchIsShow = ref(false); //搜尋欄的ref
-const searchText = ref('')// 搜尋的文字
-const lastScrollTop = ref(0);// 滾動前，距離頂端的距離
-const isShow = ref(true);// 滾動後是否顯示 Navbar
-const details = ref();//側邊選單ref
-const detailsIsOpen = ref(false);
-function scrolling() {
-  let scrollTop = window.scrollY || window.pageYOffset;// 滾動到目前與頂端的距離
-  // 如果新的比較大表示往下滾動，則不要顯示 Navbar
-  if (scrollTop > lastScrollTop.value && lastScrollTop.value > 124) {
-    isShow.value = false;
-  } else if (scrollTop < lastScrollTop.value) {
-    isShow.value = true;
-  }
-  lastScrollTop.value = scrollTop; //將現在的距離紀錄，用於下次滾動
-}
-function stopRoll() {
-  document.body.style.overflow = 'hidden';
-}
-function activeRoll() {
-  document.body.style.overflow = '';
-}
-function toggleDetail(e) {
-  // 如果點擊到開關的按鈕 或是外層
-  if (e.target.dataset.type === 'button' || e.target.dataset.type === 'layer') {
-    // 如果是開啟的狀態，啟動關閉動畫並允許滾動
-    if (details.value.hasAttribute('open')) {
-      details.value.classList.add('closing');
-      detailsIsOpen.value = false;
-      activeRoll();
-    } else {
-      //啟動開啟動畫並禁止滾動
-      details.value.classList.add('opening');
-      details.value.setAttribute('open', '');
-      detailsIsOpen.value = true;
-      stopRoll();
+export default {
+  data() {
+    return {
+      searchIsShow: false,
+      searchText: '',
+      lastScrollTop: 0,
+      isShow: true,
+      detailIsOpen:false,
     }
+  },
+  computed: {
+    ...mapState(useCartStore, ['cart']),
+    cartNumb() {
+      let num = 0;
+      this.cart.carts.forEach(product => {
+        num += product.qty;
+      });
+      return num;
+    },
+  },
+  methods: {
+    ...mapActions(useCartStore, ['getCart']),
+    scrolling() {
+      let scrollTop = window.scrollY || window.pageYOffset;
+      if (scrollTop > this.lastScrollTop && this.lastScrollTop > 124) {
+        this.isShow = false;
+      } else if (scrollTop < this.lastScrollTop) {
+        this.isShow = true;
+      }
+      this.lastScrollTop = scrollTop;
+    },
+    stopRoll() {
+      document.body.style.overflow = 'hidden';
+    },
+    activeRoll() {
+      document.body.style.overflow = '';
+    },
+    toggleDetail(e) {
+      // 如果點擊到開關的按鈕 或是外層
+      if (e.target.dataset.type === 'button' || e.target.dataset.type === 'layer') {
+        // 如果是開啟的狀態，啟動關閉動畫並允許滾動
+        if (this.$refs.details.hasAttribute('open')) {
+          this.$refs.details.classList.add('closing');
+          this.detailsIsOpen = false;
+          this.activeRoll();
+        } else {
+          //啟動開啟動畫並禁止滾動
+          this.$refs.details.classList.add('opening');
+          this.$refs.details.setAttribute('open', '');
+          this.detailsIsOpen = true;
+          this.stopRoll();
+    }
+      }
+    },
+    animating(e) {
+      // 如果剛剛是關閉動畫，則移除 class 與 open標籤
+      if (e.animationName.includes('close')) {
+        this.$refs.details.classList.remove('closing')
+        this.$refs.details.removeAttribute('open')
+      } else if (e.animationName.includes('open')) {
+        //如果是開啟動畫則移除 class
+        this.$refs.details.classList.remove('opening')
+      }
+    },
+    goSearch() {
+      if (!this.searchText) return;
+      this.$router.push(`/products?search=${this.searchText}`);
+      this.searchText = '';
+      this.searchIsShow = !this.searchIsShow;
+    },
+  },
+  mounted() {
+    window.addEventListener('scroll', this.scrolling);
+  },
+  unmounted() {
+    window.removeEventListener('scroll', this.scrolling);
   }
 }
-function animating(e) {
-  // 如果剛剛是關閉動畫，則移除 class 與 open標籤
-  if (e.animationName.includes('close')) {
-    details.value.classList.remove('closing')
-    details.value.removeAttribute('open')
-  } else if (e.animationName.includes('open')) {//如果是開啟動畫則移除 class
-    details.value.classList.remove('opening')
-  }
-}
-
-const route = useRoute();
-const router = useRouter();
-function goSearch() {
-  if (!searchText.value) return;
-  router.push(`/products?search=${searchText.value}`);
-  searchText.value = '';
-  searchIsShow.value = !searchIsShow.value;
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', scrolling);
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', scrolling);
-})
-
-// 偵測路由變化，一有變換則關閉側邊選單
-watch(() => route.path, () => {
-  if (details.value.hasAttribute('open')) {
-    details.value.classList.add('closing');
-    detailsIsOpen.value = false;
-    activeRoll();
-  }
-})
 </script>
-
 <template>
   <div class="bg-info py-2.5 flex justify-center">
     <span class="tracking-widest text-white">
@@ -104,7 +94,7 @@ watch(() => route.path, () => {
       <div class="flex md:hidden items-center w-80px">
         <details class="md:hidden" ref="details" @click.prevent="toggleDetail">
           <summary class="font-size-6 text-primary">
-            <div :class="detailsIsOpen ? 'i-material-symbols:close-rounded' : 'i-ic:baseline-menu'" data-type="button">
+            <div :class="detailIsOpen ? 'i-material-symbols:close-rounded' : 'i-ic:baseline-menu'" data-type="button">
             </div>
           </summary>
           <!-- 側邊選單 -->

@@ -1,61 +1,68 @@
-<script setup>
-import axios from 'axios';
-import { ref, onMounted, computed } from 'vue';
-import Swal from 'sweetalert2';
-
+<script>
 const { VITE_URL, VITE_PATH } = import.meta.env;
-const products = ref([]);
-const props = defineProps({
-  exclude: {
-    type: Array,
-    default: () => []
-  }
-})
-const randomProductList = computed(() => {
-  let list = [];
-  if (products.value.length > 0) {
-    list = JSON.parse(JSON.stringify(products.value));
-    props.exclude.forEach(id => {   //移除已經有的產品(單一產品頁 或是 購物車內)
-      list = list.filter(product => product.id !== id)
-    });
-    const array = useRandomArray(list.length);
-    list = list.filter((item, index) => array.includes(index))
-  }
-  return list;
-});
 
-function getProducts() {
-  axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/products/all`)
-    .then(res => {
-      products.value = res.data.products;
-    })
-    .catch(err => {
-      Swal.fire({
-        title: '錯誤發生',
-        icon: 'error',
-        text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-        confirmButtonColor: '#3D081B',
-      })
-    })
-
+export default {
+  props: {
+    exclude: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data() {
+    return {
+      products: [],
+      isLoading:false,
+    }
+  },
+  computed: {
+    randomProductList() {
+      let list = [];
+      if (this.products.length > 0) {
+        list = JSON.parse(JSON.stringify(this.products));
+        this.exclude.forEach(id => {
+          list = list.filter(product => product.id !== id)
+        });
+        const array = this.useRandomArray(list.length);
+        list = list.filter((item, index) => array.includes(index))
+      }
+      return list;
+    }
+  },
+  methods: {
+    async getProducts() {
+      this.isLoading = true;
+      try {
+        const res = await this.$http.get(`${VITE_URL}/v2/api/${VITE_PATH}/products/all`);
+        this.products = res.data.products;
+      } catch (err) {
+        this.$swal({
+          title: '錯誤發生',
+          icon: 'error',
+          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
+          confirmButtonColor: '#3D081B',
+        })
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    useRandomArray(max) {
+      const array = [];
+      while (array.length < 3) {
+        const random = Math.floor(Math.random() * max);
+        if (!array.includes(random)) array.push(random);
+      }
+      return array;
+    }
+  },
+  mounted() {
+    this.getProducts();
+  }
 }
-// 取得隨機陣列
-function useRandomArray(max) {
-  const array = [];
-  while (array.length < 3) {
-    const random = Math.floor(Math.random() * (max));
-    if (!array.includes(random)) array.push(random)
-  }
-  return array
-}
-
-onMounted(() => {
-  getProducts();
-})
 </script>
-
 <template>
-  <template v-if="products.length > 0">
+  <div class="position-relative min-h-350px">
+    <VLoading :active="isLoading" :is-full-page="false" />
+      <template v-if="products.length > 0">
     <div class="relative">
       <h3 class="font-size-7 mb-10">誠心推薦</h3>
       <div v-if="randomProductList.length > 0">
@@ -79,4 +86,5 @@ onMounted(() => {
       </div>
     </div>
   </template>
+  </div>
 </template>
