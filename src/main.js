@@ -1,5 +1,3 @@
-import '@unocss/reset/eric-meyer.css';
-import 'virtual:uno.css';
 import './assets/scss/main.scss';
 
 // SweetAlert2
