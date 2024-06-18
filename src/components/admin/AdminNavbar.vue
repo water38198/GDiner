@@ -1,31 +1,28 @@
-<script setup>
-import { RouterLink, useRouter } from 'vue-router';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-
+<script>
 const { VITE_URL } = import.meta.env;
-const router = useRouter();
-function logOut() {
-  axios.post(`${VITE_URL}/v2/logOut`)
-    .then(() => {
-      document.cookie = `myToken=; expires=;`
-      Swal.fire({
-        icon: 'success',
-        title: '登出成功',
-        didClose: () => {
-          router.push('/')
-        }
-      });
-    })
-    .catch(err => {
-      Swal.fire({
-        icon: 'error',
-        text: `${err.response.data.message}`
-      })
-    })
+export default {
+  methods: {
+    async logOut() {
+      try {
+        const res = await this.$http.post(`${VITE_URL}/v2/logout`);
+        document.cookie = 'myToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+        this.$swal({
+          icon: 'success',
+          title: `${res.data.message}`,
+          didClose: () => {
+            this.$router.push('/');
+          }
+        })
+      } catch (err) {
+        this.$swal({
+          icon: 'error',
+          text: `${err.response.data.message}`
+        })
+      }
+    }
+  }
 }
 </script>
-
 <template>
   <nav class="bg-secondary">
     <ul class="nav-list flex flex-col gap-10 py-8 h-full">

@@ -35,12 +35,12 @@ export default {
     addNewProduct() {
       this.isNew = true;
       this.tempProduct = {};
-      this.$refs.dialog.dialog.showModal();
+      this.$refs.dialog.showModal();
     },
     editProduct(product) {
       this.tempProduct = JSON.parse(JSON.stringify(product));
       this.isNew = false;
-      this.$refs.dialog.dialog.showModal();
+      this.$refs.dialog.showModal();
     },
     async confirmProduct(product) {
       const method = this.isNew ? 'post' : 'put';
@@ -55,7 +55,7 @@ export default {
             this.getProducts(this.pagination.current_page || 1);
           }
         });
-        this.$refs.dialog.dialog.close();
+        this.$refs.dialog.close();
       } catch (err) {
         this.$swal({
         icon: "error",

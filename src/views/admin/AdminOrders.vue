@@ -34,7 +34,7 @@ export default {
     },
     openOrderModal(order) {
       this.tempOrder = order;
-      this.$refs.orderModalRef.dialog.showModal();
+      this.$refs.orderModalRef.showModal();
     },
     deleteOrder(id) {
       this.$swal({
@@ -76,7 +76,7 @@ export default {
       data.total = total; 
       try {
         const res = await this.$http.put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${order.id}`, { data });
-        this.$refs.orderModalRef.dialog.close();
+        this.$refs.orderModalRef.close();
         this.$swal({
           icon: 'success',
           title: `${res.data.message}`,

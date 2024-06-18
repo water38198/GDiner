@@ -39,12 +39,12 @@ export default {
     addCoupon() {
       this.isNew = true;
       this.tempCoupon = {};
-      this.$refs.couponModalRef.dialog.showModal();
+      this.$refs.couponModalRef.showModal();
     },
     editCoupon(coupon) {
       this.tempCoupon = coupon;
       this.isNew = false;
-      this.$refs.couponModalRef.dialog.showModal();
+      this.$refs.couponModalRef.showModal();
     },
     async confirmCoupon(coupon) {
       const method = this.isNew ? 'post' : 'put';
@@ -186,15 +186,15 @@ export default {
         <li>七天以上 : <span class="text-green-700">綠色</span></li>
       </ul>
     </div>
-
+  <!--分頁  -->
     <template v-if="coupons.length">
       <PaginationComponent :pages="pagination" @change-page="getCoupons" class="mt-auto" />
     </template>
   </div>
 
   <!-- Modal -->
-  <CouponModal :temp-coupon="tempCoupon" ref="couponModalRef" :is-new="isNew" @confirm-coupon="confirmCoupon" />
-  <!--分頁  -->
+  <CouponModal :temp-coupon="tempCoupon" ref="couponModalRef" :is-new="isNew" @get-coupons="getCoupons" />
+
 
 </template>
 
