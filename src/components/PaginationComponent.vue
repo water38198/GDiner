@@ -10,33 +10,22 @@ export default {
     changePage(page) {
       this.$emit('changePage', page);
     }
-  }
+  },
 }
 </script>
 <template>
   <template v-if="pages.total_pages > 1">
     <div class="container mx-a py-6">
-      <nav class="flex justify-center">
-        <ul class="flex items-center text-primary">
-          <li class="border-(solid #dee2e6 1)   border-collapse rd-tl rd-bl"
-            :class="{ 'disabled':pages.current_page === 1 }">
-            <a href="#" class="block p-2 text-primary hover:(bg-#e9ecef cursor-pointer)"
-              @click.prevent="changePage(pages.current_page - 1)">
-              <div class="i-mdi:arrow-left"></div>
-            </a>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" :class="{ 'disabled':pages.current_page === 1 }">
+            <a class="page-link" @click.prevent="changePage('-')">上一頁</a>
           </li>
-          <li v-for="i in pages.total_pages" :key="i" class="border-(solid #dee2e6 1)  border-collapse "
-            :class="{ 'active': i === pages.current_page }">
-            <a href="#" class="font-size-4 decoration-none block text-primary px-3 py-2 hover:(bg-#e9ecef cursor-pointer)"
-              @click.prevent="changePage(i)">{{ i
-              }}</a>
+          <li class="page-item" v-for="i in pages.total_pages" :key="i">
+            <a class="page-link" href="#"  @click.prevent="changePage(i)" :class="{'active':pages.current_page === i}">{{ i }}</a>
           </li>
-          <li class="border-(solid #dee2e6 1) border-collapse rd-tr rd-br"
-            :class="{ 'disabled': pages.current_page === pages.total_pages }">
-            <a href="#" class="block p-2 text-primary hover:(bg-#e9ecef cursor-pointer)"
-              @click.prevent="changePage(pages.current_page + 1)">
-              <div class="i-mdi:arrow-right "></div>
-            </a>
+          <li class="page-item" :class="{ 'disabled': pages.current_page === pages.total_pages }">
+            <a class="page-link" href="#" @click.prevent="changePage('+')">下一頁</a>
           </li>
         </ul>
       </nav>
@@ -45,19 +34,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-li {
-  &.disabled {
-    a {
-      @apply text-#6c757d pointer-events-none cursor-auto bg-transparent;
-    }
-  }
-
-  &.active {
-    @apply bg-primary border-primary;
-
-    a {
-      @apply text-white pointer-events-none cursor-auto
-    }
-  }
+.active{
+  pointer-events: none;
 }
 </style>

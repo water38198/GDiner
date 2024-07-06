@@ -126,7 +126,7 @@ export const useCartStore = defineStore('cart', {
         }, 250);
       };
     },
-    async updateCart(product,event) {
+    async updateCart(product, event) {
       if (event) {
         if (event.target.value <= 0 || isNaN(event.target.value)) {
           Swal.fire({
@@ -138,29 +138,36 @@ export const useCartStore = defineStore('cart', {
         } else {
           product.qty = +event.target.value;
         }
-        const orderId = product.id;
-        const { product_id } = product;
-        const qty = product.qty;
-        this.cartLoading = true;
-        try {
-          const res = await axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${orderId}`, {
-            data: {
-              product_id,
-              qty,
-            }
-          })
-          console.log(res);
-          this.getCart();
-        } catch (err) {
-          Swal.fire({
-            title: '錯誤發生',
-            icon: 'error',
-            text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
-            confirmButtonColor: '#3D081B',
-          })
-        } finally {
-          this.cartLoading = false;
-        }
+      }
+      const orderId = product.id;
+      const { product_id } = product;
+      const qty = product.qty;
+      this.cartLoading = true;
+      try {
+        const res = await axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${orderId}`, {
+          data: {
+            product_id,
+            qty,
+          }
+        })
+        Swal.fire({
+          icon: 'success',
+          toast: true,
+          text: `${res.data.message}`,
+          showConfirmButton: false,
+          position: 'bottom-end',
+          timer: 1000
+        });
+        this.getCart();
+      } catch (err) {
+        Swal.fire({
+          title: '錯誤發生',
+          icon: 'error',
+          text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
+          confirmButtonColor: '#3D081B',
+        })
+      } finally {
+        this.cartLoading = false;
       }
     }
   },

@@ -18,8 +18,14 @@ export default {
 <template>
   <div>
     <select name="sortBy" id="sortBy" @change="changeSort"
-      class="bg-transparent border-0 cursor-pointer font-size-4" ref="sortRef">
+      class="bg-transparent border-0" ref="sortRef">
       <option v-for="sort in sorts" :key="sort" :value="sort" :selected="sort === '最新'">{{ sort }}</option>
     </select>
   </div>
 </template>
+
+<style scoped> 
+  select:hover{
+    cursor: pointer;
+  }
+</style>

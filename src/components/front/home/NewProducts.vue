@@ -8,6 +8,11 @@ export default {
       isLoading: false,
     }
   },
+  computed: {
+    slicedProduct() {
+      return this.products.slice(0, 8)
+    }
+  },
   methods: {
     async getProducts() {
       this.isLoading = true;
@@ -34,25 +39,35 @@ export default {
 
 <template>
   <VLoading :active="isLoading" />
-  <section class="relative mb-16" >
-  <h2 class="font-size-7 tracking-widest mb-7.5 flex">火熱商品 <div class="i-twemoji:fire inline-block">
-    </div>
-  </h2>
-  <ul class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-    <li v-for="(product, index) in products.slice(0, 8)" :key="product.id" data-aos="fade-up"
-      :data-aos-delay="50 * index" data-aos-once="true">
-      <div class="card">
-        <RouterLink :to="`/product/${product.id}`" class="block">
-          <div class="card-image">
-            <img :src="product.imageUrl" alt="product image" class="block w-100% h-150px md:h-250px">
-          </div>
-          <h3 class="mb-4 tracking-wider">{{ product.title }}</h3>
-          <div class="pb-4">
-            <span>NT$ {{ product.price }}</span>
-          </div>
-        </RouterLink>
-      </div>
-    </li>
-  </ul>
-</section>
+  <section class="position-relative mb-16" >
+    <h2 class="fs-3 mb-7 d-flex">火熱商品 <i class="bi bi-fire"></i>
+    </h2>
+    <ul class="list-unstyled row row-cols-2 row-cols-lg-4 gy-4 ">
+      <li v-for="(product, index) in slicedProduct" :key="product.id" data-aos="fade-up"
+        :data-aos-delay="50 * index" data-aos-once="true">
+        <div class="card">
+          <RouterLink :to="`product/${product.id}`" class="d-block">
+            <div class="card-image">
+              <img :src="product.imageUrl" :alt="`${product.title}`" class="card-img-top">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ product.title }}</h5>
+              <p class="card-text">NT$ {{ product.price }}</p>
+            </div>
+          </RouterLink>
+        </div>
+      </li>
+    </ul>
+  </section>
 </template>
+
+<style scoped lang="scss">
+.card{
+  img{
+    height: 150px;
+    @media (width> 768px) {
+      height: 250px;
+    }
+  }
+}
+</style>

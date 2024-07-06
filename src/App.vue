@@ -1,12 +1,13 @@
-<script setup>
-import { onMounted } from 'vue';
-import { RouterView } from 'vue-router';
+<script>
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-onMounted(() => {
-  AOS.init();
-})
+export default {
+  mounted() {
+    AOS.init();
+  }
+}
+
 </script>
 
 <template>

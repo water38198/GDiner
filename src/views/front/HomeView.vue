@@ -13,7 +13,7 @@ export default {
 
 <template>
   <HomeHeader />
-  <main class="py-6 md:py-10 px-4 md:(container px-12.5)">
+  <main class="container py-6 py-md-10 px-4">
     <NewProducts />
     <!-- 尋找心中的美味 -->
     <HomeNav />

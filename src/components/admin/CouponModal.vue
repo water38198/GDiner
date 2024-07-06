@@ -1,4 +1,6 @@
 <script>
+import * as bootstrap from 'bootstrap';
+
 import moment from 'moment';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -17,6 +19,8 @@ export default {
     return {
       dateTime: '',
       modalCoupon: {},
+      modal: null,
+      isLoading: false,
     }
   },
   computed: {
@@ -25,18 +29,8 @@ export default {
     }
   },
   methods: {
-    showModal() {
-      this.$refs.dialog.showModal();
-    },
-    close() {
-      this.$refs.dialog.close();
-    },
-    autoClose(e) {
-      if (e.target.nodeName === "DIALOG") {
-        this.$refs.dialog.close();
-      }
-    },
     async confirmCoupon() {
+      this.isLoading = true;
       const method = this.isNew ? 'post' : 'put';
       const url = this.isNew ? `${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon` : `${VITE_URL}/v2/api/${VITE_PATH}/admin/coupon/${this.modalCoupon.id}`;
       try {
@@ -45,16 +39,19 @@ export default {
           title: `${res.data.message}`,
           icon: 'success',
           didClose: () => {
+            this.modal.hide();
             this.$emit('getCoupons');
           }
         });
-        this.close();
+        
       } catch (err) {
         this.$swal({
           title: '錯誤發生',
           text: `${err.response.data.message}`,
           icon: 'error',
         })
+      } finally {
+        this.isLoading = false;
       }
     },
   },
@@ -74,45 +71,66 @@ export default {
     dateTime() {
       this.modalCoupon.due_date = new Date(this.dateTime).getTime() / 1000;
     }
+  },
+  mounted() {
+    this.modal = new bootstrap.Modal('#CouponModal');
   }
 }
 </script>
 
 <template>
-  <dialog ref="dialog" class="max-w-1140px w-100% border-0 rd p-0 backdrop:backdrop-blur-3" @click="autoClose">
-    <VForm method="dialog" v-slot="{ errors }" @submit="confirmCoupon">
-      <div class="bg-#212529 p-4 flex justify-between items-center">
-        <h3 class="text-white">{{ isNew ? "新增" : "編輯" }}</h3>
-        <button type="button" class="i-ic:baseline-close p-2 text-white font-size-4 cursor-pointer"
-          @click="close"></button>
-      </div>
-      <div class="grid grid-cols-2 gap-6 p-5">
-        <div class="input-group">
-          <label for="name">名稱：</label>
-          <VField type="text" id="name" name="名稱" rules="required" placeholder="請輸入名稱" v-model.trim="modalCoupon.title"
-            :class="{ 'invalid': errors['名稱'] }" />
-          <ErrorMessage name="名稱" class="block ps-3 pt-2 text-red-500 font-size-3"></ErrorMessage>
+  <div class="modal fade" id="CouponModal" tabindex="-1" aria-labelledby="CouponLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-2" id="CouponModalLabel">{{ isNew ? "新增優惠券" : "編輯優惠券" }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="input-group">
-          <label for="code">優惠碼：</label>
-          <VField type="text" id="code" name="優惠碼" rules="required" placeholder="請輸入優惠碼"
-            :class="{ 'invalid': errors['優惠碼'] }" v-model.trim="modalCoupon.code" />
-          <ErrorMessage name="優惠碼" class="block ps-3 pt-2 text-red-500 font-size-3"></ErrorMessage>
-        </div>
+        <div class="modal-body">
+          <VForm @submit="confirmCoupon" v-slot="{ errors }" id="CouponForm">
+            <div class="row gy-6">
+              <div class="col-md-6">
+                <div>
+                  <label for="name" class="form-label">名稱：</label>
+                  <VField type="text" id="name" name="名稱" rules="required" placeholder="請輸入名稱" v-model.trim="modalCoupon.title" class="form-control" :class="{ 'is-invalid': errors['名稱'] }" />
+                  <ErrorMessage name="名稱" class="text-danger ps-3" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="code" class="form-label">優惠碼：</label>
+                <VField type="text" id="code" name="優惠碼" rules="required" placeholder="請輸入優惠碼" class="form-control"
+            :class="{ 'is-invalid': errors['優惠碼'] }" v-model.trim="modalCoupon.code" />
+                <ErrorMessage name="優惠碼" class="text-danger ps-3" />
+              </div>
+              <div class="col-md-6">
+                <label for="due_date" class="form-label">到期日：</label>
+                <VField type="date" id="due_date" name="到期日" rules="required" pattern="yyyy-MM-dd" class="form-control"
+            :class="{ 'is-invalid': errors['到期日'] }" v-model="dateTime" :min="todayDate" />
+                <ErrorMessage name="到期日" class="text-danger ps-3" />
+              </div>
+              <div class="col-md-6">
+                <label for="percent" class="form-label">優惠比例：</label>
+                <VField type="number" id="percent" placeholder="請輸入折扣百分比" name="優惠比例" rules="required||max_value:100||min_value:0" v-model.number="modalCoupon.percent" min="0" class="form-control" :class="{ 'invalid': errors['優惠比例'] }" max="100" />
+                <ErrorMessage name="優惠比例" class="text-danger ps-3" />
+              </div>
+              <div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" v-model="modalCoupon.is_enabled" id="is_paid" :true-value="1" :false-value="0">
+                  <label class="form-check-label" for="is_paid">是否啟用</label>
+                </div>
 
-        <div class="input-group">
-          <label for="due_date">到期日：</label>
-          <VField type="date" id="due_date" name="到期日" rules="required" pattern="yyyy-MM-dd"
-            :class="{ 'invalid': errors['到期日'] }" v-model="dateTime" :min="todayDate" />
-          <ErrorMessage name="到期日" class="block ps-3 pt-2 text-red-500 font-size-3"></ErrorMessage>
+              </div>
+            </div>
+          </VForm>
         </div>
-        <div class="input-group mb-4">
-          <label for="percent">優惠比例：</label>
-          <VField type="number" id="percent" placeholder="請輸入折扣百分比" name="優惠比例"
-            rules="required||max_value:100||min_value:0" v-model.number="modalCoupon.percent" min="0"
-            :class="{ 'invalid': errors['優惠比例'] }" max="100" />
-          <ErrorMessage name="優惠比例" class="block ps-3 pt-2 text-red-500 font-size-3"></ErrorMessage>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary" form="CouponForm" :disabled="isLoading">送出</button>
         </div>
+      </div>
+    </div>
+  </div>
+  <!-- 
         <div>
           <label for="is_paid">
             <input type="checkbox" id="is_paid" v-model="modalCoupon.is_enabled" class="custom-checkbox" :true-value="1"
@@ -121,13 +139,6 @@ export default {
           </label>
         </div>
       </div>
-      <div class="text-end p-3 border-(t solid #dee2e6)">
-        <button type="button"
-          class="m-1 px-3 py-1.5 bg-transparent text-#6c757d border-(1 solid #6c757d ) rd hover:(cursor-pointer bg-#5c636a text-white)"
-          @click="close">取消</button>
-        <button type="submit"
-          class="m-1 px-3 py-1.5 text-white bg-#0d6efd border-0 rd hover:(cursor-pointer bg-#0b5ed7)">確定</button>
-      </div>
     </VForm>
-  </dialog>
+  </dialog> -->
 </template>

@@ -51,88 +51,92 @@ export default {
 
 <template>
   <VLoading :active="isLoading" />
-  <div class="container px-4 md:px-12.5">
-    <h2 class="text-center font-size-12 mb-10">訂單查詢</h2>
-    <div class="mb-10">
-      <div class="custom-input-group w-50% mx-a">
-        <input type="text" id="orderId" placeholder="請輸入訂單ID" v-model.trim="orderId">
+  <div class="container py-10">
+    <h2 class="text-center fs-2 mb-10">訂單查詢</h2>
+    <div class="mx-auto mb-10 w-md-50">
+      <div class="form-floating mb-3">
+        <input type="text" id="orderId" placeholder="請輸入訂單ID" class="form-control bg-secondary custom-border" v-model.trim="orderId">
         <label for="orderId">訂單號碼</label>
-        <button
-          class="absolute h-100% right-0 top-1/2 translate-y--1/2 block px-6 border-(l-3 solid primary) rd-(tr-4 br-4) hover-(bg-primary text-secondary)"
-          @click="getOrder(orderId)">查詢</button>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary px-4" @click="getOrder(orderId)">查詢</button>
       </div>
     </div>
-    <div class="grid md:grid-cols-2 gap-10 mb-10" v-if="order !== null">
-      <div class="col-span-2 md:col-span-1">
-        <h3 class="font-size-8 mb-4">訂單資訊</h3>
-        <ul class="grid gap-4">
-          <li>
-            <span class="inline-block w-25">訂單號碼：</span>
-            <span>{{ order.id }}</span>
-          </li>
-          <li>
-            <span class="inline-block w-25">下單時間：</span>
-            <span>{{ getTime(order.create_at * 1000) }}</span>
-          </li>
-          <li>
-            <span class="inline-block w-25">留言：</span>
-            <span>{{ order.message }}</span>
-          </li>
-        </ul>
-      </div>
-      <div class="col-span-2 md:col-span-1">
-        <h3 class="font-size-8 mb-4">買家資訊</h3>
-        <ul class="grid gap-4">
-          <li>
-            <span class="inline-block w-25">姓名：</span>
-            <span>{{ order.user.name }}</span>
-          </li>
-          <li>
-            <span class="inline-block w-25">Email：</span>
-            <span>{{ order.user.email }}</span>
-          </li>
-          <li>
-            <span class="inline-block w-25">地址：</span>
-            <span>{{ order.user.address }}</span>
-          </li>
-          <li>
-            <span class="inline-block w-25">電話：</span>
-            <span>{{ order.user.tel }}</span>
-          </li>
-        </ul>
-      </div>
-      <div class="col-span-2">
-        <h3 class="font-size-8 mb-4">訂購的料理</h3>
-        <table class="w-full">
-          <thead class="border-(b-1 solid primary-veryLight)">
-            <tr class="opacity-60 text-left">
-              <th class="w-30 md:w-35">圖片</th>
-              <th>名稱</th>
-              <th>數量</th>
-              <th class="text-right">小計</th>
-            </tr>
-          </thead>
-          <tbody class="border-(b-1 solid primary-veryLight)">
-            <template v-for="product in order.products" :key="product.id">
-              <tr>
-                <td>
-                  <div class="w-100% h-30 md:w-25">
-                    <img :src="product.product.imageUrl" :alt="`${product.product.title}的照片`"
-                      class="block max-w-25 w-100% h-100% border-(2 solid primary) rd-2.5">
-                  </div>
-                </td>
-                <td>{{ product.product.title }}</td>
-                <td>{{ product.qty }} </td>
-                <td class="text-right">{{ Math.floor(product.final_total) }}</td>
-              </tr>
-            </template>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="4" class="text-right font-size-6"> 總計：{{ Math.floor(order.total) }} </td>
-            </tr>
-          </tfoot>
-        </table>
+    <div class="mb-10" v-if="order !== null">
+      <div class="row gy-4">
+        <div class="col-md-6">
+          <div class="custom-border h-100">
+            <h3 class="fs-3 fs-md-2 lh-lg text-center mb-6 bg-primary text-secondary">訂單資訊</h3>
+            <ul class="list-unstyled px-6">
+              <li class="mb-2">
+                <span class="me-4">號碼：</span>
+                <span>{{ order.id }}</span>
+              </li>
+              <li class="mb-2">
+                <span class="me-4">時間：</span>
+                <span>{{ getTime(order.create_at * 1000) }}</span>
+              </li>
+              <li class="mb-2">
+                <span class="me-4">留言：</span>
+                <span>{{ order.message }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="custom-border h-100">
+            <h3 class="fs-3 fs-md-2 lh-lg text-center mb-6 bg-primary text-secondary">買家資訊</h3>
+            <ul class="list-unstyled px-6">
+              <li class="mb-2">
+                <span class="me-4">姓名：</span>
+                <span>{{ order.user.name }}</span>
+              </li>
+              <li class="mb-2">
+                <span class="me-4">信箱：</span>
+                <span>{{ order.user.email }}</span>
+              </li>
+              <li class="mb-2">
+                <span class="me-4">地址：</span>
+                <span>{{ order.user.address }}</span>
+              </li>
+              <li class="mb-2">
+                <span class="me-4">電話：</span>
+                <span>{{ order.user.tel }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="custom-border">
+            <h3 class="fs-3 fs-md-2 lh-lg text-center bg-primary text-secondary">訂購的料理</h3>
+            <table class="table mb-0">
+              <thead>
+                <tr>
+                  <th class="text-center w-25">圖片</th>
+                  <th>名稱</th>
+                  <th>數量</th>
+                  <th >小計</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template v-for="product in order.products" :key="product.id">
+                  <tr>
+                    <td>
+                      <img :src="product.product.imageUrl" :alt="`${product.product.title}的照片`"
+                        class="product-image mx-auto">
+                    </td>
+                    <td>{{ product.product.title }}</td>
+                    <td>{{ product.qty }} </td>
+                    <td>{{ Math.floor(product.final_total) }}</td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+            <p class="text-center fs-5 my-4">
+              總計：{{ Math.floor(order.total) }}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -143,5 +147,12 @@ th,
 td {
   padding: 20px 0;
   vertical-align: middle;
+}
+
+.product-image{
+  width: 100px;
+  height: 120px;
+  border: 2px solid var(--bs-primary);
+  border-radius: .625rem;
 }
 </style>

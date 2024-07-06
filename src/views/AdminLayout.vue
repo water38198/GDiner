@@ -53,9 +53,9 @@ export default {
 
 <template>
   <VLoading :active="isLoading" :full-page="true" />
-  <div class="grid grid-cols-[20rem_1fr] gap-2 h-screen">
+  <div>
     <AdminNavbar />
-    <div v-if="isChecked">
+    <div class="container-md" v-if="isChecked">
       <RouterView />
     </div>
   </div>

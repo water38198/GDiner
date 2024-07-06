@@ -274,10 +274,10 @@ $cyans: ("cyan-100": $cyan-100,
 // fusv-enable
 
 // scss-docs-start theme-color-variables
-$primary: $blue !default;
-$secondary: $gray-600 !default;
+$primary: #3D081B; //$blue !default;
+$secondary:#F2EFDD; // $gray-600 !default;
 $success: $green !default;
-$info: $cyan !default;
+$info: #910F3F; //$cyan !default;
 $warning: $yellow !default;
 $danger: $red !default;
 $light: $gray-100 !default;
@@ -287,10 +287,10 @@ $themeDark: #005E4D;
 // scss-docs-end theme-color-variables
 
 // scss-docs-start theme-colors-map
-$theme-colors: ("primary":#3D081B, //$primary,
-  "secondary": #F2EFDD, //$secondary,
+$theme-colors: ("primary":$primary,
+  "secondary": $secondary,
   "success": $success,
-  "info": #910F3F, //$info,
+  "info": $info,
   "warning": $warning,
   "danger": $danger,
   "light": $light,
@@ -550,7 +550,7 @@ $component-active-bg: $primary !default;
 // scss-docs-start focus-ring-variables
 $focus-ring-width: .25rem !default;
 $focus-ring-opacity: .25 !default;
-$focus-ring-color: rgba($theme, $focus-ring-opacity); //rgba($primary, $focus-ring-opacity) !default;
+$focus-ring-color: rgba($primary, $focus-ring-opacity) !default;
 $focus-ring-blur: 0 !default;
 $focus-ring-box-shadow: 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color !default;
 // scss-docs-end focus-ring-variables
@@ -642,7 +642,8 @@ $font-sizes: (1: $h1-font-size,
   3: $h3-font-size,
   4: $h4-font-size,
   5: $h5-font-size,
-  6: $h6-font-size) !default;
+  6: $h6-font-size,
+  7: $font-size-base * 0.75) !default;
 // scss-docs-end font-sizes
 
 // scss-docs-start headings-variables
@@ -730,7 +731,7 @@ $table-cell-padding-x-sm: .25rem !default;
 $table-cell-vertical-align: top !default;
 
 $table-color: var(--#{$prefix}emphasis-color) !default;
-$table-bg: var(--#{$prefix}body-bg) !default;
+$table-bg: transparent !default; //var(--#{$prefix}body-bg) !default;
 $table-accent-bg: transparent !default;
 
 $table-th-font-weight: null !default;
@@ -894,7 +895,7 @@ $input-padding-y-lg: $input-btn-padding-y-lg !default;
 $input-padding-x-lg: $input-btn-padding-x-lg !default;
 $input-font-size-lg: $input-btn-font-size-lg !default;
 
-$input-bg: var(--#{$prefix}body-bg) !default;
+$input-bg: transparent !default; //var(--#{$prefix}body-bg) !default;
 $input-disabled-color: null !default;
 $input-disabled-bg: var(--#{$prefix}secondary-bg) !default;
 $input-disabled-border-color: null !default;
@@ -944,7 +945,7 @@ $form-check-transition: null !default;
 
 $form-check-input-active-filter: brightness(90%) !default;
 
-$form-check-input-bg: $input-bg !default;
+$form-check-input-bg: transparent !default; //$input-bg !default;
 $form-check-input-border: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color) !default;
 $form-check-input-border-radius: .25em !default;
 $form-check-radio-border-radius: 50% !default;
@@ -952,7 +953,7 @@ $form-check-input-focus-border: $input-focus-border-color !default;
 $form-check-input-focus-box-shadow: $focus-ring-box-shadow !default;
 
 $form-check-input-checked-color: $component-active-color !default;
-$form-check-input-checked-bg-color: $theme; //$component-active-bg !default;
+$form-check-input-checked-bg-color: $primary !default; //$component-active-bg !default;
 $form-check-input-checked-border-color: $form-check-input-checked-bg-color !default;
 $form-check-input-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$form-check-input-checked-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>") !default;
 $form-check-radio-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='2' fill='#{$form-check-input-checked-color}'/></svg>") !default;
@@ -1297,26 +1298,25 @@ $pagination-padding-x-lg: 1.5rem !default;
 
 $pagination-font-size: $font-size-base !default;
 
-$pagination-color: $theme;
-//var(--#{$prefix}link-color) !default;
-$pagination-bg: var(--#{$prefix}body-bg) !default;
+$pagination-color: var(--#{$prefix}link-color) !default;
+$pagination-bg: $secondary; //var(--#{$prefix}body-bg) !default;
 $pagination-border-radius: var(--#{$prefix}border-radius) !default;
 $pagination-border-width: var(--#{$prefix}border-width) !default;
 $pagination-margin-start: calc(#{$pagination-border-width} * -1) !default; // stylelint-disable-line function-disallowed-list
-$pagination-border-color: var(--#{$prefix}border-color) !default;
+$pagination-border-color: $primary; //var(--#{$prefix}border-color) !default;
 
 $pagination-focus-color: var(--#{$prefix}link-hover-color) !default;
 $pagination-focus-bg: var(--#{$prefix}secondary-bg) !default;
 $pagination-focus-box-shadow: $focus-ring-box-shadow !default;
 $pagination-focus-outline: 0 !default;
 
-$pagination-hover-color: $theme; //var(--#{$prefix}link-hover-color) !default;
-$pagination-hover-bg: var(--#{$prefix}tertiary-bg) !default;
-$pagination-hover-border-color: var(--#{$prefix}border-color) !default; // Todo in v6: remove this?
+$pagination-hover-color: $component-active-color; //var(--#{$prefix}link-hover-color) !default;
+$pagination-hover-bg: $component-active-bg; //var(--#{$prefix}tertiary-bg) !default;
+$pagination-hover-border-color: $component-active-bg; //var(--#{$prefix}border-color) !default;
 
-$pagination-active-color: white; //$component-active-color !default;
-$pagination-active-bg: $theme; // $component-active-bg !default;
-$pagination-active-border-color: $theme; // $component-active-bg !default;
+$pagination-active-color: $component-active-color !default;
+$pagination-active-bg: $component-active-bg !default;
+$pagination-active-border-color: $component-active-bg !default;
 
 $pagination-disabled-color: var(--#{$prefix}secondary-color) !default;
 $pagination-disabled-bg: var(--#{$prefix}secondary-bg) !default;
@@ -1345,9 +1345,9 @@ $placeholder-opacity-min: .2 !default;
 $card-spacer-y: $spacer !default;
 $card-spacer-x: $spacer !default;
 $card-title-spacer-y: $spacer * .5 !default;
-$card-title-color: null !default;
+$card-title-color: var($primary); //null !default;
 $card-subtitle-color: null !default;
-$card-border-width: var(--#{$prefix}border-width) !default;
+$card-border-width: 0; //var(--#{$prefix}border-width) !default;
 $card-border-color: var(--#{$prefix}border-color-translucent) !default;
 $card-border-radius: var(--#{$prefix}border-radius) !default;
 $card-box-shadow: null !default;
@@ -1358,7 +1358,7 @@ $card-cap-bg: rgba(var(--#{$prefix}body-color-rgb), .03) !default;
 $card-cap-color: null !default;
 $card-height: null !default;
 $card-color: null !default;
-$card-bg: var(--#{$prefix}body-bg) !default;
+$card-bg: transparent; //var(--#{$prefix}body-bg) !default;
 $card-img-overlay-padding: $spacer !default;
 $card-group-margin: $grid-gutter-width * .5 !default;
 // scss-docs-end card-variables

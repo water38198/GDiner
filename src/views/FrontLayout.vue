@@ -7,7 +7,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-secondary min-h-screen grid">
+  <div class="bg-secondary min-vh-100">
     <FrontNavbar />
     <RouterView />
     <FrontFooter />

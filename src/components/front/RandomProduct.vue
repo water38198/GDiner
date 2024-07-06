@@ -47,7 +47,7 @@ export default {
     },
     useRandomArray(max) {
       const array = [];
-      while (array.length < 3) {
+      while (array.length < 4) {
         const random = Math.floor(Math.random() * max);
         if (!array.includes(random)) array.push(random);
       }
@@ -60,22 +60,21 @@ export default {
 }
 </script>
 <template>
-  <div class="position-relative min-h-350px">
+  <div class="position-relative wrapper">
     <VLoading :active="isLoading" :is-full-page="false" />
       <template v-if="products.length > 0">
-    <div class="relative">
-      <h3 class="font-size-7 mb-10">誠心推薦</h3>
+    <div class="position-relative">
+      <h3 class="fs-3 mb-10">誠心推薦</h3>
       <div v-if="randomProductList.length > 0">
-        <ul class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <ul class="list-unstyled row row-cols-2 row-cols-md-4">
           <li v-for="(randomProduct, index) in randomProductList" :key="randomProduct.id + index" data-aos="zoom-in"
             :data-delay="100 * index">
             <div class="card">
               <RouterLink :to='`/product/${randomProduct.id}`' class="block">
-                <div class="customBorder-xl rd-3 overflow-hidden mb-4">
-                  <img :src="randomProduct.imageUrl" :alt="`${randomProduct.title}的圖片`"
-                    class="block w-100% h-150px  sm:h-350px md:h-350px">
+                <div class="card-image">
+                  <img :src="randomProduct.imageUrl" :alt="`${randomProduct.title}的圖片`">
                 </div>
-                <h3 class="mb-4 tracking-wider">{{ randomProduct.title }}</h3>
+                <h3 class="fs-5 card-title">{{ randomProduct.title }}</h3>
                 <div class="pb-4">
                   <span>NT$ {{ randomProduct.price }}</span>
                 </div>
@@ -88,3 +87,18 @@ export default {
   </template>
   </div>
 </template>
+
+<style scoped lang="scss">
+.wrapper{
+  min-height: 350px;
+}
+.card-image{
+  height: 150px;
+  @media (min-width: 576px) {
+    height: 250px;
+  }
+  @media (min-width: 768px) {
+    height: 300px;
+  }
+}
+</style>

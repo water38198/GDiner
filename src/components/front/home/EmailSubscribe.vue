@@ -27,22 +27,19 @@ export default {
 </script>
 <template>
   <section class="mb-16">
-  <div class="customBorder-xl rd-3 text-center pt-10 pb-12">
-    <h2 class="mb-5 font-size-12 tracking-widest">
+  <div class="custom-border custom-border-large text-center pt-10 pb-12">
+    <h2 class="mb-5 fs-1">
       訂閱我們
     </h2>
     <p class="lh-normal px-4 mb-5">現在就訂閱，您將能享受到獨家的優惠和菜單更新，與我們一同開啟美味之旅吧！</p>
-    <div class="flex justify-center">
-      <div class="custom-input-group">
-        <input type="email" id="search" placeholder="請輸入Email" autocomplete="off" v-model.trim="email">
-        <label for="search">Email</label>
-        <button type="button"
-          class="absolute right-2 top-1/2 translate-y--1/2 bg-transparent border-0 outline-0 px-2 font-size-6 text-primary cursor-pointer"
-          @click="subscribe">
-          <div class="i-material-symbols:arrow-right-alt"></div>
-        </button>
+    <VForm class="d-flex justify-content-center" @submit="subscribe">
+      <div class="form-floating w-80 w-md-50 w-lg-25 me-3">
+        <VField type="email" name="email" rules="email" class="form-control custom-border bg-secondary" id="email" placeholder="請輸入Email" autocomplete="off" v-model.trim="email" />
+        <label for="email">Email</label>
+        <ErrorMessage name="email" class="position-absolute start-0 text-danger"/>
       </div>
-    </div>
+      <button type="submit" class="btn btn-primary px-md-5">訂閱</button>
+    </VForm>
   </div>
-</section>
+  </section>
 </template>

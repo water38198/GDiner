@@ -3,12 +3,12 @@ import CategoryFilter from '@/components/front/products/CategoryFilter.vue';
 import PriceFilter from '@/components/front/products/PriceFilter.vue';
 import SortFilter from '@/components/front/products/SortFilter.vue';
 import ProductsList from '@/components/front/products/ProductsList.vue';
-import ProductsPagination from '@/components/front/products/ProductsPagination.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
 
 const { VITE_URL, VITE_PATH } = import.meta.env
 
 export default {
-  components:{CategoryFilter, PriceFilter, SortFilter, ProductsList, ProductsPagination, },
+  components:{CategoryFilter, PriceFilter, SortFilter, ProductsList, PaginationComponent, },
   data() {
     return {
       isLoading: false,
@@ -20,8 +20,8 @@ export default {
       priceRangeText: '',
       searchText: '',
       pages: {
-        current: 1,
-        total:0
+        current_page: 1,
+        total_pages:0
       }
     }
   },
@@ -51,6 +51,9 @@ export default {
         newList = newList.filter((product) => product.title.includes(this.searchText))
       }
       return newList;
+    },
+    isEmptySelected() {
+      return this.filterCategories.length !== 0 || this.priceRangeText !== '' || this.searchText !== ''
     }
   },
   methods: {
@@ -83,11 +86,11 @@ export default {
     },
     changePage(action) {
       if (typeof action === 'number') {
-        this.pages.current = action
+        this.pages.current_page = action
       } else if (action === '+') {
-        this.pages.current++
+        this.pages.current_page++
       } else {
-        this.pages.current--
+        this.pages.current_page--
       }
       window.scrollTo({
         top: 0
@@ -117,8 +120,8 @@ export default {
       }
     },
     filteredList() {
-      this.pages.total = Math.ceil(this.filteredList.length / 12);
-      this.pages.current = 1;
+      this.pages.total_pages = Math.ceil(this.filteredList.length / 12);
+      this.pages.current_page = 1;
     },
     lowPrice() {
       this.getPriceText();
@@ -139,17 +142,17 @@ export default {
     this.searchText = this.$route.query.search;
     };
   this.getProducts();
-  }
+  },
 }
 </script>
 
 <template>
   <VLoading :active="isLoading" />
-  <div class="container px-4 lg:px-12.5">
-    <h2 class="py-6 font-size-10 md:(font-size-15)">料理</h2>
+  <div class="container min-vh-100">
+    <h2 class="py-6 fs-1">料理</h2>
     <!-- 篩選 -->
-    <div class="flex flex-wrap items-center justify-between mb-6">
-      <form action="" class="flex items-center gap-2 sm:gap-4">
+    <div class="d-flex align-items-center justify-content-between mb-6">
+      <form class="d-flex items-center gap-2">
         <CategoryFilter v-model="filterCategories" />
         <!-- 價格範圍 -->
         <PriceFilter v-model:high="highPrice" v-model:low="lowPrice" />
@@ -159,53 +162,33 @@ export default {
       <span class="ms-auto">{{ filteredList.length }} 項料理</span>
     </div>
     <!-- 已選擇的篩選 -->
-    <div class="flex gap-4 mb-6" v-if="filterCategories.length !== 0 || priceRangeText !== '' || searchText !== ''">
-      <button type="button" class="flex items-center gap-0.5 px-2 py-1 bg-transparent border-(1px solid primary-200) rd-6 font-size-3 cursor-pointer"
+    <div class="d-flex gap-2 mb-6" v-if="isEmptySelected">
+      <button type="button" class="d-flex align-items-center btn btn-outline-primary border-2 rounded-pill fs-7"
         v-for="category in filterCategories" :key="category" @click="deleteCategory(category)">
         {{ category }}
         <div class="i-material-symbols:close"></div>
       </button>
-      <button type="button" class="flex items-center gap-0.5 px-2 py-1 bg-transparent border-(1px solid primary-200) rd-6 font-size-3 cursor-pointer"
+      <button type="button" class="d-flex align-items-center btn btn-outline-primary border-2 rounded-pill fs-7"
         v-if="priceRangeText !== ''" @click="resetPriceRange">
         {{ priceRangeText }}
         <div class="i-material-symbols:close"></div>
       </button>
       <template v-if="searchText !== ''">
         <button type="button"
-          class="flex items-center gap-0.5 px-2 py-1 bg-transparent border-(1px solid primary-200) rd-6 font-size-3 cursor-pointer"
+          class="d-flex align-items-center btn btn-outline-primary border-2 rounded-pill fs-7"
           @click="resetSearch">
-          {{ searchText }}
+          搜尋：{{ searchText }}
           <div class="i-material-symbols:close"></div>
         </button>
       </template>
       <button type="button" @click="resetFilter"
-        class="bg-transparent border-0 font-size-3 underline underline-offset-4 cursor-pointer hover:(decoration-2)">
+        class="bg-transparent  text-decoration-underline text-offset-4 )">
         清除全部
       </button>
     </div>
     <!-- 料理列表 -->
     <ProductsList :pages :filtered-list="filteredList" :is-loading="isLoading"/>
     <!-- 分頁 -->
-    <ProductsPagination :pages @change-page="changePage" />
+    <PaginationComponent :pages @change-page="changePage"/>
   </div>
 </template>
-
-<style lang="scss" scoped>
-summary::marker {
-  content: '';
-  list-style: none;
-}
-
-summary::-webkit-details-marker {
-  display: none;
-}
-
-details[open]>summary::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  background-color: transparent;
-  display: block;
-}
-</style>

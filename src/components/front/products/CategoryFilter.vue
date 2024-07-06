@@ -30,60 +30,38 @@ export default {
 }
 </script>
 <template>
-  <details class="relative">
-    <summary class="flex list-none text-primary-light cursor-pointer hover:(underline underline-offset-4)">
-      <span class="text-primary-light hover:text-primary">分類</span>
-      <div class="i-material-symbols:keyboard-arrow-down"></div>
-    </summary>
-    <div class="absolute top-10 left-[-40px] sm:left-[-1.2rem] z-2 w-80 rd-4 customBorder rd-2 bg-secondary">
-      <div class="flex justify-between px-5 py-4 border-(b-1 solid primary-200)">
+  <div class="dropdown">
+    <button type="button" data-bs-toggle="dropdown" aria-expanded="false">分類 <i class="bi bi-caret-down-fill"></i></button>
+    <div class="dropdown-menu bg-secondary custom-border">
+      <div class="dropdown-header d-flex justify-content-between px-5 py-2">
         <span>{{selectedCount}} 已選取</span>
-        <button type="button"
-          class="bg-transparent border-0 underline underline-offset-4 tracking-widest hover:(cursor-pointer decoration-2)"
-          @click="resetCategory">
+        <button type="button" class="text-decoration-underline text-offset-4" @click="resetCategory">
           重置
         </button>
       </div>
-      <ul class="px-5 py-1">
-        <li v-for="category in categories" :key="category">
-          <label :for="category" class="relative flex gap-3 py-2.5 lh-tight cursor-pointer">
-            <input type="checkbox" :id="category" :value="category" :checked="modelValue.includes(category)" @change="updateCategory"
-              class="appearance-none m-0 size-5 rd-1 cursor-pointer" />
-            {{ category }}
-          </label>
+      <hr class="dropdown-divider">
+      <ul class="list-unstyled pt-4">
+        <li v-for="category in categories" :key="category" class="px-4 mb-2">
+          <div class="form-check fs-5">
+            <input class="form-check-input fs-5 border-2 border-primary" type="checkbox" :id="category" :value="category" :checked="modelValue.includes(category)" @change="updateCategory">
+            <label class="form-check-label" :for="category">
+              {{ category }}
+            </label>
+          </div>
         </li>
       </ul>
     </div>
-  </details>
+  </div>
 </template>
 
-<style lang="scss">
-details[open]>summary::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  background-color: transparent;
-  display: block;
+<style scoped lang="scss">
+.text-offset-4{
+  text-underline-offset: 4px;
 }
-
-[type='checkbox']::before {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 2px;
-  outline: 1px solid rgba(61, 8, 27, 0.2);
+.form-check:hover{
+  cursor: pointer;
+  & > *{
+    cursor: pointer;
+  }
 }
-
-[type='checkbox']:checked::after {
-  content: '';
-  position: absolute;
-  width: 5px;
-  height: 10px;
-  border-right: 2px solid #3d081b;
-  border-bottom: 2px solid #3d081b;
-  transform: rotate(45deg);
-  top: 12px;
-  left: 7px;
-}</style>
+</style>

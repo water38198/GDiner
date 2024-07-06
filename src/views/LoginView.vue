@@ -12,8 +12,8 @@ export default {
     }
   },
   methods: {
-    async login() {
-      if (this.user.username === '' || this.user.password === '') {
+    async handleLogin() {
+      if (!this.user.username || !this.user.password ) {
         this.$swal({
           icon: 'warning',
           title: '請正確填寫資訊',
@@ -24,7 +24,7 @@ export default {
       try {
         const res = await this.$http.post(`${VITE_URL}/v2/admin/signin`, this.user);
         const { expired, token } = res.data;
-        document.cookie = `myToken = ${token}; expires = ${new Date(expired)} `;
+        document.cookie = `myToken = ${token}; expires = ${new Date(expired)};path=/; `;
         this.$swal({
           showConfirmButton: false,
           icon: "success",
@@ -38,34 +38,41 @@ export default {
         this.$swal({
           title: "登入失敗",
           icon: "error",
-          text: `${err?.response.data.error.message || ""}`
+          text: `${err?.response.data.error.message || "發生錯誤"}`
         })
       } finally {
         this.isLoading = false;
       }
     }
+  },
+  mounted() {
+    document.cookie = 'myToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;';
   }
 }
 </script>
 
 <template>
-  <VLoading :active="isLoading" :full-page="true" />
+  <VLoading :active="isLoading" />
   <main>
     <div class="container">
-      <form action="" ref="loginForm" class="max-w-100 mx-auto pt-20">
-        <h1 class="text-center font-size-12 mb-8 font-medium">登入</h1>
-        <div class="custom-input-group mb-4">
-          <input type="email" id="email" placeholder="Email address" v-model="user.username">
-          <label for="email">Email
-            address</label>
-        </div>
-        <div class="custom-input-group mb-4 position-relative">
-          <input type="password" id="password" placeholder="Password" v-model="user.password" @keyup.enter="login">
-          <label for="password">Password</label>
-        </div>
-        <button type="button" @click="login"
-          class="block w-100% text-white bg-primary  hover:bg-primary-light border-0 rd-3 px-4 py-2 font-size-5 cursor-pointer">登入</button>
-      </form>
+      <div class="row">
+        <VForm class="col-10 col-md-8 mx-auto pt-20" v-slot="{errors}" @submit="handleLogin">
+          <h1 class="text-center font-size-12 mb-8 font-medium">後台登入</h1>
+          <div class="form-floating mb-4">
+            <VField type="email" id="email" name="email" class="form-control custom-border" :class="{ 'is-invalid': errors['email'] }" autocomplete="off" placeholder="Email address" v-model="user.username" rules="required|email" />
+            <label for="email">Email</label>
+            <ErrorMessage name="email" class="invalid-feedback ps-3"/>
+          </div>
+          <div class="form-floating mb-4">
+            <VField type="password" id="password" name="password" class="form-control custom-border" :class="{ 'is-invalid': errors['password'] }" placeholder="Password" v-model="user.password" @keyup.enter="handleLogin" rules="required" />
+            <label for="password" class="">Password</label>
+            <ErrorMessage name="password" class="invalid-feedback ps-3"/>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4 py-2 fs-5">登入</button>
+          </div>
+        </VForm>
+      </div>
     </div>
   </main>
 </template>

@@ -34,7 +34,6 @@ export default {
     },
     openOrderModal(order) {
       this.tempOrder = order;
-      this.$refs.orderModalRef.showModal();
     },
     deleteOrder(id) {
       this.$swal({
@@ -65,34 +64,6 @@ export default {
         }
       })
     },
-    async confirmOrder(order) {
-      const data = order;
-      let total = 0;
-      total = Object.keys(data.products).reduce((a, b) => {
-        const coupon = data.products[b].coupon ? data.products[b].coupon.percent / 100 : 1 //如果有使用coupon
-        return a + data.products[b].final_total * coupon
-      }
-        , 0);
-      data.total = total; 
-      try {
-        const res = await this.$http.put(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${order.id}`, { data });
-        this.$refs.orderModalRef.close();
-        this.$swal({
-          icon: 'success',
-          title: `${res.data.message}`,
-          didClose: () => {
-            this.getOrders();
-          }
-        })
-      } catch (err) {
-        this.$swal({
-          title: '錯誤發生',
-          icon: 'error',
-          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-          confirmButtonColor: '#3D081B',
-        })
-      }
-    },
     getMoment(data) {
       return moment(data).format('YYYY-MM-DD')
     }
@@ -103,61 +74,57 @@ export default {
 }
 </script>
 <template>
-  <div class="p-10">
-    <h2 class="font-size-12">訂單</h2>
-    <div class="relative min-h-100">
-      <VLoading :active="isLoading" :is-full-page="false" />
-      <!-- 訂單列表 -->
-      <table class="w-100% mt-6">
-        <thead class="border-b-1 border-black border-solid fw-bold text-left">
+  <VLoading :active="isLoading" />
+  <div class="py-4 py-md-10">
+    <h2 class="text-center fs-1">訂單</h2>
+    <!-- 訂單表格 -->
+    <div class="table-responsive">
+      <table class="table mt-6 text-nowrap">
+        <thead>
           <tr>
-            <th width="120">下單時間</th>
+            <th>下單時間</th>
             <th>ID</th>
             <th>購買品項</th>
             <th>使用者資訊</th>
             <th>留言</th>
-            <th class="text-center">訂單總額</th>
-            <th width="100" class="text-center">是否付款</th>
-            <th width="120">編輯</th>
+            <th>訂單總額</th>
+            <th>是否付款</th>
+            <th>編輯</th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="border-b border-#DEE2E6 border-solid" v-for="order in orders" :key="order.id">
+        <tbody class="table-group-divider">
+          <tr v-for="order in orders" :key="order.id">
             <td>{{ getMoment(order.create_at * 1000) }}</td>
             <td>{{ order.id }}</td>
             <td>
-              <ul>
+              <ol>
                 <li v-for="product in order.products" :key="product.id">
                   {{ product.product.title }} x {{ product.qty }}
                 </li>
-              </ul>
+              </ol>
             </td>
             <td>
-              <ul>
-                <li v-for="data, key in order.user" :key="data" class="pt-2">
+              <ul class="mb-0">
+                <li v-for="data, key in order.user" :key="data">
                   {{ key }} : {{ data }}
                 </li>
               </ul>
             </td>
-            <td>
-              {{ order.message }}
-            </td>
-            <td class="text-center">
-              {{ order.total }}
-            </td>
+            <td>{{ order.message }}</td>
+            <td class="text-center"> {{ order.total }} </td>
             <td class="text-center">
               <span class="text-green" v-if="order.is_paid">已付款</span>
               <span class="text-red" v-else>尚未付款</span>
             </td>
             <td>
-              <div class="btn-group">
+              <div class="btn-group" role="group" aria-label="edit button group">
                 <button type="button"
-                  class="text-#0d6efd bg-transparent border-(1 #0d6efd solid r-0) rd-tl rd-bl px-2 py-1 hover:(bg-#0d6efd text-white cursor-pointer)"
+                  class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#OrderModal"
                   @click="openOrderModal(order)">
                   編輯
                 </button>
                 <button type="button"
-                  class="text-#dc3545 bg-transparent border-1 border-#de3545 border-solid rd-tr rd-br px-2 py-1 hover:(bg-#de3545 text-white cursor-pointer)"
+                  class="btn btn-outline-danger"
                   @click="deleteOrder(order.id)">
                   刪除
                 </button>
@@ -171,7 +138,7 @@ export default {
       <PaginationComponent :pages="pagination" @change-page="getOrders" />
     </template>
   </div>
-  <OrderModal :temp-order="tempOrder" ref="orderModalRef" @confirm-order="confirmOrder" />
+  <OrderModal :temp-order="tempOrder" @get-orders="getOrders"/>
 </template>
 
 <style lang="postcss">

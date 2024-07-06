@@ -1,5 +1,8 @@
 import './assets/scss/main.scss';
 
+// BS5 JS
+import 'bootstrap';
+
 // SweetAlert2
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';

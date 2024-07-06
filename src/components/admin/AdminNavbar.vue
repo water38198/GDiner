@@ -1,5 +1,6 @@
 <script>
 const { VITE_URL } = import.meta.env;
+
 export default {
   methods: {
     async logOut() {
@@ -24,56 +25,36 @@ export default {
 }
 </script>
 <template>
-  <nav class="bg-secondary">
-    <ul class="nav-list flex flex-col gap-10 py-8 h-full">
-      <li>
-        <RouterLink to="/admin/products" class="block px-8 py-4 ml-8 rd-[100vw_0_0_100vw] font-size-8">產品
-        </RouterLink>
-      </li>
-      <li>
-        <RouterLink to="/admin/orders" class="block px-8 py-4 ml-8 rd-[100vw_0_0_100vw] font-size-8">訂單
-        </RouterLink>
-      </li>
-      <li>
-        <RouterLink to="/admin/coupons" class="block px-8 py-4 ml-8 rd-[100vw_0_0_100vw] font-size-8">優惠券
-        </RouterLink>
-      </li>
-      <li class="mt-auto">
-        <RouterLink to="/" class="block px-8 py-4 ml-8  font-size-4">回前台
-        </RouterLink>
-      </li>
-      <li>
-        <a href="#" class="block px-8  ml-8  font-size-4" @click.prevent="logOut">登出</a>
-      </li>
-    </ul>
+  <nav class="navbar navbar-expand bg-body-tertiary text-nowrap pb-0">
+    <div class="container justify-content-center justify-content-sm-between py-2">
+      <span class="navbar-brand mb-0 fs-1 text-primary d-none d-sm-inline">後台</span>
+      <ul class="navbar-nav gap-4">
+        <li class="nav-item">
+          <RouterLink to="/admin/products" class="nav-link h-100">產品</RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink to="/admin/orders" class="nav-link">訂單</RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink to="/admin/coupons" class="nav-link">優惠券</RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink to="/" class="nav-link">回前台</RouterLink>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link" @click.prevent="logOut">登出</a>
+        </li>
+      </ul>
+    </div>
   </nav>
 </template>
 
 <style scoped>
-.nav-list a.router-link-active {
-  background: #fff;
-  position: relative;
-}
-
-.nav-list a.router-link-active::before,
-.nav-list a.router-link-active::after {
-  content: '';
-  position: absolute;
-  width: 1rem;
-  height: 1rem;
-  right: 0;
-  background: #F2EFDD;
-}
-
-.nav-list a.router-link-active::before {
-  top: -1rem;
-  border-radius: 0 0 100vh 0;
-  box-shadow: 4px 4px 0 4px white;
-}
-
-.nav-list a.router-link-active::after {
-  bottom: -1rem;
-  border-radius: 0 100vh 0 0;
-  box-shadow: 4px -4px 0 4px white;
+.router-link-active{
+  color: var(--bs-primary);
+  opacity: .8;
+  transform: scale(1.5);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 </style>
