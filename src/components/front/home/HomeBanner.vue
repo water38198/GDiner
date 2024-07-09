@@ -1,8 +1,8 @@
 <template>
   <section class="mb-16" data-aos="flip-left">
-    <div class="row custom-border custom-border-large overflow-hidden bg-primary">
+    <div class="row border-custom border-custom-large overflow-hidden bg-primary">
       <div
-        class="col-md-6 bg-secondary border-(b-3 solid primary) md:border-(b-0 r-3) p-6 p-md-10 ">
+        class="col-md-6 bg-secondary">
         <h4 class="fs-2 fs-sm-1 mb-5 ">值得信任的阿橘
         </h4>
         <p class="lh-lg">
@@ -19,7 +19,7 @@
   <section class="mb-16">
     <div class="row gy-6">
       <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="custom-border custom-border-large pt-6 text-center h-100">
+        <div class="border-custom border-custom-large pt-6 text-center h-100">
           <h4 class="fs-1">
             <i class="bi bi-arrow-through-heart-fill text-info"></i>
           </h4>
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-        <div class="custom-border custom-border-large pt-6 text-center h-100">
+        <div class="border-custom border-custom-large pt-6 text-center h-100">
           <h4 class="fs-1">
             <i class="bi bi-car-front-fill text-info"></i>
           </h4>
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
-        <div class="custom-border custom-border-large pt-6  text-center">
+        <div class="border-custom border-custom-large pt-6 text-center">
           <h4 class="fs-1">
             <i class="bi bi-heart-fill text-info"></i>
           </h4>

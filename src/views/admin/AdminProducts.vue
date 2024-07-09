@@ -105,19 +105,15 @@ export default {
             <td class="text-end">{{ product.origin_price }}</td>
             <td class="text-end">{{ product.price }}</td>
             <td class="text-center">
-              <span class="text-#198754" v-if="product.is_enabled">啟用</span>
-              <span class="text-red" v-else>未啟用</span>
+              <span class="text-success" v-if="product.is_enabled">啟用</span>
+              <span class="text-danger" v-else>未啟用</span>
             </td>
             <td class="text-end">
               <div class="btn-group text-nowrap" role="group" aria-label="edit button group">
-                <button type="button"
-                  class="btn btn-outline-primary"
-                  @click="editProduct(product)" data-bs-toggle="modal" data-bs-target="#ProductModal">
+                <button type="button" class="btn btn-outline-primary" @click="editProduct(product)" data-bs-toggle="modal" data-bs-target="#ProductModal">
                   編輯
                 </button>
-                <button type="button"
-                  class="btn btn-outline-danger"
-                  @click="deleteProduct(product)">
+                <button type="button" class="btn btn-outline-danger" @click="deleteProduct(product)">
                   刪除
                 </button>
               </div>
@@ -140,4 +136,6 @@ export default {
   min-width: 120px;
   height: 100px;
 }
+
+
 </style>

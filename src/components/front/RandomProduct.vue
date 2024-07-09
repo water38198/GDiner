@@ -20,10 +20,10 @@ export default {
       if (this.products.length > 0) {
         list = JSON.parse(JSON.stringify(this.products));
         this.exclude.forEach(id => {
-          list = list.filter(product => product.id !== id)
+          list = list.filter(product => product.id !== id);
         });
         const array = this.useRandomArray(list.length);
-        list = list.filter((item, index) => array.includes(index))
+        list = list.filter((item, index) => array.includes(index));
       }
       return list;
     }
@@ -63,7 +63,7 @@ export default {
   <div class="position-relative wrapper">
     <VLoading :active="isLoading" :is-full-page="false" />
       <template v-if="products.length > 0">
-    <div class="position-relative">
+    <div>
       <h3 class="fs-3 mb-10">誠心推薦</h3>
       <div v-if="randomProductList.length > 0">
         <ul class="list-unstyled row row-cols-2 row-cols-md-4">

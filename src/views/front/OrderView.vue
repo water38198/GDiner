@@ -55,7 +55,7 @@ export default {
     <h2 class="text-center fs-2 mb-10">訂單查詢</h2>
     <div class="mx-auto mb-10 w-md-50">
       <div class="form-floating mb-3">
-        <input type="text" id="orderId" placeholder="請輸入訂單ID" class="form-control bg-secondary custom-border" v-model.trim="orderId">
+        <input type="text" id="orderId" placeholder="請輸入訂單ID" class="form-control bg-secondary border-custom" v-model.trim="orderId">
         <label for="orderId">訂單號碼</label>
       </div>
       <div class="text-center">
@@ -65,7 +65,7 @@ export default {
     <div class="mb-10" v-if="order !== null">
       <div class="row gy-4">
         <div class="col-md-6">
-          <div class="custom-border h-100">
+          <div class="border-custom h-100">
             <h3 class="fs-3 fs-md-2 lh-lg text-center mb-6 bg-primary text-secondary">訂單資訊</h3>
             <ul class="list-unstyled px-6">
               <li class="mb-2">
@@ -84,7 +84,7 @@ export default {
           </div>
         </div>
         <div class="col-md-6">
-          <div class="custom-border h-100">
+          <div class="border-custom h-100">
             <h3 class="fs-3 fs-md-2 lh-lg text-center mb-6 bg-primary text-secondary">買家資訊</h3>
             <ul class="list-unstyled px-6">
               <li class="mb-2">
@@ -107,15 +107,15 @@ export default {
           </div>
         </div>
         <div>
-          <div class="custom-border">
+          <div class="border-custom">
             <h3 class="fs-3 fs-md-2 lh-lg text-center bg-primary text-secondary">訂購的料理</h3>
-            <table class="table mb-0">
+            <table class="table align-middle mb-0">
               <thead>
                 <tr>
                   <th class="text-center w-25">圖片</th>
                   <th>名稱</th>
-                  <th>數量</th>
-                  <th >小計</th>
+                  <th class="text-center">數量</th>
+                  <th class="text-center">小計</th>
                 </tr>
               </thead>
               <tbody>
@@ -126,13 +126,13 @@ export default {
                         class="product-image mx-auto">
                     </td>
                     <td>{{ product.product.title }}</td>
-                    <td>{{ product.qty }} </td>
-                    <td>{{ Math.floor(product.final_total) }}</td>
+                    <td class="text-center">{{ product.qty }} </td>
+                    <td class="text-center">{{ Math.floor(product.final_total) }}</td>
                   </tr>
                 </template>
               </tbody>
             </table>
-            <p class="text-center fs-5 my-4">
+            <p class="text-center fs-5 my-3 my-md-6">
               總計：{{ Math.floor(order.total) }}
             </p>
           </div>
@@ -143,16 +143,21 @@ export default {
 </template>
 
 <style scoped>
-th,
-td {
-  padding: 20px 0;
-  vertical-align: middle;
-}
-
 .product-image{
-  width: 100px;
-  height: 120px;
+  width: 50px;
+  height: 60px;
   border: 2px solid var(--bs-primary);
   border-radius: .625rem;
+  @media (mid-width:576px) {
+    width: 100px;
+    height: 120px;
+  }
 }
+
+
+
+
+
+
+
 </style>

@@ -80,11 +80,11 @@ export default {
         <div id="carousel" class="carousel slide">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img :src="product.imageUrl" class="product-image custom-border custom-border-large bg-primary overflow-hidden w-100" :alt="product.title" @click="showBigImg()">
+              <img :src="product.imageUrl" class="product-image border-custom border-custom-large bg-primary overflow-hidden w-100" :alt="product.title" @click="showBigImg()">
             </div>
             <template v-if="product.imagesUrl">
               <div v-for="img in product.imagesUrl" :key="img" class="carousel-item">
-                <img :src="img" :alt="`${product.title}的圖片`" class="product-image custom-border custom-border-large w-100"
+                <img :src="img" :alt="`${product.title}的圖片`" class="product-image border-custom border-custom-large w-100"
                   @click="showBigImg(img)">
               </div>
             </template>
@@ -117,9 +117,9 @@ export default {
         <div v-else class="mb-6">
           <span class="fs-3"> NT$ {{ product.price }}</span>
         </div>
-        <div class="mb-6 quantity-input">
+        <div class="mb-6">
           <label class="d-block mb-3" for="quantity">數量</label>
-          <div class="d-flex justify-content-between custom-border quantity-input">
+          <div class="d-flex justify-content-between border-custom quantity-input">
             <button class="d-block px-4 bg-transparent border-0"
               @click="quantity - 1 > 0 ? quantity-- : ''" type="button">
               <i class="bi bi-dash fs-4"></i>
@@ -134,13 +134,17 @@ export default {
           </div>
         </div>
         <div class="mb-6">
-          <button
-            class="product-btn btn btn-outline-primary px-4 py-3 rounded-pill custom-border me-sm-4 mb-4 mb-sm-0"
+          <div class="row">
+            <div class="col-sm-6">          <button
+            class="w-100 btn btn-outline-primary px-4 py-3 rounded-pill border-custom me-sm-4 mb-4 mb-sm-0"
             @click="addCart(product.id, quantity)" :class="{ 'cart-loading': cartLoading }"
-            type="button">加入購物車</button>
-          <RouterLink to="/cart" @click="addCart(product.id, quantity, true)"
-            class="product-btn btn btn-info rounded-pill px-4 py-3">
-            立即購買</RouterLink>
+            type="button">加入購物車</button></div>
+            <div class="col-sm-6">
+              <RouterLink to="/cart" @click="addCart(product.id, quantity, true)"
+                class="w-100 btn-shadow btn btn-info rounded-pill px-4 py-3">
+                立即購買</RouterLink>
+            </div>
+          </div>
         </div>
         <div class="mb-6">
           <h3 class="mb-3 fs-3">商品介紹：</h3>
@@ -156,7 +160,7 @@ export default {
       <RandomProduct :exclude="[product.id]" />
     </template>
     <dialog ref="imgDialogRef" @click="autoClose" class="bg-secondary">
-      <img :src="currentImg" alt="關閉" class="dialog-img">
+      <img :src="currentImg" alt="product image" class="dialog-img">
     </dialog>
   </main>
 </template>
@@ -217,14 +221,8 @@ export default {
   opacity: .75;
 }
 
-.product-btn{
-  width: 100%;
-  @media (min-width: 576px) {
-    width: calc(50% - 8px);
-  }
-}
 
-a.product-btn{
+.btn-shadow{
   box-shadow: 0 2px 0 0 #3D081B;
 }
 

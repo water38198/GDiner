@@ -36,14 +36,10 @@ export default {
   <div class="container pb-16">
     <section class="pt-6">
       <div class="mb-2 mb-md-8">
-        <h2 class="fs-1 mb-6">
-          初來乍到
-        </h2>
+        <h2 class="fs-1 mb-6">初來乍到</h2>
         <div class="row">
           <div class="col-sm-10 col-lg-8">
-            <img
-              src="https://images.unsplash.com/photo-1580191947416-62d35a55e71d?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="歡迎來到" class="custom-border custom-border-large w-100 bg-primary mb-4" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1580191947416-62d35a55e71d?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="歡迎來到" class="border-custom border-custom-large bg-primary mb-4" loading="lazy">
             <p>親愛的客人，
               我們非常榮幸能夠歡迎您來到阿橘飯店！在這裡，我們致力於為您提供一個美味、舒適和難忘的美味饗宴，讓您的每一口都成為一段珍貴的回憶。如果您是第一次光臨本店，我們推薦您點餐的內容包含：
             </p>

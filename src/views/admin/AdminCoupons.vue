@@ -99,9 +99,7 @@ export default {
     <h2 class="text-center fs-1">優惠券</h2>
     <div class="text-end mt-6">
       <!-- 新增按鈕 -->
-      <button type="button"
-        class="btn btn-primary px-3 py-2"
-        @click="addCoupon" data-bs-toggle="modal" data-bs-target="#CouponModal">建立優惠券</button>
+      <button type="button" class="btn btn-primary px-3 py-2" @click="addCoupon" data-bs-toggle="modal" data-bs-target="#CouponModal">建立優惠券</button>
     </div>
     <div class="table-responsive">
       <!-- 優惠券列表 -->
@@ -129,14 +127,10 @@ export default {
             </td>
             <td class="text-center">
               <div class="btn-group text-nowrap">
-                <button type="button"
-                  class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#CouponModal"
-                  @click="editCoupon(coupon)">
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#CouponModal" @click="editCoupon(coupon)">
                   編輯
                 </button>
-                <button type="button"
-                  class="btn btn-outline-danger"
-                  @click="deleteCoupon(coupon)">
+                <button type="button" class="btn btn-outline-danger" @click="deleteCoupon(coupon)">
                   刪除
                 </button>
               </div>
@@ -167,4 +161,5 @@ td,
 th {
   padding: 8px;
 }
+
 </style>

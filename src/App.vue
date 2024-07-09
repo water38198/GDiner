@@ -7,7 +7,6 @@ export default {
     AOS.init();
   }
 }
-
 </script>
 
 <template>

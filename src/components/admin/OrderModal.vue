@@ -91,25 +91,25 @@ export default {
                   <label for="name" class="form-label">姓名</label>
                   <VField type="text" id="name" placeholder="請輸入姓名" v-model.trim="modalOrder.user.name" name="姓名"
               rules="required" class="form-control" :class="{ 'is-invalid': errors['姓名'] }" />
-                  <ErrorMessage name="姓名" class="text-danger ps-3" />
+                  <ErrorMessage name="姓名" class="invalid-feedback ps-3" />
                 </div>
                 <div class="mb-4">
                   <label for="tel" class="form-label">電話</label>
                   <VField type="tel" id="tel" placeholder="請輸入電話" v-model.trim="modalOrder.user.tel" name="電話" class="form-control" :rules="isPhone"
               :class="{ 'is-invalid': errors['電話'] }" />
-                  <ErrorMessage name="電話" class="text-danger ps-3" />
+                  <ErrorMessage name="電話" class="invalid-feedback ps-3" />
                 </div>
                 <div class="mb-4">
                   <label for="email" class="form-label">Email</label>
                   <VField type="email" id="email" placeholder="請輸入Email" v-model.trim="modalOrder.user.email" name="Email"
               rules="required|email" class="form-control" :class="{ 'is-invalid': errors['Email'] }" />
-                  <ErrorMessage name="Email" class="text-danger ps-3" />
+                  <ErrorMessage name="Email" class="invalid-feedback ps-3" />
                 </div>
                 <div class="mb-4">
                   <label for="address" class="form-label">地址</label>
                   <VField type="address" id="address" placeholder="請輸入地址" v-model.trim="modalOrder.user.address" name="地址"
                     rules="required" class="form-control" :class="{ 'is-invalid': errors['地址'] }" />
-                  <ErrorMessage name="地址" class="text-danger ps-3" />
+                  <ErrorMessage name="地址" class="invalid-feedback ps-3" />
                 </div>
                 <div>
                   <h4>留言：</h4>

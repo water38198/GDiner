@@ -93,25 +93,25 @@ export default {
                 <div>
                   <label for="name" class="form-label">名稱：</label>
                   <VField type="text" id="name" name="名稱" rules="required" placeholder="請輸入名稱" v-model.trim="modalCoupon.title" class="form-control" :class="{ 'is-invalid': errors['名稱'] }" />
-                  <ErrorMessage name="名稱" class="text-danger ps-3" />
+                  <ErrorMessage name="名稱" class="invalid-feedback ps-3" />
                 </div>
               </div>
               <div class="col-md-6">
                 <label for="code" class="form-label">優惠碼：</label>
                 <VField type="text" id="code" name="優惠碼" rules="required" placeholder="請輸入優惠碼" class="form-control"
             :class="{ 'is-invalid': errors['優惠碼'] }" v-model.trim="modalCoupon.code" />
-                <ErrorMessage name="優惠碼" class="text-danger ps-3" />
+                <ErrorMessage name="優惠碼" class="invalid-feedback ps-3" />
               </div>
               <div class="col-md-6">
                 <label for="due_date" class="form-label">到期日：</label>
                 <VField type="date" id="due_date" name="到期日" rules="required" pattern="yyyy-MM-dd" class="form-control"
             :class="{ 'is-invalid': errors['到期日'] }" v-model="dateTime" :min="todayDate" />
-                <ErrorMessage name="到期日" class="text-danger ps-3" />
+                <ErrorMessage name="到期日" class="invalid-feedback ps-3" />
               </div>
               <div class="col-md-6">
                 <label for="percent" class="form-label">優惠比例：</label>
                 <VField type="number" id="percent" placeholder="請輸入折扣百分比" name="優惠比例" rules="required||max_value:100||min_value:0" v-model.number="modalCoupon.percent" min="0" class="form-control" :class="{ 'invalid': errors['優惠比例'] }" max="100" />
-                <ErrorMessage name="優惠比例" class="text-danger ps-3" />
+                <ErrorMessage name="優惠比例" class="invalid-feedback ps-3" />
               </div>
               <div>
                 <div class="form-check form-switch">

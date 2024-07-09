@@ -32,13 +32,13 @@ img {
   font-family: "標楷體", DFKai-sb, BiauKai, 'AR PL UKai TW', sans-serif;
 }
 
-.custom-border {
+.border-custom {
   border: 3px solid #3D0818;
   border-radius: 12px;
   box-shadow: 0 2px 0 0 #3D0818;
 }
 
-.custom-border-large {
+.border-custom-large {
   box-shadow: 0 5px 0 0 #3D0818;
 }
 
@@ -92,5 +92,4 @@ img {
 
 .is-invalid {
   box-shadow: none;
-
 }

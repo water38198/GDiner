@@ -16,7 +16,7 @@ export default {
 </script>
 <template>
   <div class="table-responsive">
-    <table class="table">
+    <table class="table align-middle">
       <thead>
         <tr>
           <th class="text-left th-product" scope="col">料理</th>
@@ -39,7 +39,7 @@ export default {
             </div>
           </td>
           <td>
-            <div class=" d-flex justify-content-between custom-border quantity-input">
+            <div class=" d-flex justify-content-between border-custom quantity-input">
               <button type="button" class="d-block px-4 bg-transparent border-0"
                 @click="product.qty - 1 > 0 ? product.qty-- : ''; updateCart(product);">
                 <i class="bi bi-dash fs-4"></i>

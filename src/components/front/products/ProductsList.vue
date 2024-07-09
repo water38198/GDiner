@@ -38,7 +38,7 @@ export default {
               </div>
               <div v-else>
                 <span class="text-danger me-2">NT$ {{ product.price }}</span>
-                <del class="text-gray-400 fs-7">NT$ {{ product.origin_price }}</del>
+                <del class="fs-7">NT$ {{ product.origin_price }}</del>
               </div>
             </div>
           </RouterLink>

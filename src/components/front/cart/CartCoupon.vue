@@ -8,6 +8,7 @@ export default {
       required:true,
     },
   },
+  emits:['getCart'],
   data() {
     return {
       coupon:'',
@@ -31,7 +32,7 @@ export default {
             showConfirmButton: false,
           });
           this.coupon = '';
-          this.getCart();
+          this.$emit('getCart');
         } catch (err) {
         this.$swal({
           icon: 'error',
@@ -45,7 +46,7 @@ export default {
 </script>
 
 <template>
-  <div class="d-sm-flex border-2 border-primary border-bottom py-4 mb-4">
+  <div class="d-sm-flex border-primary border-bottom border-2 py-4 mb-4">
     <RouterLink to="/products" class="d-block text-decoration-underline text-offset-4 text-center me-4 mb-10">
       繼續購物
     </RouterLink>
@@ -58,7 +59,7 @@ export default {
               v-model.trim="coupon">
             <label for="coupon">優惠券</label>
           </div>
-          <button type="button" class="btn border-2 btn-outline-primary" @click="useCoupon">使用</button>
+          <button type="button" class="btn btn-outline-primary border-2" @click="useCoupon">使用</button>
         </div>
         <template v-if="cart.carts[0].coupon">
           <div class="mb-4 text-end">
@@ -70,10 +71,10 @@ export default {
       </div>
       <div>
         <div class="d-flex justify-content-end align-items-center">
-          <h3 class="me-5 mb-0">總計</h3>
+          <h3 class="me-5 mb-0">總計：</h3>
           <p class="text-primary fs-5 mb-0" v-if="cart.total == cart.final_total">NT$ {{ cart.total }}
           </p>
-          <p class="text-red-500 fs-5 mb-0" v-else>NT${{ Math.floor(cart.final_total) }}</p>
+          <p class="text-danger fs-3 mb-0" v-else>NT${{ Math.floor(cart.final_total) }}</p>
         </div>
       </div>
     </div>

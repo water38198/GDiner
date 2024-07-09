@@ -14,17 +14,17 @@ export default {
       const list = [];
       if (this.cart.carts) {
         this.cart.carts.forEach(product => list.push(product.product.id));
-      }
+      };
       return list;
     },
   },
   methods: {
-    ...mapActions(useCartStore,['getCart','deleteCartAll']),
+    ...mapActions(useCartStore, ['getCart', 'deleteCartAll']),
   }
 }
 </script>
 <template>
-  <div class="container px-2 md:px-12 py-5 py-md-10">
+  <div class="container px-2 py-5 py-md-10">
     <VLoading :active="cartLoading"/>
     <div class="mb-5 mb-md-10">
       <!-- 購物車有東西 -->
@@ -35,7 +35,7 @@ export default {
             @click="deleteCartAll">清空購物車</button>
         </div>
         <CartTable :cart/>
-        <CartCoupon :cart/>
+        <CartCoupon :cart @get-cart="getCart"/>
         <CartForm :cart @get-cart="getCart"/>
       </div>
       <!-- 購物車為空 -->

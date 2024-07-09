@@ -11,7 +11,7 @@ export default {
       lastScrollTop: 0,
       isShow: true,
       detailIsOpen: false,
-      offcanvas: null
+      offcanvas: null,
     }
   },
   computed: {
@@ -74,21 +74,14 @@ export default {
       </RouterLink>
       <!-- toggler button -->
       <button 
-        class="navbar-toggler shadow-none border-0" 
-        type="button" 
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasNavbar" 
-        aria-controls="offcanvasNavbar" 
-        aria-label="Toggle navigation">
+        class="navbar-toggler shadow-none border-0" type="button" 
+        data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" 
+        aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- Offcanvas  -->
-      <div 
-        class="offcanvas offcanvas-start bg-navbar" 
-        tabindex="-1" 
-        id="offcanvasNavbar" 
-        aria-labelledby="offcanvasNavbarLabel"
-        ref="offcanvas">
+      <div class="offcanvas offcanvas-start bg-navbar" tabindex="-1" id="offcanvasNavbar"
+      aria-labelledby="offcanvasNavbarLabel" ref="offcanvas">
         <!-- Offcanvas Header -->
         <div class="offcanvas-header border-bottom border-primary">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
@@ -166,10 +159,6 @@ export default {
   text-underline-offset: .25rem;
   opacity: 1;
   pointer-events: none;
-}
-
-.navbarHide {
-  top: -128px;
 }
 
 .logo {

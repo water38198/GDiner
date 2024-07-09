@@ -52,7 +52,7 @@ export default {
 
 
 <template>
-  <VLoading :active="isLoading" :full-page="true" />
+  <VLoading :active="isLoading" />
   <div>
     <AdminNavbar />
     <div class="container-md" v-if="isChecked">

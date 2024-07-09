@@ -26,12 +26,10 @@ export default {
 <template>
   <div class="dropdown">
     <button type="button" data-bs-toggle="dropdown" aria-expanded="false">價格<i class="bi bi-caret-down-fill"></i></button>
-  <div class="dropdown-menu dropdown-menu-start bg-secondary custom-border">
+  <div class="dropdown-menu dropdown-menu-start bg-secondary border-custom">
     <div class="dropdown-header d-flex justify-content-between px-5 py-2">
       <span class="fs-5">價格範圍</span>
-      <button type="button"
-        class="text-decoration-underline text-offset-4"
-        @click="resetPriceRange">
+      <button type="button" class="text-decoration-underline text-offset-4" @click="resetPriceRange">
         重置
       </button>
     </div>
@@ -39,12 +37,12 @@ export default {
     <form action="" class="d-flex align-items-center p-4">
       <span class="fs-md-4 fs-lg-3 me-1">$</span>
       <div class="form-floating me-4">
-        <input type="number" id="lowPrice" @change="changeLow" :value="low" class="form-control custom-border bg-secondary fs-7 fs-md-6" placeholder="最低價" min="0" />
+        <input type="number" id="lowPrice" @change="changeLow" :value="low" class="form-control border-custom bg-secondary fs-7 fs-md-6" placeholder="最低價" min="0" />
         <label for="lowPrice">最低價</label>
       </div>
       <span class="fs-md-4 fs-lg-3 me-1">$</span>
       <div class="form-floating">
-        <input type="number" id="highPrice" @change="changeHigh" :value="high" class="form-control custom-border bg-secondary fs-7 fs-md-6" placeholder="最高價" min="0" />
+        <input type="number" id="highPrice" @change="changeHigh" :value="high" class="form-control border-custom bg-secondary fs-7 fs-md-6" placeholder="最高價" min="0" />
         <label for="highPrice">最高價</label>
       </div>
     </form>
@@ -58,9 +56,6 @@ export default {
   width: min(55vw,500px);
 }
 
-.form-floating > input + label:after {
-    background-color: transparent !important;
-}
 [type="number"]::-webkit-outer-spin-button,[type="number"]::-webkit-inner-spin-button{
   -webkit-appearance: none;
   appearance: none;

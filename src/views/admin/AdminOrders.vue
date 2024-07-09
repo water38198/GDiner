@@ -118,14 +118,10 @@ export default {
             </td>
             <td>
               <div class="btn-group" role="group" aria-label="edit button group">
-                <button type="button"
-                  class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#OrderModal"
-                  @click="openOrderModal(order)">
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#OrderModal" @click="openOrderModal(order)">
                   編輯
                 </button>
-                <button type="button"
-                  class="btn btn-outline-danger"
-                  @click="deleteOrder(order.id)">
+                <button type="button" class="btn btn-outline-danger" @click="deleteOrder(order.id)">
                   刪除
                 </button>
               </div>
@@ -146,4 +142,5 @@ td,
 th {
   padding: 8px;
 }
+
 </style>

@@ -31,9 +31,9 @@ export default {
           <h4 class="fs-4 fs-md-2 mb-5 text-secondary">快速連結</h4>
           <ul class="nav flex-column gap-3">
             <li v-for="link in links" :key="link.text">
-              <RouterLink :to="link.to"
-                class="block py-2 text-secondary opacity-75">
-                {{ link.text }}</RouterLink>
+              <RouterLink :to="link.to" class="d-block py-2 text-secondary opacity-75">
+                {{ link.text }}
+              </RouterLink>
             </li>
           </ul>
         </div>
@@ -47,7 +47,7 @@ export default {
       <div class="mb-5">
         <ul class="nav justify-content-center">
           <li v-for="icon in socialIcons" :key="icon.class">
-            <a :href="icon.href" class="inline-block p-3 text-secondary">
+            <a :href="icon.href" class="d-inline-block p-3 text-secondary">
               <i class="bi text-secondary fs-4" :class="icon.class"></i>
             </a>
           </li>

@@ -119,7 +119,7 @@ export default {
                   <label for="imagUrl" class="form-label">主要圖片</label>
                   <VField name="主要圖片" id="imageUrl" type="text" placeholder="請輸入圖片連結" v-model="modalProduct.imageUrl" class="form-control"
                     :class="{ 'is-invalid': errors['主要圖片'] }" rules="required" />
-                  <ErrorMessage name="主要圖片" class="text-danger ms-3" />
+                  <ErrorMessage name="主要圖片" class="invalid-feedback ms-3" />
                   <img :src="modalProduct.imageUrl" alt="產品主要照片" v-if="modalProduct.imageUrl">
                   <!-- 檔案上傳 -->
                   <form action="/api/thisismycourse2/admin/upload" enctype="multipart/form-data" method="post" class="my-4">
@@ -157,7 +157,7 @@ export default {
                     <label for="title" class="form-label">名稱：</label>
                     <VField type="text" id="title" name="名稱" rules="required" placeholder="請輸入標題"
                       v-model="modalProduct.title" class="form-control" :class="{ 'is-invalid': errors['名稱'] }" />
-                    <ErrorMessage name="名稱" class="text-danger ps-3" />
+                    <ErrorMessage name="名稱" class="invalid-feedback ps-3" />
                   </div>
                   <div class="col-6">
                     <label for="category" class="form-label">分類：</label>
@@ -171,7 +171,7 @@ export default {
                       <option value="飲料">飲料</option>
                       <option value="套餐">套餐</option>
                     </VField>
-                    <ErrorMessage name="分類" class="text-danger ps-3" />
+                    <ErrorMessage name="分類" class="invalid-feedback ps-3" />
                   </div>
                   <div class="col-6">
                     <label for="unit" class="form-label">單位：</label>
@@ -184,21 +184,21 @@ export default {
                       <option value="份"></option>
                       <option value="個"></option>
                     </datalist>
-                    <ErrorMessage name="單位" class="text-danger ps-3" />
+                    <ErrorMessage name="單位" class="invalid-feedback ps-3" />
                   </div>
                   <div class="col-6">
                     <label for="origin_price" class="form-label">原價：</label>
                     <VField type="number" name="原價" id="origin_price" placeholder="請輸入原價" min="0"
                       rules="required|min_value:0" class="form-control" :class="{ 'is-invalid': errors['原價'] }"
                       v-model.number="modalProduct.origin_price" />
-                    <ErrorMessage name="原價" class="text-danger ps-3" />
+                    <ErrorMessage name="原價" class="invalid-feedback ps-3" />
                   </div>
                   <div class="col-6">
                     <label for="price" class="form-label">售價：</label>
                     <VField type="number" id="price" placeholder="請輸入售價" min="0" v-model.number="modalProduct.price"
                       name="售價" :rules="{ required: true, max_value: modalProduct.origin_price, min_value: 0 }" class="form-control"
                       :class="{ 'is-invalid': errors['售價'] }" />
-                    <ErrorMessage name="售價" class="text-danger ps-3" />
+                    <ErrorMessage name="售價" class="invalid-feedback ps-3" />
                   </div>
                   <div class="col-6">
                     <label for="veggie" class="form-label">素食:</label>
@@ -208,7 +208,7 @@ export default {
                       <option value="蛋奶素" class="text-warning">蛋奶素</option>
                       <option value="葷食" class="text-danger">葷食</option>
                     </VField>
-                    <ErrorMessage name="素食" class="text-danger ps-3" />
+                    <ErrorMessage name="素食" class="invalid-feedback ps-3" />
                   </div>
                   <!-- 標籤 -->
                   <div>
@@ -234,13 +234,13 @@ export default {
                     <label for="description" class="form-label">產品敘述:</label>
                     <VField as="textarea" id="description" rows="6" v-model="modalProduct.description" name="產品敘述"
                     rules="required" class="form-control" :class="{ 'is-invalid': errors['產品敘述'] }"></VField>
-                    <ErrorMessage name="產品敘述" class="text-danger ps-3" />
+                    <ErrorMessage name="產品敘述" class="invalid-feedback ps-3" />
                   </div>
                   <div>
                     <label for="content" class="form-label">內容說明:</label>
                     <VField as="textarea" id="content" rows="4" class="form-control" v-model="modalProduct.content" name="內容說明" rules="required" :class="{ 'is-invalid': errors['內容說明'] }">
                     </VField>
-                    <ErrorMessage name="內容說明" class="text-danger ps-3" />
+                    <ErrorMessage name="內容說明" class="invalid-feedback ps-3" />
                   </div>
                 </div>
               </div>

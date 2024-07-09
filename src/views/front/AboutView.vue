@@ -1,6 +1,6 @@
 <template>
   <main class="container py-md-15">
-    <div class="row custom-border custom-border-large overflow-hidden mb-20" data-aos="flip-left" data-aos-duration="1000">
+    <div class="row border-custom border-custom-large overflow-hidden mb-20" data-aos="flip-left" data-aos-duration="1000">
       <div class="col-md-5 px-0 overflow-hidden border-between">
         <img
           src="https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711216053420.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=HkBEZCuESNLHJ72TGNtjLJSVEKb6Z4dqO9aLrBxo76gp5PKyZFIjj1jSObWog9obZ6eUqTfK6bGB2nGRIP%2B1TYTVOchocvUCYx2X3NDRM5sFsGNjXCDTqzhctJH73LMG4s3bpZ3qQrATV4S7P9QMYEeIK%2FtlkpQeah00Oq2JNCUY0lcctSfijJhDriKd0jP%2FGhiZqL6yQ3P8fR1Byi7ijTpdo5WOnmPLr%2F%2FhkdBU33BBCJkbex4Ix0RYyg2hxAQ5leq8tpEGB0K7igXl9xgaM%2F94j3jm%2Fhv%2FhsFyjCFlEsQhaG17zediDNe61fDO70DRWlIOOxrnCloeNIzYgNwfIg%3D%3D"
@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="row flex-column-reverse flex-md-row custom-border custom-border-large mb-20" data-aos="flip-right"
+    <div class="row flex-column-reverse flex-md-row border-custom border-custom-large mb-20" data-aos="flip-right"
       data-aos-duration="1000">
       <div class="col-md-7 p-6 p-md-10 border-between">
         <div>
@@ -27,7 +27,7 @@
           <p>
             如果你正在尋找一個結合中、西式料理的用餐地點，阿橘飯店絕對是您的理想之選。以下是為什麼您應該選擇阿橘飯店的幾個理由：
           </p>
-          <ul class="list-style-circle indent--6 ps-6">
+          <ul class="list-style-circle ps-6">
             <li class="mb-2">阿橘飯店融合了中西風味，提供多元化的菜單。</li>
             <li class="mb-2">我們致力選用最優質的食材，保證每道菜品的新鮮和美味。</li>
             <li class="mb-2">阿橘飯店的用餐環境舒適，為您提供一個放鬆身心、與親友共聚的理想場所。
@@ -41,7 +41,7 @@
           alt="很多蔬菜在櫃子裡" class="w-100 h-100">
       </div>
     </div>
-    <div class="row custom-border custom-border-large overflow-hidden mb-20" data-aos="flip-left" data-aos-duration="1000">
+    <div class="row border-custom border-custom-large overflow-hidden mb-20" data-aos="flip-left" data-aos-duration="1000">
       <div class="col-md-5 px-0 overflow-hidden border-between">
         <img
           src="https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711216695611.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=FLlpLP6irJdhwdcx1OKP%2B0tV425bjzaMMr%2F1uobUDX41FS%2FhxG9OhDraw69UQOvOHf%2Bqhaqo59KkUnShCok4SNvjHP8WG5RFCLGiV3ll9n4FdqE181zVyff2IDH78frU3z6yzX95y9HAi08rIWqQgxgSQqfXRV2lQBInUQ1sGCUnx6d3hy2YNLTpJ0iEfgWUDg%2BEilHKucUffsOTcOwHPPq4djCUVAyzLMHdyp30SbfV4gx7r8pdDTA9lz78oq6zGGIpYqlLT9F6JLz1RgmTJORKp7%2FmEq7zOXXXzUunWuchQXwQq2%2BSU0tKc66NS8%2B%2BfZlNH2ECRdDxXxgFspQb4w%3D%3D"
@@ -73,17 +73,16 @@
     border-bottom: 0;
   }
 }
+
 .list-style-circle{
   list-style-type: circle;
 }
-.indent--6{
-  text-indent: -1.5rem;
-}
+
 .chef-picture{
   max-height: 300px;
   object-position: top;
   @media (min-width: 768px) {
-    max-height: 500px;
+    max-height: 400px;
   }
 }
 </style>

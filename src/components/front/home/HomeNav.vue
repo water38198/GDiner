@@ -1,11 +1,11 @@
 <template>
   <section class="mb-16">
-    <h2 class="font-size-7 tracking-widest mb-8">
+    <h2 class="fs-2 mb-8">
       尋找心中的美味<div class="i-fxemoji:potoffood inline-block"></div>
     </h2>
     <div class="row gy-4">
       <div class="col-md-4">
-        <div class="row h-100 ">
+        <div class="row h-100">
           <div class="col-6 col-md-12" data-aos="zoom-in">
             <div class="card">
               <RouterLink to="/products" class="block">
@@ -23,7 +23,7 @@
           </div>
           <div class="col-6 col-md-12 mt-auto" data-aos="zoom-in">
             <div class="card">
-              <RouterLink to="/products?category=套餐" class="block">
+              <RouterLink to="/products?category=套餐" class="d-block">
                 <div class="card-image">
                   <img
                     src="https://images.unsplash.com/photo-1586511925558-a4c6376fe65f?q=80&w=400&h=400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

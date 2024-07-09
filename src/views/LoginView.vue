@@ -56,15 +56,15 @@ export default {
   <main>
     <div class="container">
       <div class="row">
-        <VForm class="col-10 col-md-8 mx-auto pt-20" v-slot="{errors}" @submit="handleLogin">
-          <h1 class="text-center font-size-12 mb-8 font-medium">後台登入</h1>
+        <VForm class="col-10 col-md-6 mx-auto pt-20" v-slot="{errors}" @submit="handleLogin">
+          <h1 class="text-center fs-1 mb-8">後台登入</h1>
           <div class="form-floating mb-4">
-            <VField type="email" id="email" name="email" class="form-control custom-border" :class="{ 'is-invalid': errors['email'] }" autocomplete="off" placeholder="Email address" v-model="user.username" rules="required|email" />
+            <VField type="email" id="email" name="email" class="form-control border-custom" :class="{ 'is-invalid': errors['email'] }" autocomplete="off" placeholder="Email address" v-model="user.username" rules="required|email" />
             <label for="email">Email</label>
             <ErrorMessage name="email" class="invalid-feedback ps-3"/>
           </div>
           <div class="form-floating mb-4">
-            <VField type="password" id="password" name="password" class="form-control custom-border" :class="{ 'is-invalid': errors['password'] }" placeholder="Password" v-model="user.password" @keyup.enter="handleLogin" rules="required" />
+            <VField type="password" id="password" name="password" class="form-control border-custom" :class="{ 'is-invalid': errors['password'] }" placeholder="Password" v-model="user.password" @keyup.enter="handleLogin" rules="required" />
             <label for="password" class="">Password</label>
             <ErrorMessage name="password" class="invalid-feedback ps-3"/>
           </div>

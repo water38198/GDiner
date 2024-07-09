@@ -3,7 +3,7 @@
     <div class="container-sm px-0">
       <div class="py-sm-15" data-aos="flip-up">
         <div
-          class="header-content bg-secondary px-9 py-10 custom-border custom-border-large rounded-sm-3 text-primary text-center">
+          class="header-content bg-secondary px-9 py-10 border-custom border-custom-large rounded-sm-3 text-primary text-center">
           <h2 class="fs-1 mb-3 mb-sm-8 fw-bold">
             <span class="d-sm-block font-serif">美好飯局，</span>
             <span class="d-sm-block font-serif">盡在阿橘！</span>
@@ -11,7 +11,7 @@
           <p class="mb-5">每道料理都是由我們阿橘大廚精心挑選、用心製作而成，且食材皆採用符合時節與產地直送，請客人放心食用。</p>
           <div>
             <RouterLink to="/recommend"
-              class="d-inline-block custom-border rounded-5 px-8 py-3 fs-6 tracking-widest btn btn-outline-primary">
+              class="d-inline-block border-custom rounded-5 px-8 py-3 fs-6 btn btn-outline-primary">
               開始點菜
             </RouterLink>
           </div>

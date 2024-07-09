@@ -151,8 +151,8 @@ export default {
   <div class="container min-vh-100">
     <h2 class="py-6 fs-1">料理</h2>
     <!-- 篩選 -->
-    <div class="d-flex align-items-center justify-content-between mb-6">
-      <form class="d-flex items-center gap-2">
+    <div class="d-flex justify-content-between align-items-center mb-6">
+      <form class="d-flex gap-2">
         <CategoryFilter v-model="filterCategories" />
         <!-- 價格範圍 -->
         <PriceFilter v-model:high="highPrice" v-model:low="lowPrice" />
@@ -182,7 +182,7 @@ export default {
         </button>
       </template>
       <button type="button" @click="resetFilter"
-        class="bg-transparent  text-decoration-underline text-offset-4 )">
+        class="bg-transparent text-decoration-underline text-offset-4">
         清除全部
       </button>
     </div>

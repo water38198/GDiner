@@ -32,7 +32,7 @@ export default {
 <template>
   <div class="dropdown">
     <button type="button" data-bs-toggle="dropdown" aria-expanded="false">分類 <i class="bi bi-caret-down-fill"></i></button>
-    <div class="dropdown-menu bg-secondary custom-border">
+    <div class="dropdown-menu bg-secondary border-custom">
       <div class="dropdown-header d-flex justify-content-between px-5 py-2">
         <span>{{selectedCount}} 已選取</span>
         <button type="button" class="text-decoration-underline text-offset-4" @click="resetCategory">
@@ -44,9 +44,7 @@ export default {
         <li v-for="category in categories" :key="category" class="px-4 mb-2">
           <div class="form-check fs-5">
             <input class="form-check-input fs-5 border-2 border-primary" type="checkbox" :id="category" :value="category" :checked="modelValue.includes(category)" @change="updateCategory">
-            <label class="form-check-label" :for="category">
-              {{ category }}
-            </label>
+            <label class="form-check-label" :for="category">{{ category }}</label>
           </div>
         </li>
       </ul>
@@ -55,9 +53,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-.text-offset-4{
-  text-underline-offset: 4px;
-}
 .form-check:hover{
   cursor: pointer;
   & > *{
