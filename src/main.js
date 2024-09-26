@@ -23,12 +23,12 @@ import { createPinia } from 'pinia';
 
 //VeeValidate
 import { Field, Form, ErrorMessage, defineRule, configure } from 'vee-validate';
-import * as AllRules from '@vee-validate/rules';
+import { all } from '@vee-validate/rules';
 import { localize, setLocale } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 // 將規則一一加入VeeValidate
-Object.keys(AllRules).forEach(rule => {
-  defineRule(rule, AllRules[rule]);
+Object.entries(all).forEach(([name, rule]) => {
+  defineRule(name, rule);
 });
 // 將當前 VeeValidate 的語系設定為繁體中文
 configure({

@@ -17,6 +17,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  // css: {
+  //   preprocessorOptions: {
+  //     scss: {
+  //       api: 'modern'
+  //     }
+  //   }
+  // },
   /* global process */
   base:process.env.NODE_ENV === 'production' ? '/GDiner/' : '/',
       // 錯誤修正 參考:https://israynotarray.com/other/20220928/1377668819/
