@@ -1,26 +1,21 @@
-<script>
+<script setup>
 import HomeHeader from '@/components/front/home/HomeHeader.vue';
 import NewProducts from '@/components/front/home/NewProducts.vue';
 import HomeNav from '@/components/front/home/HomeNav.vue';
 import GetStart from '@/components/front/home/GetStart.vue';
-import EmailSubscribe from '@/components/front/home/EmailSubscribe.vue';
+import SubscribeUs from '@/components/front/home/SubscribeUs.vue';
 import HomeBanner from '@/components/front/home/HomeBanner.vue';
-
-export default {
-  components: { HomeHeader, NewProducts, HomeNav, GetStart, EmailSubscribe, HomeBanner },
-}
+import ThreeIntroduce from '@/components/front/home/ThreeIntroduce.vue';
 </script>
 
 <template>
   <HomeHeader />
-  <main class="container py-6 py-md-10 px-4">
+  <main class="container">
+    <GetStart />
     <NewProducts />
-    <!-- 尋找心中的美味 -->
     <HomeNav />
-    <!-- 初次嘗鮮 -->
-    <getStart />
-    <!-- Email -->
-    <EmailSubscribe />
     <HomeBanner />
+    <ThreeIntroduce />
+    <SubscribeUs />
   </main>
 </template>

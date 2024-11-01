@@ -275,27 +275,24 @@ $cyans: ("cyan-100": $cyan-100,
 
 // scss-docs-start theme-color-variables
 $primary: #3D081B; //$blue !default;
-$secondary:#F2EFDD; // $gray-600 !default;
+$secondary: #F2EFDD; //$gray-600 !default;
 $success: $green !default;
 $info: #910F3F; //$cyan !default;
 $warning: $yellow !default;
 $danger: $red !default;
 $light: $gray-100 !default;
 $dark: $gray-900 !default;
-$theme: #0FB99B;
-$themeDark: #005E4D;
 // scss-docs-end theme-color-variables
 
 // scss-docs-start theme-colors-map
-$theme-colors: ("primary":$primary,
+$theme-colors: ("primary": $primary,
   "secondary": $secondary,
   "success": $success,
   "info": $info,
   "warning": $warning,
   "danger": $danger,
   "light": $light,
-  "dark": $dark,
-) !default;
+  "dark": $dark) !default;
 // scss-docs-end theme-colors-map
 
 // scss-docs-start theme-text-variables
@@ -384,28 +381,44 @@ $gradient: linear-gradient(180deg, rgba($white, .15), rgba($white, 0)) !default;
 
 // scss-docs-start spacer-variables-maps
 $spacer: 1rem !default;
-$spacers: (0: 0,
-  1: $spacer * .25,
-  2: $spacer * .5,
-  3: $spacer * .75,
-  4: $spacer * 1,
-  5: $spacer * 1.25,
-  6: $spacer * 1.5,
-  7: $spacer * 1.75,
-  8: $spacer * 2,
-  9: $spacer * 2.25,
-  10: $spacer * 2.5,
-  11: $spacer * 2.75,
-  12: $spacer * 3,
-  13: $spacer * 3.25,
-  14: $spacer * 3.5,
-  15: $spacer * 3.75,
-  16: $spacer * 4,
-  17: $spacer * 4.25,
-  18: $spacer * 4.5,
-  19: $spacer * 4.75,
-  20: $spacer * 5,
-  100: $spacer * 6.25) !default;
+$spacers: (0: 0, // 0px
+  1: 0.25rem, // 4px
+  2: 0.5rem, // 8px
+  3: 0.75rem, // 12px
+  4: 1rem, // 16px
+  5: 1.25rem, // 20px
+  6: 1.5rem, // 24px
+  7: 1.75rem, // 28px
+  8: 2rem, // 32px
+  9: 2.25rem, // 36px
+  10: 2.5rem, // 40px
+  11: 2.75rem, // 44px
+  12: 3rem, // 48px
+  13: 3.25rem, // 52px
+  14: 3.5rem, // 56px
+  15: 3.75rem, // 60px
+  16: 4rem, // 64px
+  17: 4.25rem, // 68px
+  18: 4.5rem, // 72px
+  19: 4.75rem, // 76px
+  20: 5rem, // 80px
+  21: 5.25rem, // 84px
+  22: 5.5rem, // 88px
+  23: 5.75rem, // 92px
+  24: 6rem, // 96px
+  25: 6.25rem, // 100px
+  26: 6.5rem, // 104px
+  27: 6.75rem, // 108px
+  28: 7rem, // 112px
+  29: 7.25rem, // 116px
+  30: 7.5rem, // 120px
+); // $spacers: (0: 0,
+//   1: $spacer * .25,
+//   2: $spacer * .5,
+//   3: $spacer,
+//   4: $spacer * 1.5,
+//   5: $spacer * 3,
+// ) !default;
 // scss-docs-end spacer-variables-maps
 
 // Position
@@ -423,7 +436,7 @@ $position-values: (0: 0,
 // Settings for the `<body>` element.
 
 $body-text-align: null !default;
-$body-color: $gray-900 !default;
+$body-color: $primary; //$gray-900 !default;
 $body-bg: $white !default;
 
 $body-secondary-color: rgba($body-color, .75) !default;
@@ -583,7 +596,8 @@ $aspect-ratios: ("1x1": 100%,
 
 // scss-docs-start font-variables
 // stylelint-disable value-keyword-case
-$font-family-sans-serif: system-ui,
+$font-family-sans-serif: "Noto Sans TC",
+system-ui,
 -apple-system,
 "Segoe UI",
 Roboto,
@@ -731,7 +745,7 @@ $table-cell-padding-x-sm: .25rem !default;
 $table-cell-vertical-align: top !default;
 
 $table-color: var(--#{$prefix}emphasis-color) !default;
-$table-bg: transparent !default; //var(--#{$prefix}body-bg) !default;
+$table-bg: transparent; //var(--#{$prefix}body-bg) !default;
 $table-accent-bg: transparent !default;
 
 $table-th-font-weight: null !default;
@@ -895,7 +909,7 @@ $input-padding-y-lg: $input-btn-padding-y-lg !default;
 $input-padding-x-lg: $input-btn-padding-x-lg !default;
 $input-font-size-lg: $input-btn-font-size-lg !default;
 
-$input-bg: transparent !default; //var(--#{$prefix}body-bg) !default;
+$input-bg: transparent; //var(--#{$prefix}body-bg) !default;
 $input-disabled-color: null !default;
 $input-disabled-bg: var(--#{$prefix}secondary-bg) !default;
 $input-disabled-border-color: null !default;
@@ -945,7 +959,7 @@ $form-check-transition: null !default;
 
 $form-check-input-active-filter: brightness(90%) !default;
 
-$form-check-input-bg: transparent !default; //$input-bg !default;
+$form-check-input-bg: $input-bg !default;
 $form-check-input-border: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color) !default;
 $form-check-input-border-radius: .25em !default;
 $form-check-radio-border-radius: 50% !default;
@@ -953,7 +967,7 @@ $form-check-input-focus-border: $input-focus-border-color !default;
 $form-check-input-focus-box-shadow: $focus-ring-box-shadow !default;
 
 $form-check-input-checked-color: $component-active-color !default;
-$form-check-input-checked-bg-color: $primary !default; //$component-active-bg !default;
+$form-check-input-checked-bg-color: $component-active-bg !default;
 $form-check-input-checked-border-color: $form-check-input-checked-bg-color !default;
 $form-check-input-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$form-check-input-checked-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>") !default;
 $form-check-radio-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='2' fill='#{$form-check-input-checked-color}'/></svg>") !default;
@@ -1222,8 +1236,7 @@ $navbar-dark-hover-color: rgba($white, .75) !default;
 $navbar-dark-active-color: $white !default;
 $navbar-dark-disabled-color: rgba($white, .25) !default;
 $navbar-dark-icon-color: $navbar-dark-color !default;
-$navbar-dark-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$white}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
-// url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-icon-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
+$navbar-dark-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-icon-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
 $navbar-dark-toggler-border-color: rgba($white, .1) !default;
 $navbar-dark-brand-color: $navbar-dark-active-color !default;
 $navbar-dark-brand-hover-color: $navbar-dark-active-color !default;
@@ -1299,27 +1312,27 @@ $pagination-padding-x-lg: 1.5rem !default;
 $pagination-font-size: $font-size-base !default;
 
 $pagination-color: var(--#{$prefix}link-color) !default;
-$pagination-bg: $secondary; //var(--#{$prefix}body-bg) !default;
+$pagination-bg: transparent; //var(--#{$prefix}body-bg) !default;
 $pagination-border-radius: var(--#{$prefix}border-radius) !default;
-$pagination-border-width: var(--#{$prefix}border-width) !default;
+$pagination-border-width: 0; //var(--#{$prefix}border-width) !default;
 $pagination-margin-start: calc(#{$pagination-border-width} * -1) !default; // stylelint-disable-line function-disallowed-list
-$pagination-border-color: $primary; //var(--#{$prefix}border-color) !default;
+$pagination-border-color: var(--#{$prefix}border-color) !default;
 
-$pagination-focus-color: var(--#{$prefix}link-hover-color) !default;
-$pagination-focus-bg: var(--#{$prefix}secondary-bg) !default;
+$pagination-focus-color: white; //var(--#{$prefix}link-hover-color) !default;
+$pagination-focus-bg: $primary; //var(--#{$prefix}secondary-bg) !default;
 $pagination-focus-box-shadow: $focus-ring-box-shadow !default;
 $pagination-focus-outline: 0 !default;
 
-$pagination-hover-color: $component-active-color; //var(--#{$prefix}link-hover-color) !default;
-$pagination-hover-bg: $component-active-bg; //var(--#{$prefix}tertiary-bg) !default;
-$pagination-hover-border-color: $component-active-bg; //var(--#{$prefix}border-color) !default;
+$pagination-hover-color: white; //var(--#{$prefix}link-hover-color) !default;
+$pagination-hover-bg: $primary; //var(--#{$prefix}tertiary-bg) !default;
+$pagination-hover-border-color: var(--#{$prefix}border-color) !default; // Todo in v6: remove this?
 
 $pagination-active-color: $component-active-color !default;
 $pagination-active-bg: $component-active-bg !default;
 $pagination-active-border-color: $component-active-bg !default;
 
 $pagination-disabled-color: var(--#{$prefix}secondary-color) !default;
-$pagination-disabled-bg: var(--#{$prefix}secondary-bg) !default;
+$pagination-disabled-bg: transparent; //var(--#{$prefix}secondary-bg) !default;
 $pagination-disabled-border-color: var(--#{$prefix}border-color) !default;
 
 $pagination-transition: color .15s ease-in-out,
@@ -1345,7 +1358,7 @@ $placeholder-opacity-min: .2 !default;
 $card-spacer-y: $spacer !default;
 $card-spacer-x: $spacer !default;
 $card-title-spacer-y: $spacer * .5 !default;
-$card-title-color: var($primary); //null !default;
+$card-title-color: null !default;
 $card-subtitle-color: null !default;
 $card-border-width: 0; //var(--#{$prefix}border-width) !default;
 $card-border-color: var(--#{$prefix}border-color-translucent) !default;
@@ -1583,7 +1596,7 @@ $progress-bar-transition: width .6s ease !default;
 // List group
 
 // scss-docs-start list-group-variables
-$list-group-color: $theme; //var(--#{$prefix}body-color) !default;
+$list-group-color: var(--#{$prefix}body-color) !default;
 $list-group-bg: var(--#{$prefix}body-bg) !default;
 $list-group-border-color: var(--#{$prefix}border-color) !default;
 $list-group-border-width: var(--#{$prefix}border-width) !default;
@@ -1598,14 +1611,14 @@ $list-group-item-color-scale: 40% !default; // Deprecated in v5.3.0
 
 $list-group-hover-bg: var(--#{$prefix}tertiary-bg) !default;
 $list-group-active-color: $component-active-color !default;
-$list-group-active-bg: $theme; //$component-active-bg !default;
+$list-group-active-bg: $component-active-bg !default;
 $list-group-active-border-color: $list-group-active-bg !default;
 
 $list-group-disabled-color: var(--#{$prefix}secondary-color) !default;
 $list-group-disabled-bg: $list-group-bg !default;
 
 $list-group-action-color: var(--#{$prefix}secondary-color) !default;
-$list-group-action-hover-color: $themeDark; //var(--#{$prefix}emphasis-color) !default;
+$list-group-action-hover-color: var(--#{$prefix}emphasis-color) !default;
 
 $list-group-action-active-color: var(--#{$prefix}body-color) !default;
 $list-group-action-active-bg: var(--#{$prefix}secondary-bg) !default;
@@ -1751,7 +1764,5 @@ $kbd-bg: var(--#{$prefix}body-color) !default;
 $nested-kbd-font-weight: null !default; // Deprecated in v5.2.0, removing in v6
 
 $pre-color: null !default;
-
-@import "bootstrap/scss/variables-dark";
-
-//@import "variables-dark"; // TODO: can be removed safely in v6, only here to avoid breaking changes in v5.3
+//@import "variables-dark";
+@import "bootstrap/scss/variables-dark"; // TODO: can be removed safely in v6, only here to avoid breaking changes in v5.3

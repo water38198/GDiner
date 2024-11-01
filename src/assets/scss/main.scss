@@ -1,3 +1,6 @@
+@import 'sweetalert2/src/sweetalert2.scss';
+@import 'vue-loading-overlay/dist/css/index.css';
+
 @import 'bootstrap/scss/functions';
 @import './variables';
 @import 'bootstrap/scss/variables-dark';
@@ -6,8 +9,8 @@
 @import 'bootstrap/scss/root';
 @import './utilities';
 @import 'bootstrap/scss/bootstrap';
-
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 @import './base.scss';
 @import './custom.scss';

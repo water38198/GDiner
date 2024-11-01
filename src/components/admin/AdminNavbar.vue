@@ -1,61 +1,70 @@
-<script>
-const { VITE_URL } = import.meta.env;
+<script setup>
+import { ref } from 'vue'
+import axios from 'axios'
+import Swal from 'sweetalert2';
+import { RouterLink, useRouter } from 'vue-router'
+import * as bootstrap from 'bootstrap';
 
-export default {
-  methods: {
-    async logOut() {
-      try {
-        const res = await this.$http.post(`${VITE_URL}/v2/logout`);
-        document.cookie = 'myToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT;';
-        this.$swal({
-          icon: 'success',
-          title: `${res.data.message}`,
-          didClose: () => {
-            this.$router.push('/');
-          }
-        })
-      } catch (err) {
-        this.$swal({
-          icon: 'error',
-          text: `${err.response.data.message}`
-        })
-      }
-    }
+const router = useRouter();
+const links = [
+  { name: '商品', path: '/admin/products' },
+  { name: '訂單', path: '/admin/orders' },
+  { name: '優惠券', path: '/admin/coupons' },
+  { name: '前台', path: '/' },
+]
+const logout = async () => {
+  const { VITE_URL } = import.meta.env
+  try {
+    await axios.post(`${VITE_URL}/v2/logout`)
+    document.cookie = `RGToken = ; expires = ${new Date()};path=/; `
+    router.push({ name: 'home' })
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: '錯誤',
+      text: `${error.response.data.message || '請稍後再試'}`,
+    });
   }
 }
+
+const offcanvasRef = ref(null)
+const closeCanvas = (link) => {
+  const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasRef);
+  if (offcanvasInstance) offcanvasInstance.hide();
+  router.push(link)
+}
 </script>
+
 <template>
-  <nav class="navbar navbar-expand bg-body-tertiary text-nowrap pb-0">
-    <div class="container justify-content-center justify-content-sm-between py-2">
-      <span class="navbar-brand mb-0 fs-1 text-primary d-none d-sm-inline">後台</span>
-      <ul class="navbar-nav gap-4">
-        <li class="nav-item">
-          <RouterLink to="/admin/products" class="nav-link h-100">產品</RouterLink>
-        </li>
-        <li class="nav-item">
-          <RouterLink to="/admin/orders" class="nav-link">訂單</RouterLink>
-        </li>
-        <li class="nav-item">
-          <RouterLink to="/admin/coupons" class="nav-link">優惠券</RouterLink>
-        </li>
-        <li class="nav-item">
-          <RouterLink to="/" class="nav-link">回前台</RouterLink>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link" @click.prevent="logOut">登出</a>
-        </li>
-      </ul>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+      <a class="navbar-brand" href="#">後台</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel" ref="offcanvasRef">
+        <div class="offcanvas-header">
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav align-items-center">
+            <li v-for="link in links" :key="link.name" class="nav-item">
+              <RouterLink :to="link.path" class="nav-link" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" @click="closeCanvas(link.path)">{{ link.name }}</RouterLink>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" @click.prevent="logout">登出</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
 
 <style scoped>
-.router-link-active{
+.router-link-active {
   color: var(--bs-primary);
-  opacity: .8;
-  transform: scale(1.5);
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  font-weight: bold;
+  scale: 1.2;
 }
-
 </style>

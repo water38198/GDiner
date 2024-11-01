@@ -1,14 +1,9 @@
-<script>
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-
-export default {
-  mounted() {
-    AOS.init();
-  }
-}
+<script setup>
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <RouterView />
+  <div class="bg-secondary min-vh-100">
+    <RouterView />
+  </div>
 </template>

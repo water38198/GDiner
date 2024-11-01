@@ -1,179 +1,198 @@
 import { defineStore } from "pinia";
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import { ref } from "vue";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
-export const useCartStore = defineStore('cart', {
-  state:()=> {
-    return {
-      cart: {},
-      cartLoading: false,
+export const useCartStore = defineStore('cart', () => {
+  const cart = ref({});
+  const cartLoading = ref(false);
+  const getCart = async () => {
+    cartLoading.value = true;
+    try {
+      const res = await axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/cart`);
+      cart.value = res.data.data;
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '哇...',
+        text: '網站出錯了！麻煩稍後一下再重新整理',
+        confirmButtonColor: '#3D081B',
+      });
+    } finally {
+      cartLoading.value = false;
     }
-  },
-  actions: {
-    async getCart() {
-      this.cartLoading = true;
-      try {
-        const res = await axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/cart`);
-        this.cart = res.data.data;
-      } catch (err) {
-        Swal.fire({
-          title: '錯誤發生',
-          icon: 'error',
-          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-          confirmButtonColor: '#3D081B',
-        })
-      } finally {
-        this.cartLoading = false;
-      }
-    },
-    async addCart(id, qty, goCart = false) {
-      this.cartLoading = true;
-      try {
-        const res = await axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/cart`, {
-          data: {
-            product_id: id,
-            qty,
-          }
-        })
-        if (!goCart) {
+  };
+
+  const addToCart = async (productId, qty = 1) => {
+    cartLoading.value = true;
+    try {
+      await axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/cart`, {
+        data: {
+          product_id: productId,
+          qty,
+        },
+      })
+      Swal.fire({
+        icon: 'success',
+        title: '成功加入購物車',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        toast: true,
+        position: 'top',
+      });
+    } catch (error) { 
+      Swal.fire({
+        icon: 'error',
+        title: '哇...',
+        text: '網站出錯了！麻煩稍後一下再重新整理',
+        confirmButtonColor: '#3D081B',
+      });
+    } finally {
+      cartLoading.value = false;
+      getCart();
+    };
+  }
+
+  const clearCart = () => {
+    Swal.fire({
+      title: '確定要清空購物車嗎？',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3D081B',
+      cancelButtonColor: 'gray',
+      confirmButtonText: '確定',
+      cancelButtonText: '取消',
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        cartLoading.value = true;
+        try {
+          const response = await axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/carts`);
+          console.log(response);
           Swal.fire({
-            title: `${res.data.message}`,
             icon: 'success',
-            timer: 1000,
-            showConfirmButton: false,
+            title: `${response.data.message}`,
+            confirmButtonColor: '#3D081B',
           });
-        };
-        this.getCart();
-      } catch (err) {
-        Swal.fire({
-          title: '錯誤發生',
-          icon: 'error',
-          text: `${err.response.data.message}，請嘗試重新整理，如果此狀況持續發生，請聯絡我們`,
-          confirmButtonColor: '#3D081B',
-        })
-      } finally {
-        this.cartLoading = false;
-      }
-    },
-    deleteCart(id) {
-      Swal.fire({
-        title: '您確定要刪除嗎?',
-        showCancelButton: true,
-        confirmButtonText: '確定',
-        confirmButtonColor: '#3D081B',
-        cancelButtonText: '取消'
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          try {
-            const res = await axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${id}`);
-            this.getCart();
-            Swal.fire({
-              title: `${res.data.message}`,
-              icon: 'success',
-              toast: true,
-              position: 'bottom-right',
-              showConfirmButton: false,
-              timer: 1500
-            });
-          } catch (err) {
-            Swal.fire({
-              title: '錯誤發生',
-              icon: 'error',
-              text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
-              confirmButtonColor: '#3D081B',
-            })
-          }
-        }
-      })
-    },
-    deleteCartAll() {
-      Swal.fire({
-        title: '您確定要清空購物車嗎?',
-        showCancelButton: true,
-        confirmButtonText: '都給我消失吧~~!',
-        confirmButtonColor: '#3D081B',
-        cancelButtonText: '取消',
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          try {
-            const res = await axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/carts`);
-            Swal.fire({
-              title: `${res.data.message}`,
-              icon: 'success',
-              timer: 2000,
-              confirmButtonColor: '#3D081B'
-            });
-            this.getCart();
-          } catch (err) {
-            Swal.fire({
-              title: '錯誤發生',
-              icon: 'error',
-              text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
-              confirmButtonColor: '#3D081B',
-            })
-          }
-        }
-      })
-    },
-    debounce(fn) {
-      let timer;
-      return function (...args) {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          fn(...args);
-        }, 250);
-      };
-    },
-    async updateCart(product, event) {
-      if (event) {
-        if (event.target.value <= 0 || isNaN(event.target.value)) {
+        } catch (err) {
           Swal.fire({
-            title: '數量錯誤請重新輸入',
             icon: 'error',
+            title: '哇...',
+            text: '網站出錯了！麻煩稍後一下再重新整理',
+            confirmButtonColor: '#3D081B',
           });
-          event.target.value = product.qty;
-          return;
-        } else {
-          product.qty = +event.target.value;
+        } finally {
+          cartLoading.value = false;
+          getCart();
         }
       }
-      const orderId = product.id;
-      const { product_id } = product;
-      const qty = product.qty;
-      this.cartLoading = true;
-      try {
-        const res = await axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${orderId}`, {
-          data: {
-            product_id,
-            qty,
-          }
-        })
-        Swal.fire({
-          icon: 'success',
-          toast: true,
-          text: `${res.data.message}`,
-          showConfirmButton: false,
-          position: 'bottom-end',
-          timer: 1000
-        });
-        this.getCart();
-      } catch (err) {
-        Swal.fire({
-          title: '錯誤發生',
-          icon: 'error',
-          text: '請嘗試重新整理，如果此狀況持續發生，請聯絡我們',
-          confirmButtonColor: '#3D081B',
-        })
-      } finally {
-        this.cartLoading = false;
+    });
+  }
+
+  const deleteCartItem = (product) => { 
+    Swal.fire({
+      title: `確定要刪除${product.product.title}嗎？`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3D081B',
+      cancelButtonColor: 'gray',
+      confirmButtonText: '確定',
+      cancelButtonText: '取消',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        cartLoading.value = true;
+        try {
+          const response = await axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${product.id}`);
+          console.log(response);
+          Swal.fire({
+            icon: 'success',
+            title: `${response.data.message}`,
+            confirmButtonColor: '#3D081B',
+          });
+        } catch (err) {
+          Swal.fire({
+            icon: 'error',
+            title: '哇...',
+            text: '網站出錯了！麻煩稍後一下再重新整理',
+            confirmButtonColor: '#3D081B',
+          });
+        } finally {
+          cartLoading.value = false;
+          getCart();
+        }
       }
-    }
-  },
-  getters: {
-    debouncedUpdateCart() {
-      return this.debounce(this.updateCart);
+    })
+  }
+
+  const updateCartItem = async (cartItem, qty) => {
+    if (qty <= 0 || typeof +qty !== 'number') return;
+    
+    try {
+      cartLoading.value = true;
+      const response = await axios.put(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${cartItem.id}`, {
+        data: {
+          "product_id": cartItem.product.id,
+          qty,
+        },
+      });
+      Swal.fire({
+        icon: 'success',
+        title: `${response.data.message}`,
+        toast: true,
+        timer: 1500,
+        timerProgressBar: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+      });
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: '哇...',
+        text: '網站出錯了！麻煩稍後一下再重新整理',
+        confirmButtonColor: '#3D081B',
+      });
+    } finally {
+      getCart();
+      cartLoading.value = false;
     }
   }
-})
+
+  const submitCoupon = async (couponCode) => {
+    try {
+      const response = await axios.post(`${VITE_URL}/v2/api/${VITE_PATH}/coupon`, {
+        data: {
+          code: couponCode,
+        },
+      });
+      console.log(response);
+      Swal.fire({
+        icon: 'success',
+        title: `${response.data.message}`,
+        confirmButtonColor: '#3D081B',
+      });
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        icon: 'error',
+        title: '哇...',
+        text: `${err.response.data.message}`,
+        confirmButtonColor: '#3D081B',
+      });
+    } finally {
+      getCart();
+    }
+  }
+
+  return {
+    cart,
+    cartLoading,
+    getCart,
+    addToCart,
+    clearCart,
+    deleteCartItem,
+    updateCartItem,
+    submitCoupon,
+  }
+});
