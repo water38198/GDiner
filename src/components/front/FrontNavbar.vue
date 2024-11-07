@@ -34,7 +34,7 @@ const socialIcons = ['bi-twitter', 'bi-facebook', 'bi-instagram', 'bi-tiktok'];
 
 <template>
   <div class="bg-info py-2 text-center fs-5">
-    <span class="me-2 text-white">外送訂單滿千免運</span>
+    <span class="me-2 text-white">外送訂單滿千免運，九折優惠碼：RGDiner</span>
     <i class="bi bi-rocket-takeoff-fill d-inline-block text-white"></i>
   </div>
   <nav class="navbar navbar-expand-md sticky-top">

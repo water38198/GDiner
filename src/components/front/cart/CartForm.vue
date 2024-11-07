@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useCartStore } from '@/stores/cartStore';
+import CartCoupon from './CartCoupon.vue';
+
 const userForm = ref({
   user: {
     email: '',
@@ -120,7 +122,8 @@ const submitOrder = async () => {
         </div>
       </div>
     </VForm>
-
+    <hr>
+    <CartCoupon :user-form="userForm"/>
   </div>
 </template>
 
@@ -130,6 +133,15 @@ textarea {
   height: 300px !important;
   @media screen and (max-width: 768px) {
     height: 200px !important;
+  }
+}
+
+[type="number"]{
+  appearance: none;
+  -moz-appearance: textfield;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
   }
 }
 </style>
