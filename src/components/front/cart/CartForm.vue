@@ -116,14 +116,12 @@ const submitOrder = async () => {
           </div>
         </div>
       </div>
-      <div>
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary btn-lg">結帳</button>
-        </div>
+      <hr>
+      <CartCoupon :user-form="userForm"/>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg">結帳</button>
       </div>
     </VForm>
-    <hr>
-    <CartCoupon :user-form="userForm"/>
   </div>
 </template>
 

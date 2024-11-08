@@ -103,7 +103,7 @@ const deleteOrder = (order) => {
                 <li>電郵：{{ order.user.email}}</li>
                 <li>地址：{{ order.user.address}}</li>
                 <li>電話：{{ order.user.tel}}</li>
-                <li>用餐：{{ order.user.state}}</li>
+                <li>用餐：{{ order.user.type}}</li>
               </ul>
             </td>
             <td class="order-message">{{ order.message }}</td>

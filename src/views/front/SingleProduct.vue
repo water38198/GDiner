@@ -98,7 +98,7 @@ const BuyNow = async() => {
             <span class="fs-3">NT$ {{ product.price }}</span>
           </template>
         </div>
-        <div class="mb-4 w-md-75 "> 
+        <div class="mb-4 w-md-75 w-lg-50"> 
           <label class="mb-2 d-block fw-bold" for="quantity">數量</label>
           <div class="d-flex justify-content-between border-custom quantity-input">
             <button type="button" class="d-block px-4 bg-transparent border-0" @click="changeQuantity('-')"><i class="bi bi-dash fs-4"></i></button>

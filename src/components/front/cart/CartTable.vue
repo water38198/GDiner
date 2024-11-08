@@ -16,7 +16,7 @@ const changeQty = (cartItem, event) => {
     <VLoading :active="cartLoading" :is-full-page="false"/>
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="fw-bold">購物車</h2>
-      <button type="button" class="bg-transparent border-0 text-decoration-underline" @click="clearCart">清空購物車</button>
+      <button type="button" class="bg-transparent border-0 text-primary text-decoration-underline" @click="clearCart">清空購物車</button>
     </div>
     <table class="table align-middle">
       <thead class="thead">
