@@ -16,13 +16,7 @@ onMounted(() => {
 });
 
 const changePage = (page) => {
-  if (page === '+') {
-    getProducts(currentCategory.value, pagination.value.current_page ++);
-  } else if(page === '-'){
-    getProducts(currentCategory.value, pagination.value.current_page --);
-  } else {
-    getProducts(currentCategory.value, page);
-  }
+  getProducts(currentCategory.value, page);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

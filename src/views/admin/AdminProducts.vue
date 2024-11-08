@@ -3,6 +3,8 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import ProductModal from '@/components/admin/ProductModal.vue';
+import PaginationComponent from '@/components/front/PaginationComponent.vue';
+
 import { useDateFormat } from '@vueuse/core'
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -121,6 +123,7 @@ const deleteProduct = (product) => {
         </tbody>
       </table>
     </div>
+    <PaginationComponent :pagination="pagination" @change-page="getProducts"/>
   </div>
   <!-- modal -->
   <ProductModal :product="tempProduct" :isNew="isNew"  @refresh="getProducts"/>

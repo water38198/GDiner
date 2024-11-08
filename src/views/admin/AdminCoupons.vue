@@ -4,15 +4,18 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useDateFormat } from '@vueuse/core'
 import CouponModal from '@/components/admin/CouponModal.vue';
+import PaginationComponent from '@/components/front/PaginationComponent.vue';
 
 const coupons = ref([]);
 const isLoading = ref(false);
+const pagination = ref({});
 const getCoupons = async () => {
   const { VITE_URL, VITE_PATH } = import.meta.env;
   try {
     isLoading.value = true;
     const response = await axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/coupons`);
     coupons.value = response.data.coupons;
+    pagination.value = response.data.pagination;
   } catch (error) {
     Swal.fire({
       icon: 'error',
@@ -118,6 +121,7 @@ const deleteCoupon = (coupon) => {
         </tbody>
       </table>
     </div>
+    <PaginationComponent :pagination="pagination" @change-page="getCoupons" v-if="pagination.total_pages > 1"/>
   </div>
   <CouponModal :coupon="tempCoupon" :is-new="isNew" @refresh="getCoupons"/>
 </template>

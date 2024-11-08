@@ -1,14 +1,35 @@
-# gdiner20240926
+# 阿橘飯店 | [使用者頁面](https://water38198.github.io/GDiner/#/) 、 [後台管理](https://water38198.github.io/GDiner/#/login)
 
-This template should help get you started developing with Vue 3 in Vite.
+---
 
-## Recommended IDE Setup
+## 功能
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### 使用者
 
-## Customize configuration
+1. 商品列表
+2. 訂閱最新消息
+3. 聯絡店家
+4. 查看商品內容
+5. 購買商品
+6. 查詢訂單 (例：-OB95cJ3Vl-IxckOnLSw)
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+### 管理員
+
+1. 登入、登出
+2. 新增、修改、刪除商品
+3. 修改、刪除訂單
+4. 新增、修改、刪除優惠券
+
+## 畫面
+
+料理列表
+![商品列表](https://res.cloudinary.com/dofhdwmow/image/upload/v1731042242/products.png)
+
+購物車
+![購物車](https://res.cloudinary.com/dofhdwmow/image/upload/v1731042363/cart.png)
+
+查詢訂單
+![訂單](https://res.cloudinary.com/dofhdwmow/image/upload/v1731045984/order.png)
 
 ## Project Setup
 

@@ -4,15 +4,18 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useDateFormat } from '@vueuse/core'
 import OrderModal from '@/components/admin/OrderModal.vue';
+import PaginationComponent from '@/components/front/PaginationComponent.vue';
 
 const isLoading = ref(false);
 const orders = ref([]);  
+const pagination = ref({});
 const getOrders = async () => {
   const { VITE_URL, VITE_PATH } = import.meta.env;
   try {
     isLoading.value = true;
     const response = await axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/orders`);
     orders.value = response.data.orders;
+    pagination.value = response.data.pagination;
   } catch (error) {
     Swal.fire({
       icon: 'error',
@@ -101,9 +104,9 @@ const deleteOrder = (order) => {
               <ul>
                 <li>姓名：{{ order.user.name}}</li>
                 <li>電郵：{{ order.user.email}}</li>
-                <li>地址：{{ order.user.address}}</li>
                 <li>電話：{{ order.user.tel}}</li>
                 <li>用餐：{{ order.user.type}}</li>
+                <li v-if="order.user.type === '內用'">座位：{{ order.user.seat_number}}</li>
               </ul>
             </td>
             <td class="order-message">{{ order.message }}</td>
@@ -122,6 +125,7 @@ const deleteOrder = (order) => {
         </tbody>
       </table>
     </div>
+    <PaginationComponent v-if="pagination.total_pages > 1" :pagination :change-page="getOrders"/>
   </div>
   <OrderModal :order="tempOrder"/>
 </template>
