@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,inject } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import ProductModal from '@/components/admin/ProductModal.vue';
@@ -76,6 +76,7 @@ const deleteProduct = (product) => {
     }
   })
 };
+const { isDemo } = inject('demo');
 </script>
 
 <template>
@@ -114,7 +115,7 @@ const deleteProduct = (product) => {
             <td class="text-end">
               <div class="btn-group" role="group" aria-label="edit button group">
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ProductModal" @click="editProduct(product)">編輯</button>
-                <button type="button" class="btn btn-outline-danger" @click="deleteProduct(product)">
+                <button type="button" class="btn btn-outline-danger" @click="deleteProduct(product)" :disabled="isDemo">
                   刪除
                 </button>
               </div>
