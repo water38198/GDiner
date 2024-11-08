@@ -1,39 +1,29 @@
-<script>
-export default {
-  data() {
-    return {
-      links: [
-        {text: '推薦', to: '/recommend'},
-        { text: '料理', to: '/products' },
-        { text: '關於', to: '/about' },
-        { text: '聯絡我們', to: '/contact' }
-      ],
-      socialIcons: [
-        { href: '#', class: 'bi-twitter' },
-        { href: '#', class: 'bi-facebook' },
-        { href: '#', class: 'bi-instagram' },
-        { href: '#', class: 'bi-tiktok' },
-        { href: 'mailto:GDiner@example.com', class: 'bi-envelope' }
-      ]
-    }
-  }
-}
+<script setup>
+import { RouterLink } from 'vue-router';
+
+const links = [
+  { text: '推薦', to: '/recommend' },
+  { text: '料理', to: '/products' },
+  { text: '關於', to: '/about' },
+  { text: '聯絡我們', to: '/contact' }
+];
+const socialIcons = ['bi-twitter', 'bi-facebook', 'bi-instagram', 'bi-tiktok'];
+
 </script>
 
 <template>
-  <footer class="bg-info pt-6 pt-md-10 pb-4">
+  <footer class="mt-auto bg-info py-6">
     <div class="container">
-      <div class="row row-cols-md-3 gap-6 gap-md-0 mb-4 mb-md-10">
+      <div class="row row-cols-md-3 gap-6 gap-md-0">
+        <!-- LOGO -->
         <div class="text-center">
-          <img src="@/assets/img/footer-logo.png" alt="阿橘飯店" />
+          <img src="@/assets/image/footer-logo.png" alt="阿橘飯店" />
         </div>
-        <div >
-          <h4 class="fs-4 fs-md-2 mb-5 text-secondary">快速連結</h4>
-          <ul class="nav flex-column gap-3">
-            <li v-for="link in links" :key="link.text">
-              <RouterLink :to="link.to" class="d-block py-2 text-secondary opacity-75">
-                {{ link.text }}
-              </RouterLink>
+        <div>
+          <h4 class="h4 text-secondary">快速連結</h4>
+          <ul class="nav">
+            <li v-for="link in links" :key="link.text" class="w-50 w-md-100">
+              <RouterLink :to="link.to" class="d-block py-2 text-secondary opacity-75">{{ link.text }}</RouterLink>
             </li>
           </ul>
         </div>
@@ -46,9 +36,9 @@ export default {
       </div>
       <div class="mb-5">
         <ul class="nav justify-content-center">
-          <li v-for="icon in socialIcons" :key="icon.class">
-            <a :href="icon.href" class="d-inline-block p-3 text-secondary">
-              <i class="bi text-secondary fs-4" :class="icon.class"></i>
+          <li v-for="icon in socialIcons" :key="icon">
+            <a href="#" class="d-inline-block p-3 text-secondary">
+              <i class="bi text-secondary fs-4" :class="icon"></i>
             </a>
           </li>
         </ul>

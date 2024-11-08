@@ -1,115 +1,122 @@
-<script>
-import { mapActions } from 'pinia';
+<script setup>
 import { useCartStore } from '@/stores/cartStore';
+import { storeToRefs } from 'pinia';
 
-export default {
-  props: {
-    cart: {
-      type: Object,
-      required:true,
-    }
-  },
-  methods: {
-    ...mapActions(useCartStore,['updateCart', 'deleteCart']),
-  }
+const cartStore = useCartStore();
+const { cart, cartLoading } = storeToRefs(cartStore);
+const {clearCart ,deleteCartItem, updateCartItem} = useCartStore();
+const changeQty = (cartItem, event) => {
+  let number = parseInt(event.target.value) < 1 || isNaN(parseInt(event.target.value)) ? 1 : parseInt(event.target.value);
+  updateCartItem(cartItem, number);
 }
 </script>
+
 <template>
-  <div class="table-responsive">
+  <div class="position-relative">
+    <VLoading :active="cartLoading" :is-full-page="false"/>
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="fw-bold">購物車</h2>
+      <button type="button" class="bg-transparent border-0 text-primary text-decoration-underline" @click="clearCart">清空購物車</button>
+    </div>
     <table class="table align-middle">
-      <thead>
+      <thead class="thead">
         <tr>
-          <th class="text-left th-product" scope="col">料理</th>
-          <th scope="col">數量</th>
-          <th scope="col" class="text-end">小計</th>
-          <th scope="col">刪除</th>
+          <th>商品</th>
+          <th class="d-none d-md-table-cell"></th>
+          <th class="d-none d-md-table-cell">數量</th>
+          <th class="text-end">小計</th>
         </tr>
       </thead>
-      <tbody class="table-group-divider">
-        <tr v-for="product in cart.carts" :key="product.id">
-          <td>
-            <div class="d-flex gap-4">
-              <img :src="product.product.imageUrl" :alt="`${product.product.title}的照片`" class="product-image border border-primary rounded-3">
-              <div>
-                <div class="opacity-75 fs-5 mb-3">
-                  <RouterLink :to="`/product/${product.product.id}`">{{ product.product.title }}</RouterLink>
-                </div>
-                <p class="opacity-50">NT${{ product.product.price }}</p>
+      <tbody class="table-group-divider border-bottom border-primary">
+        <tr v-for="cartItem in cart.carts" :key="cartItem.id" class="product-row">
+          <td class="product-image">
+            <img :src="cartItem.product.imageUrl" :alt="`${cartItem.product.title}的照片`" class="border border-primary">
+          </td>
+          <td class="product-info">
+            <div class="d-flex flex-column justify-content-between">
+              <h3 class="fs-5 fs-md-3">{{ cartItem.product.title }}</h3>
+              <span class="text-info">{{ cartItem.product.category }}</span>
+              <span class="text-primary text-opacity-75">${{ cartItem.product.price }}</span>
+            </div>
+          </td>
+          <td class="product-qty">
+            <div class="d-flex align-items-center gap-2">
+              <div class="position-relative border-custom">
+                <button type="button" class="position-absolute h-100 start-0 border-0 bg-transparent ps-4" :disabled="cartLoading" @click="updateCartItem(cartItem,cartItem.qty - 1)">-</button>
+                <input type="number" name="qty" id="qty" v-model="cartItem.qty" @change="changeQty(cartItem,$event)" class="bg-secondary rounded" :disabled="cartLoading">
+                <button type="button" class="position-absolute h-100 end-0 border-0 bg-transparent pe-4" :disabled="cartLoading" @click="updateCartItem(cartItem,cartItem.qty + 1)">+</button>
               </div>
+              <button class="btn btn-primary" @click="deleteCartItem(cartItem)"><i class="bi bi-trash3"></i></button>
             </div>
           </td>
-          <td>
-            <div class=" d-flex justify-content-between border-custom quantity-input">
-              <button type="button" class="d-block px-4 bg-transparent border-0"
-                @click="product.qty - 1 > 0 ? product.qty-- : ''; updateCart(product);">
-                <i class="bi bi-dash fs-4"></i>
-              </button>
-              <input type="number" id="quantity" :value="product.qty"
-                class="d-block bg-transparent border-0 appearance-none outline-0  text-center"
-                min="1" @change="updateCart(product, $event)">
-              <button type="button" class="d-block px-4 bg-transparent border-0"
-                @click="product.qty++; updateCart(product);">
-                <i class="bi bi-plus fs-4"></i>
-              </button>
-            </div>
-          </td>
-          <td class="text-end">
-            <span>NT$ {{ Math.floor(product.final_total) }}</span>
-          </td>
-          <td class="text-end">
-            <button type="button" @click="deleteCart(product.id)"><i class="bi bi-trash fs-4"></i></button>
+          <td class="product-total text-end">
+            ${{ cartItem.final_total }}
           </td>
         </tr>
       </tbody>
     </table>
+
   </div>
 </template>
+
 <style scoped lang="scss">
-th {
-  color:var(--bs-primary);
-  opacity: .6;
-}
-
-th,td{
-  text-wrap: nowrap;
-  padding-block: 1rem;
-}
-
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-  appearance: none;
-}
-
-.th-product{
-  min-width: 300px;
-  width: 60%
-}
-
-.product-image{
+img{
   width: 100px;
-  height: 120px;
+  height: 100px;
 }
-td a:hover{
-  text-decoration: underline;
-  text-underline-offset: 4px;
+
+input[type="number"]{
+  appearance: none;
+  -moz-appearance: textfield;
+  outline: none;
+  border: none;
+  max-width: 150px;
+  height: 38px;
+  text-align: center;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
-.quantity-input{
-  width: fit-content;
-  input{
-    width: 50px;
-    @media (min-width: 768px) {
-      width: 100px;
+
+@media (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead tr{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  tbody tr{
+    td{
+      border:none;
     }
-    height: 50px;
-    &:focus{
-      outline: 0;
-    }
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+  }
+  
+  .product-row{
+    display: grid;
+    grid-template: repeat(2, auto) / repeat(4, 1fr);
+  }
+  .product-image{
+    grid-row: 1 / 3;
+    grid-column: 1 / 2;
+    padding-bottom: 16px;
+  }
+  .product-info{
+    grid-column: 2 / 4;
+  }
+  .product-qty{
+    grid-row: 2 / 3;
+    grid-column: 2 / 5;
+  }
+  .product-total{
+    grid-column: 4 / 5;
+    align-content: center;
   }
 }
 </style>

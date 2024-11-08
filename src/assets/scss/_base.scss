@@ -2,32 +2,39 @@
 
 @import url("https://fonts.googleapis.com/css?family=Noto+Serif+TC&amp;display=swap");
 
+/* Box sizing rules */
 *,
-body {
+*::before,
+*::after {
   box-sizing: border-box;
-  font-family: "Noto Sans TC", sans-serif;
-  color: #3D081B;
 }
 
-img {
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+img,
+picture,
+svg {
   max-width: 100%;
   object-fit: cover;
+  display: block;
 }
 
 a {
   text-decoration: none;
-}
-
-button {
-  border: 0;
-  outline: 0;
-  background-color: transparent;
-  cursor: pointer;
-}
-
-input,
-textarea {
-  font-size: initial;
 }
 
 h1,
@@ -40,6 +47,9 @@ h6 {
   line-height: 1.2;
 }
 
-p {
-  line-height: 1.5;
+button {
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  cursor: pointer;
 }

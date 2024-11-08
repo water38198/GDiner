@@ -1,55 +1,35 @@
+<script setup>
+import { useRouter } from 'vue-router';
+
+const socialIcons = ['bi-twitter', 'bi-facebook', 'bi-instagram', 'bi-tiktok'];
+const router = useRouter();
+
+
+</script>
+
 <template>
-  <main class="container text-center">
-    <h1 class="mb-10 px-4 pt-20">
-        <i class="bi bi-cone-striped"></i>
-    </h1>
-    <p>很抱歉，您可能輸入了錯誤的網址或是網站出了些問題。</p>
-    <p>如果狀況持續發生，請與我們聯絡：</p>
-    <ul class="nav justify-content-center">
-      <li>
-        <a href="#" class="inline-block p-3 text-primary fs-4" aria-label="Twitter">
-          <i class="bi bi-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a href="#" class="inline-block p-3 text-primary fs-4" aria-label="Facebook">
-          <i class="bi bi-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a href="#" class="inline-block p-3 text-primary fs-4" aria-label="Instagram">
-          <i class="bi bi-instagram"></i>
-        </a>
-      </li>
-      <li>
-        <a href="#" class="inline-block p-3 text-primary fs-4" aria-label="TikTok">
-          <i class="bi bi-tiktok"></i>
-        </a>
-      </li>
-      <li>
-        <a href="mailto:GDiner@example.com" class="inline-block p-3 text-primary fs-4" aria-label="Email">
-          <i class="bi bi-envelope"></i>
+  <div class="content-center min-vh-100 text-center">
+    <h1><i class="bi bi-cone-striped"></i></h1>
+    <p class="px-4">很抱歉，您可能輸入了錯誤的網址或是網站出了些問題。<br>如果狀況持續發生，請與我們聯絡：</p>
+    <ul class="nav justify-content-center mb-8">
+      <li v-for="icon in socialIcons" class="nav-item">
+        <a class="nav-link fs-4" aria-current="page" href="#">
+          <i class="bi" :class="icon"></i>
         </a>
       </li>
     </ul>
-    <ul class="nav gap-4 justify-content-center mt-15">
-      <li>
-        <a href="#" class="border-custom px-4 py-2" @click.prevent="$router.go(-1)">回上一頁</a>
-      </li>
-      <li>
-        <RouterLink to="/" class="border-custom px-4 py-2">首頁</RouterLink>
-      </li>
-    </ul>
-  </main>
+    <div>
+      <button type="button" class="btn btn-outline-primary me-4" @click="router.back()">上一頁</button>
+      <button type="button" class="btn btn-outline-primary" @click="router.push('/')">首頁</button>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
-h1 i{
-  font-size: 80px;
-}
-.border-custom:hover,.border-custom:focus-visible {
-  background-color: var(--bs-primary);
-  color:var(--bs-secondary);
-  transition: background-color 0.3s, color 0.3s;
+h1{
+  font-size: 10rem;
+  @media screen and (max-width: 768px){
+    font-size: 6rem;
+  }
 }
 </style>
