@@ -6,8 +6,8 @@ import { RouterLink } from 'vue-router';
   <header class="mb-10">
     <div class="container pt-15 min-vh-100 content-center">
       <div class="header-content border-custom px-9 py-10 text-primary " data-aos="flip-left">
-        <h2 class="fs-1  fw-bold">美好飯局，盡在阿橘！</h2>
-        <h3 class="fw-bold">歡度每一個聚餐時刻，享受每一道精緻料理！</h3>
+        <h2 class="fs-1 fw-bold">美好飯局，盡在阿橘！</h2>
+        <h3 class="fs-4 fw-bold">歡度聚餐時刻，享受精緻料理！</h3>
         <p class="mb-5">每道料理都是由我們阿橘大廚精心挑選、用心製作而成，且食材皆採用符合時節與產地直送，請顧客放心食用！</p>
         <div>
           <RouterLink to="/products" class="d-inline-block px-8 py-3 fs-6 btn btn-outline-primary border-custom link-hover">開始點菜</RouterLink>

@@ -101,16 +101,17 @@ const deleteOrder = (order) => {
               </ol>
             </td>
             <td>
-              <ul>
+              <ul type="none">
                 <li>姓名：{{ order.user.name}}</li>
                 <li>電郵：{{ order.user.email}}</li>
                 <li>電話：{{ order.user.tel}}</li>
                 <li>用餐：{{ order.user.type}}</li>
-                <li v-if="order.user.type === '內用'">座位：{{ order.user.seat_number}}</li>
+                <li>日期：{{ order.user.reservation_date}}</li>
+                <li>時間：{{ order.user.reservation_time}}</li>
               </ul>
             </td>
             <td class="order-message">{{ order.message }}</td>
-            <td class="text-center"> {{ order.total }} </td>
+            <td class="text-center"> {{ Math.floor(order.total) }} </td>
             <td class="text-center">
               <span class="text-success" v-if="order.is_paid">已付款</span>
               <span class="text-danger" v-else>尚未付款</span>
@@ -130,11 +131,12 @@ const deleteOrder = (order) => {
   <OrderModal :order="tempOrder"/>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 ol, ul {
   padding-left: 0;
   list-style-position: inside;
 }
+
 .order-message {
   max-width: 150px;
   overflow: hidden;

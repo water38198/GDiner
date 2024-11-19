@@ -70,7 +70,6 @@ export const useCartStore = defineStore('cart', () => {
         cartLoading.value = true;
         try {
           const response = await axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/carts`);
-          console.log(response);
           Swal.fire({
             icon: 'success',
             title: `${response.data.message}`,
@@ -166,14 +165,12 @@ export const useCartStore = defineStore('cart', () => {
           code: couponCode,
         },
       });
-      console.log(response);
       Swal.fire({
         icon: 'success',
         title: `${response.data.message}`,
         confirmButtonColor: '#3D081B',
       });
     } catch (err) {
-      console.log(err);
       Swal.fire({
         icon: 'error',
         title: '哇...',

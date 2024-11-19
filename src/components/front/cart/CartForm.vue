@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useCartStore } from '@/stores/cartStore';
-import CartCoupon from './CartCoupon.vue';
+import { useDateFormat, useNow } from '@vueuse/core';
 
 const userForm = ref({
   user: {
@@ -12,7 +12,8 @@ const userForm = ref({
     tel: '',
     address: '阿橘飯店',
     type: '內用',
-    seat_number: '',
+    reservation_date: '',
+    reservation_time: '',
   },
   message: '',
 });
@@ -49,6 +50,8 @@ const submitOrder = async () => {
     cartStore.getCart();
   }
 }
+
+const today = useDateFormat(useNow(), 'YYYY-MM-DD');
 </script>
 
 <template>
@@ -95,29 +98,32 @@ const submitOrder = async () => {
             <h3 class="mb-8 fw-bold">用餐方式</h3>
             <div class="border-custom p-4 fs-5">
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="type" id="here" value="內用" checked v-model="userForm.user.type" />
+                <input class="form-check-input border-primary" type="radio" name="type" id="here" value="內用" checked v-model="userForm.user.type" />
                 <label class="form-check-label" for="here">內用</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="type" id="to_go" value="外帶" v-model="userForm.user.type">
+                <input class="form-check-input border-primary" type="radio" name="type" id="to_go" value="外帶" v-model="userForm.user.type">
                 <label class="form-check-label" for="to_go">外帶</label>
               </div>
-            </div>
-            <div v-if="userForm.user.type === '內用'" class="mt-4">
-              <div class="form-floating">
-                <VField type="number" name="座位號碼" id="seat_number" class="form-control border-custom" :class="{ 'is-invalid': errors['座位號碼'] }" placeholder="請輸入座位號碼" list="list" v-model="userForm.user.seat_number" rules="required" />
-                <label for="seat_number">座位號碼</label>
-                <ErrorMessage name="座位號碼" class="invalid-feedback"/>
-                <datalist id="list">
-                  <option v-for="i in 10" :key="i" :value="i" ></option>
-                </datalist>
+              <hr>
+              <div class="mb-4">
+                <label for="reservation_date" class="form-label">日期</label>
+                <VField type="date" id="reservation_date" name="日期" rules="required" pattern="yyyy-MM-dd" class="form-control border-primary" :class="{ 'is-invalid': errors['日期'] }" :min="today" v-model="userForm.user.reservation_date"/>
+                <ErrorMessage name="日期" class="invalid-feedback"/>
+              </div>
+              <div>
+                <label for="reservation_time" class="form-label">時段</label>
+                <VField as="select" name="時段" id="reservation_time" class="form-select border-primary" aria-label="reservation time select" rules="required" :class="{ 'is-invalid': errors['時段'] }" v-model="userForm.user.reservation_time">
+                  <option value="午餐" default>午餐 11:00 ~ 14:30</option>
+                  <option value="晚餐">晚餐 17:00 ~ 20:30</option>
+                </VField>
+                <ErrorMessage name="時段" class="invalid-feedback"/>
               </div>
             </div>
           </div>
         </div>
       </div>
       <hr>
-      <CartCoupon :user-form="userForm"/>
       <div class="text-center">
         <button type="submit" class="btn btn-primary btn-lg">結帳</button>
       </div>

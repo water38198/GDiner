@@ -33,7 +33,7 @@ const socialIcons = ['bi-twitter', 'bi-facebook', 'bi-instagram', 'bi-tiktok'];
 </script>
 
 <template>
-  <div class="bg-info py-2 text-center fs-5">
+  <div class="bg-info py-2 text-center fs-sm-5">
     <span class="me-2 text-white">外送訂單滿千免運，九折優惠碼：RGDiner</span>
     <i class="bi bi-rocket-takeoff-fill d-inline-block text-white"></i>
   </div>

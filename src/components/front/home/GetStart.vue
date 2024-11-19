@@ -7,32 +7,37 @@
         </div>
       </div>
       <div class="col-12 col-md-6">
-        <div class="h-100 d-flex flex-column justify-content-center gap-4 p-8">
+        <div class="h-100 d-flex flex-column justify-content-center gap-4 p-4 p-md-8">
           <h3 class="fs-3 fs-md-1 fw-bold">簡單 - 快速 - 享用美味!</h3>
           <p>
             當您踏入我們的餐廳時，即刻感受到一股迷人的香氣飄散在空氣中，迎接您的是一場充滿著美食與美好的饗宴。我們的料理風格融合了傳統與創新，每一道菜都是我們烹飪團隊用心打造的藝術品。
           </p>
           <div class="row row-cols-2">
             <div>
-              <h4 class="fw-bold">內用</h4>
-              <ol>
-                <li>選擇料理</li>
-                <li>勾選內用</li>
-                <li>選擇座位</li>
-                <li>送出訂單</li>
-                <li>享用美食</li>
-              </ol>
-            </div>
-            <div>
-              <h4 class="fw-bold">外帶</h4>
+              <h4 class="fw-bold">到店取餐</h4>
               <ol>
                 <li>選擇料理</li>
                 <li>勾選外帶</li>
+                <li>選擇取餐時間</li>
                 <li>送出訂單</li>
-                <li>櫃台結帳</li>
-                <li>等候取餐</li>
+                <li>到店取餐並結帳</li>
+                <li>回家享用美食</li>
               </ol>
             </div>
+            <div>
+              <h4 class="fw-bold">預約訂位</h4>
+              <ol>
+                <li>選擇料理</li>
+                <li>勾選預約訂位</li>
+                <li>填寫人數</li>
+                <li>選擇日期與時段</li>
+                <li>送出訂單</li>
+                <li>到店用餐並結帳</li>
+              </ol>
+            </div>
+          </div>
+          <div class="alert alert-danger" role="alert">
+            <strong>現場用餐</strong> 與 <strong>現場外帶</strong> 的顧客請直接到櫃台，我們將會為您服務。
           </div>
           <hr>
           <p>在您下單之後，我們會盡快處理訂單，讓您享用美味又實惠的料理。</p>
