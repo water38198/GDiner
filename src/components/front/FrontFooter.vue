@@ -16,8 +16,14 @@ const socialIcons = ['bi-twitter', 'bi-facebook', 'bi-instagram', 'bi-tiktok'];
     <div class="container">
       <div class="row row-cols-md-3 gap-6 gap-md-0">
         <!-- LOGO -->
-        <div class="text-center">
-          <img src="@/assets/image/footer-logo.png" alt="阿橘飯店" />
+        <div>
+          <img src="@/assets/image/footer-logo.png" alt="阿橘飯店"  class="mb-4"/>
+          <div class="text-secondary text-opacity-75">
+            <p>地址：高雄市路竹區阿橘路53號</p>
+            <p><a href="tel:+886912345678" class="link-secondary opacity-75">電話：09123456789</a></p>
+            <p><a href="mailto:RGDiner@gmail.com" class="link-secondary opacity-75">電子郵件：RGDiner@gmail.com</a></p>
+            <p>營業時間：11：00 ~ 14：30，17：00 ~ 20：30</p>
+          </div>
         </div>
         <div>
           <h4 class="h4 text-secondary">快速連結</h4>
@@ -43,6 +49,7 @@ const socialIcons = ['bi-twitter', 'bi-facebook', 'bi-instagram', 'bi-tiktok'];
           </li>
         </ul>
       </div>
+
       <div class="text-center">
         <p class="text-secondary mb-2">本網站僅供練習用，無商業用途。</p>
         <p>

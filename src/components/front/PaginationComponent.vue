@@ -13,7 +13,13 @@ watch(() => props.pagination, (newVal) => {
 
 const emit = defineEmits(['change-page']);
 const changePage = (page) => {
-  emit('change-page', page);
+  if (page === '+') {
+    emit('change-page', pagination.value.current_page + 1);
+  } else if (page === '-') {
+    emit('change-page', pagination.value.current_page - 1);
+  } else {
+    emit('change-page', page);
+  }
 };
 </script>
 

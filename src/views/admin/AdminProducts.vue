@@ -1,8 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,inject } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import ProductModal from '@/components/admin/ProductModal.vue';
+import PaginationComponent from '@/components/front/PaginationComponent.vue';
+
 import { useDateFormat } from '@vueuse/core'
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -74,6 +76,7 @@ const deleteProduct = (product) => {
     }
   })
 };
+const { isDemo } = inject('demo');
 </script>
 
 <template>
@@ -112,7 +115,7 @@ const deleteProduct = (product) => {
             <td class="text-end">
               <div class="btn-group" role="group" aria-label="edit button group">
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ProductModal" @click="editProduct(product)">編輯</button>
-                <button type="button" class="btn btn-outline-danger" @click="deleteProduct(product)">
+                <button type="button" class="btn btn-outline-danger" @click="deleteProduct(product)" :disabled="isDemo">
                   刪除
                 </button>
               </div>
@@ -121,6 +124,7 @@ const deleteProduct = (product) => {
         </tbody>
       </table>
     </div>
+    <PaginationComponent :pagination="pagination" @change-page="getProducts"/>
   </div>
   <!-- modal -->
   <ProductModal :product="tempProduct" :isNew="isNew"  @refresh="getProducts"/>

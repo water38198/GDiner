@@ -16,13 +16,7 @@ onMounted(() => {
 });
 
 const changePage = (page) => {
-  if (page === '+') {
-    getProducts(currentCategory.value, pagination.value.current_page ++);
-  } else if(page === '-'){
-    getProducts(currentCategory.value, pagination.value.current_page --);
-  } else {
-    getProducts(currentCategory.value, page);
-  }
+  getProducts(currentCategory.value, page);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -39,6 +33,9 @@ watch(currentCategory, () => {
   <div class="mb-10 container min-vh-100">
     <VLoading :active="isLoading"/>
     <h2 class="mt-8 fs-1 fw-bold">料理</h2>
+    <div class="alert alert-danger" role="alert">
+      <strong>現場用餐</strong> 與 <strong>現場外帶</strong> 的顧客請直接到櫃台，我們將會為您服務。
+    </div>
     <ProductsFilter @change-category="changeCategory" :current-category="currentCategory"/>
     <ProductsList :products="products"/>
     <PaginationComponent :pagination @change-page="changePage" v-if="pagination.total_pages > 1"/>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed,inject } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import * as bootstrap from 'bootstrap';
@@ -95,6 +95,7 @@ const deleteTag = (tag) => {
 };
 
 const isLoading = ref(false);
+const { isDemo } = inject('demo');
 </script>
 
 <template>
@@ -228,7 +229,7 @@ const isLoading = ref(false);
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">取消</button>
-          <button type="submit" form="ProductForm" class="btn btn-primary" :disabled="isLoading">確認</button>
+          <button type="submit" form="ProductForm" class="btn btn-primary" :disabled="isLoading || isDemo">確認</button>
         </div>
       </div>
     </div>

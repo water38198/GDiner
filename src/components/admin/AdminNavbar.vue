@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import axios from 'axios'
 import Swal from 'sweetalert2';
 import { RouterLink, useRouter } from 'vue-router'
@@ -33,12 +33,14 @@ const closeCanvas = (link) => {
   if (offcanvasInstance) offcanvasInstance.hide();
   router.push(link)
 }
+
+const { toggleDemo, isDemo } = inject('demo');
 </script>
 
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
-      <a class="navbar-brand" href="#">後台</a>
+      <a class="navbar-brand" :class="isDemo ? 'link-primary': 'link-danger'" href="#" @click.prevent="toggleDemo">後台</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

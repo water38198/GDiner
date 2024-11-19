@@ -3,7 +3,7 @@ import { ref, watch, computed } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import * as bootstrap from 'bootstrap';
-import { useDateFormat,useNow } from '@vueuse/core';
+import { useDateFormat, useNow } from '@vueuse/core';
 
 
 const props = defineProps({

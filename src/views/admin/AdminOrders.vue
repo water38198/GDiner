@@ -4,15 +4,18 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useDateFormat } from '@vueuse/core'
 import OrderModal from '@/components/admin/OrderModal.vue';
+import PaginationComponent from '@/components/front/PaginationComponent.vue';
 
 const isLoading = ref(false);
 const orders = ref([]);  
+const pagination = ref({});
 const getOrders = async () => {
   const { VITE_URL, VITE_PATH } = import.meta.env;
   try {
     isLoading.value = true;
     const response = await axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/orders`);
     orders.value = response.data.orders;
+    pagination.value = response.data.pagination;
   } catch (error) {
     Swal.fire({
       icon: 'error',
@@ -98,16 +101,17 @@ const deleteOrder = (order) => {
               </ol>
             </td>
             <td>
-              <ul>
+              <ul type="none">
                 <li>姓名：{{ order.user.name}}</li>
                 <li>電郵：{{ order.user.email}}</li>
-                <li>地址：{{ order.user.address}}</li>
                 <li>電話：{{ order.user.tel}}</li>
                 <li>用餐：{{ order.user.type}}</li>
+                <li>日期：{{ order.user.reservation_date}}</li>
+                <li>時間：{{ order.user.reservation_time}}</li>
               </ul>
             </td>
             <td class="order-message">{{ order.message }}</td>
-            <td class="text-center"> {{ order.total }} </td>
+            <td class="text-center"> {{ Math.floor(order.total) }} </td>
             <td class="text-center">
               <span class="text-success" v-if="order.is_paid">已付款</span>
               <span class="text-danger" v-else>尚未付款</span>
@@ -122,15 +126,17 @@ const deleteOrder = (order) => {
         </tbody>
       </table>
     </div>
+    <PaginationComponent v-if="pagination.total_pages > 1" :pagination :change-page="getOrders"/>
   </div>
   <OrderModal :order="tempOrder"/>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 ol, ul {
   padding-left: 0;
   list-style-position: inside;
 }
+
 .order-message {
   max-width: 150px;
   overflow: hidden;
