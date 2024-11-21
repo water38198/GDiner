@@ -117,7 +117,7 @@ const deleteOrder = (order) => {
               <span class="text-danger" v-else>尚未付款</span>
             </td>
             <td>
-              <div class="btn-group" role="group" aria-label="edit button group">
+              <div class="btn-group" role="group" aria-label="edit button group" v-if="order.id !== '-OC-I6v75AfbALTUDkEj'">
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#OrderModal" @click="openOrderModal(order)">編輯</button>
                 <button type="button" class="btn btn-outline-danger" @click="deleteOrder(order)">刪除</button>
               </div>
