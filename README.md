@@ -85,6 +85,19 @@ http://localhost:5173/
 
 或者直接點擊 <http://localhost:5173/>
 
+###
+
+後台登入：
+
+<http://localhost:5173/admin>
+
+<https://water38198.github.io/GDiner/#/admin>
+
+```sh
+帳號：water38198@gmail.com
+密碼：123456
+```
+
 ## 資料夾說明
 
 - asset
