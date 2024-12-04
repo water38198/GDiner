@@ -112,8 +112,8 @@ const deleteCoupon = (coupon) => {
               <span class="text-danger" v-else>未啟用</span>
             </td>
             <td class="text-end">
-              <div class="btn-group text-nowrap">
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#CouponModal" @click="editCoupon(coupon)">編輯</button>
+              <div class="btn-group text-nowrap" v-if="coupon.title !=='RGDiner'">
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#CouponModal"  @click="editCoupon(coupon)">編輯</button>
                 <button type="button" class="btn btn-outline-danger" @click="deleteCoupon(coupon)">刪除</button>
               </div>
             </td>

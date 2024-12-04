@@ -125,7 +125,7 @@ const today = useDateFormat(useNow(), 'YYYY-MM-DD');
       </div>
       <hr>
       <div class="text-center">
-        <button type="submit" class="btn btn-primary btn-lg">結帳</button>
+        <button type="submit" class="btn btn-primary btn-lg">送出訂單</button>
       </div>
     </VForm>
   </div>

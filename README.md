@@ -19,6 +19,8 @@
 
 ### 管理員
 
+`商品目前不開放修改與刪除`
+
 1. 登入、登出
 2. 新增、修改、刪除商品
 3. 修改、刪除訂單
@@ -82,6 +84,19 @@ http://localhost:5173/
 ```
 
 或者直接點擊 <http://localhost:5173/>
+
+###
+
+後台登入：
+
+<http://localhost:5173/admin>
+
+<https://water38198.github.io/GDiner/#/admin>
+
+```sh
+帳號：water38198@gmail.com
+密碼：123456
+```
 
 ## 資料夾說明
 
