@@ -11,7 +11,7 @@
       </div>
       <div class="col-12 col-md-6">
         <img
-          src="https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711208489661.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=U42Sp0kXD1CZIM43mtxmLmdIl4pKiF09D813iQelu6aJV5arvyxz59HdTYtXu9l8F4RWkMNXePZ4f5m%2BCw%2F928inztuEPI9t0jnXTo5whKWzbQnePBMRjt%2B8uWbnFr128KBrwgoeTmqCvE6nBcO0tEUG80MhVIjAoPezjBYdZbttRRnWNeY6y1oGkiwZEvkbW%2FX%2Bsxs8aew%2FuexnWtKihz9EEQ3x4ohn6cUCQnA%2B8YFrRUtnHoqX3Epz44PORpNdTUSZ5UUgvhvgE7IEOLELjklHFxgMUDdO5sLzHbq%2F%2FOYTxQUExhP9L616zEKUkNc8QR8Ro2JOStcjk01Un8x6Ig%3D%3D"
+          src="https://storage.googleapis.com/vue-course-api.appspot.com/payzoom/1711208489661.jpg"
           alt="a picture of chef A-Gi" class="w-100 h-100 border-between">
       </div>
     </div>
