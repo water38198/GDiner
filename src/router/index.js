@@ -102,7 +102,7 @@ router.beforeEach(async (to) => {
         Swal.fire({
           icon: 'error',
           title: '錯誤',
-          text: `${error.response.data.message}`,
+          text: error.response?.data?.message || '網路錯誤，請稍後再試',
           confirmButtonColor: '#3D081B',
         });
         return "/login";

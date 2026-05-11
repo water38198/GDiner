@@ -18,6 +18,8 @@ const props = defineProps({
 });
 const emit = defineEmits(['refresh']);
 
+const isLoading = ref(false);
+
 const title = computed(() => (props.isNew ? '新增商品' : '編輯商品'));
 const modalProduct = ref({ ...props.product });
 watch(() => props.product, (newVal) => {
@@ -48,8 +50,10 @@ const confirmProduct = async() => {
     Swal.fire({
       icon: 'error',
       title: '錯誤',
-      text: `${error.response.data.message || '請稍後再試'}`,
+      text: error.response?.data?.message || '請稍後再試',
     });
+  }finally {
+    isLoading.value = false;
   }
 };
 
@@ -74,7 +78,7 @@ const uploadImage = async (target, e) => {
     Swal.fire({
       icon: 'error',
       title: '上傳失敗',
-      text: `${error.response.data.message || '請稍後再試'}`,
+      text: error.response?.data?.message || '請稍後再試',
     });
   }
 }
@@ -94,7 +98,6 @@ const deleteTag = (tag) => {
   modalProduct.value.tags = modalProduct.value.tags.filter((item) => item !== tag);
 };
 
-const isLoading = ref(false);
 const { isDemo } = inject('demo');
 </script>
 

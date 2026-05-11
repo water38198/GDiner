@@ -9,8 +9,10 @@ import PaginationComponent from '@/components/front/PaginationComponent.vue';
 const isLoading = ref(false);
 const orders = ref([]);  
 const pagination = ref({});
+const { VITE_URL, VITE_PATH } = import.meta.env;
+const DEMO_ORDER_ID = '-OC-I6v75AfbALTUDkEj';
+
 const getOrders = async () => {
-  const { VITE_URL, VITE_PATH } = import.meta.env;
   try {
     isLoading.value = true;
     const response = await axios.get(`${VITE_URL}/v2/api/${VITE_PATH}/admin/orders`);
@@ -20,7 +22,7 @@ const getOrders = async () => {
     Swal.fire({
       icon: 'error',
       title: '錯誤',
-      text: `${error.response.data.message || '請稍後再試'}`,
+      text: error.response?.data?.message || '請稍後再試',
     });
   } finally {
     isLoading.value = false;
@@ -47,7 +49,6 @@ const deleteOrder = (order) => {
     if (result.isConfirmed) {
       try {
         isLoading.value = true;
-        const { VITE_URL, VITE_PATH } = import.meta.env;
         const response = await axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/admin/order/${order.id}`);
         Swal.fire({
           title: response.data.message,
@@ -59,7 +60,7 @@ const deleteOrder = (order) => {
         Swal.fire({
           icon: 'error',
           title: '錯誤',
-          text: `${error.response.data.message || '請稍後再試'}`,
+          text: error.response?.data?.message || '請稍後再試',
         });
       } finally {
         isLoading.value = false;
@@ -117,7 +118,7 @@ const deleteOrder = (order) => {
               <span class="text-danger" v-else>尚未付款</span>
             </td>
             <td>
-              <div class="btn-group" role="group" aria-label="edit button group" v-if="order.id !== '-OC-I6v75AfbALTUDkEj'">
+              <div class="btn-group" role="group" aria-label="edit button group" v-if="order.id !== DEMO_ORDER_ID">
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#OrderModal" @click="openOrderModal(order)">編輯</button>
                 <button type="button" class="btn btn-outline-danger" @click="deleteOrder(order)">刪除</button>
               </div>

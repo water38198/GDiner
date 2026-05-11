@@ -6,8 +6,8 @@ import ProductsFilter from '@/components/front/products/ProductsFilter.vue';
 import ProductsList from '@/components/front/products/ProductsList.vue';
 import PaginationComponent from '@/components/front/PaginationComponent.vue';
 
-const currentCategory = computed(() => route.query.category || '全部');
 const route = useRoute();
+const currentCategory = computed(() => route.query.category || '全部');
 
 const { getProducts, products, isLoading, pagination } = useProductApi();
 

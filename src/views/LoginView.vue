@@ -17,7 +17,7 @@ const submitLogin = async() => {
     isLoading.value = true;
     const response = await axios.post(`${VITE_URL}/v2/admin/signin`, user.value);
     const { expired, token } = response.data;
-    document.cookie = `RGToken = ${token}; expires = ${new Date(expired)};path=/; `;
+    document.cookie = `RGToken=${token}; expires=${new Date(expired)}; path=/;`;
     Swal.fire({
       icon: 'success',
       title: '登入成功',
@@ -28,7 +28,7 @@ const submitLogin = async() => {
   } catch (error) {
     Swal.fire({
       icon: 'error',
-      title: error.response.data.message,
+      title: error.response?.data?.message || '帳號或密碼錯誤',
       text: 'Email 或是密碼錯誤',
       confirmButtonColor: '#3D081B',
     })

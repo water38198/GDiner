@@ -104,7 +104,6 @@ export const useCartStore = defineStore('cart', () => {
         cartLoading.value = true;
         try {
           const response = await axios.delete(`${VITE_URL}/v2/api/${VITE_PATH}/cart/${product.id}`);
-          console.log(response);
           Swal.fire({
             icon: 'success',
             title: `${response.data.message}`,
@@ -126,7 +125,7 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   const updateCartItem = async (cartItem, qty) => {
-    if (qty <= 0 || typeof +qty !== 'number') return;
+    if (!Number.isFinite(Number(qty)) || Number(qty) <= 0) return;
     
     try {
       cartLoading.value = true;
@@ -174,7 +173,7 @@ export const useCartStore = defineStore('cart', () => {
       Swal.fire({
         icon: 'error',
         title: '哇...',
-        text: `${err.response.data.message}`,
+        text: err.response?.data?.message || '優惠券錯誤，請稍後再試',
         confirmButtonColor: '#3D081B',
       });
     } finally {
